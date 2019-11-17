@@ -1,9 +1,6 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const config = require("config");
-const jwt = require("jsonwebtoken");
-const JWTstrategy = require("passport-jwt").Strategy;
-const ExtractJWT = require("passport-jwt").ExtractJwt;
 
 const User = require("../../models/User");
 
@@ -26,6 +23,7 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       const existingUser = await User.findOne({ googleId: profile.id });
+
       if (existingUser) {
         done(null, existingUser);
       } else {
