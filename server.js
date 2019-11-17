@@ -1,18 +1,19 @@
 const express = require("express");
-const passport = require("passport");
-const path = require("path");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const connectDB = require("./config/db");
 
 const app = express();
+
+// Connect Database
+connectDB();
 
 // Init Middleware
 // When we get reques to one of our routes, we convert the JSON body to object
 app.use(express.json({ extended: false }));
 
-// We create a new instance of Google Strategy.
-passport.use(new GoogleStrategy());
-
 app.get("/", (req, res) => res.send("API Running"));
+
+//Auth routes handler
+app.use("/api/auth", require("./routes/api/auth"));
 
 const PORT = process.env.PORT || 5000;
 
