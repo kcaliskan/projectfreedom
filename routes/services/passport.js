@@ -1,10 +1,13 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const config = require("config");
+const jwt = require("jsonwebtoken");
+const JWTstrategy = require("passport-jwt").Strategy;
+const ExtractJWT = require("passport-jwt").ExtractJwt;
 
 const User = require("../../models/User");
 
-passport.serializeUser((user, done) => {
+passport.serializeUser(async (user, done) => {
   //User id is the id of the user's in the "user" schema in mongodb, not Google id or etc
   done(null, user.id);
 });
@@ -14,7 +17,6 @@ passport.deserializeUser(async (id, done) => {
   done(null, user);
 });
 
-// We create a new instance of Google Strategy
 passport.use(
   new GoogleStrategy(
     {
