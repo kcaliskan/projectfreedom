@@ -12,6 +12,14 @@ router.get(
   })
 );
 
+// Github OAuth Authentication
+router.get(
+  "/github",
+  passport.authenticate("github", {
+    scope: ["profile", "email"]
+  })
+);
+
 // Google auth redirect handler
 router.get(
   "/google/callback",
@@ -19,14 +27,25 @@ router.get(
   async (req, res) => {
     const authToken = await authService.signToken(req, res);
     const authURLToken = encodeURIComponent(authToken);
-    console.log(authToken);
-    res.redirect("/create-jwt/" + authURLToken);
-    // res.json(req.user);
+    res.redirect("/user/success/" + authURLToken);
   }
 );
 
-// router.get("/create-jwt/:id", async (req, res) => {
-//   res.redirect("/create/jwt");
-// });
+// Github auth redirect handler
+router.get(
+  "/github/callback",
+  passport.authenticate("github"),
+  async (req, res) => {
+    const authToken = await authService.signToken(req, res);
+    const authURLToken = encodeURIComponent(authToken);
+    res.redirect("/user/success/" + authURLToken);
+  }
+);
+
+// Logout end point and handler
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/");
+});
 
 module.exports = router;
