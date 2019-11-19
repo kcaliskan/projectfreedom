@@ -13,12 +13,20 @@ router.get(
 );
 
 // Google auth redirect handler
-router.get("/google/callback", passport.authenticate("google"), (req, res) => {
-  authService.signToken(req, res);
-});
+router.get(
+  "/google/callback",
+  passport.authenticate("google"),
+  async (req, res) => {
+    const authToken = await authService.signToken(req, res);
+    const authURLToken = encodeURIComponent(authToken);
+    console.log(authToken);
+    res.redirect("/create-jwt/" + authURLToken);
+    // res.json(req.user);
+  }
+);
 
-router.get("/profile", authService.verifyToken, (req, res) => {
-  console.log("hell yeah");
-});
+// router.get("/create-jwt/:id", async (req, res) => {
+//   res.redirect("/create/jwt");
+// });
 
 module.exports = router;
