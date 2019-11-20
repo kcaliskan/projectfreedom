@@ -24,21 +24,22 @@ passport.use(
       callbackURL: "/api/auth/google/callback"
     },
     async (accessToken, refreshToken, profile, done) => {
+      console.log(profile);
       const existingUser = await User.findOne({
         providerProfileId: profile.id
       });
       const {
         name,
-        profileURL,
         given_name,
         family_name,
         picture,
         email,
-        gender,
-        provider
+        gender
       } = profile._json;
 
-      const username = given_name.toLowerCase() + family_name.toLowerCase();
+      const profileURL = profile._json.profile;
+      const userName = given_name.toLowerCase() + family_name.toLowerCase();
+      const { provider } = profile;
       const providerProfileId = profile.id;
 
       if (existingUser) {
@@ -46,13 +47,14 @@ passport.use(
       } else {
         const newUser = await new User({
           providerProfileId,
-          name,
-          username,
+          fullName: name,
+          userName,
           pictureURL: picture,
           email,
           gender,
-          profileURL,
-          provider
+          providerProfileURL: profileURL,
+          provider,
+          password: "providerlogin"
         }).save();
         done(null, newUser);
       }
@@ -61,7 +63,6 @@ passport.use(
 );
 
 //Github
-
 passport.use(
   new GithubStrategy(
     {
@@ -78,8 +79,8 @@ passport.use(
 
       const { displayName, username, profileUrl, provider } = profile;
 
-      const { id, avatar_url, gender } = profile._json;
-
+      const { id, avatar_url } = profile._json;
+      const gender = "notprovided";
       let { email } = profile._json;
 
       if (email === null) {
@@ -93,13 +94,14 @@ passport.use(
       } else {
         const newUser = await new User({
           providerProfileId,
-          name: displayName,
-          username,
+          fullName: displayName,
+          userName: username,
           pictureURL: avatar_url,
           email,
           gender,
-          profileURL: profileUrl,
-          provider
+          providerProfileURL: profileUrl,
+          provider,
+          password: "providerlogin"
         }).save();
         done(null, newUser);
       }

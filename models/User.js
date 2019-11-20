@@ -9,10 +9,18 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  username: {
+  fullName: {
+    type: String,
+    required: true
+  },
+  userName: {
     type: String,
     required: true,
     unique: true
+  },
+  password: {
+    type: String,
+    required: true
   },
   pictureURL: {
     type: String
@@ -20,7 +28,7 @@ const UserSchema = new Schema({
   gender: {
     type: String
   },
-  profileURL: {
+  providerProfileURL: {
     type: String
   },
   provider: {

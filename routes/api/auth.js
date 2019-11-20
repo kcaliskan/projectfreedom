@@ -4,6 +4,21 @@ const passport = require("passport");
 require("../services/passport");
 const authService = require("../services/AuthService");
 
+const User = require("../../models/User");
+
+// @route GET api/auth/getUser
+// @desc Get user from db with JWT
+// @access Private
+router.get("/getUser", authService.verifyToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId).select("-password");
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 // OAuth Authentication, Just going to this URL will open OAuth screens
 router.get(
   "/google",

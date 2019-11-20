@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const config = require("config");
-const axios = require("axios");
+
 // Verify Token validity and attach token data as request attribute
 exports.verifyToken = (req, res, next) => {
   // Get token from header
@@ -15,8 +15,8 @@ exports.verifyToken = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, config.get("jwtSecret"));
 
-    req.user = decoded.userId;
-    console.log("im here verified");
+    req.user = decoded.user;
+
     next();
   } catch (err) {
     //If there is a token but it's not valid
@@ -25,7 +25,7 @@ exports.verifyToken = (req, res, next) => {
 };
 
 // Issue Token
-exports.signToken = async (req, res, next) => {
+exports.signToken = async (req, res) => {
   try {
     //Creating payload with user id for JWT
     const payload = {
@@ -39,16 +39,6 @@ exports.signToken = async (req, res, next) => {
     });
 
     return token;
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-};
-
-// Save Token to the localStorage
-exports.saveToken = async (req, res) => {
-  try {
-    console.log(req.token);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
