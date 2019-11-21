@@ -44,3 +44,10 @@ exports.signToken = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+
+exports.forwardAuthenticated = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/");
+};

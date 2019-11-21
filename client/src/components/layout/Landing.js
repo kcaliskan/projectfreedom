@@ -11,6 +11,9 @@ const Landing = () => {
       <Link to="/login">
         <div>hello</div>
       </Link>
+      <div>
+        <Link to="/register">Register</Link>
+      </div>
       <a href="/api/auth/logout" onClick={() => logOutHandler()}>
         Logout
       </a>

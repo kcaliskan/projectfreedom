@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from "react";
 import setAuthToken from "./setAuthToken";
 import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
 const Success = ({ match }) => {
   useEffect(() => {
@@ -20,4 +21,4 @@ const Success = ({ match }) => {
   );
 };
 
-export default Success;
+export default connect()(Success);
