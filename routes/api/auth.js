@@ -3,16 +3,15 @@ const router = express.Router();
 const passport = require("passport");
 const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const LocalStrategy = require("passport-local").Strategy;
 
-const config = require("config");
 require("../services/passport");
 const authService = require("../services/AuthService");
 
 const User = require("../../models/User");
 
 // @route GET api/auth/getUser
-// @desc Get user from db with JWT
+// @desc Get user information from db with JWT
 // @access Private
 router.get("/getUser", authService.verifyToken, async (req, res) => {
   try {
@@ -24,7 +23,9 @@ router.get("/getUser", authService.verifyToken, async (req, res) => {
   }
 });
 
-// OAuth Authentication, Just going to this URL will open OAuth screens
+// @route GET api/auth/google
+// @desc Login with Google screen. OAuth Authentication, Just going to this URL will open OAuth screens
+// @access Public
 router.get(
   "/google",
   passport.authenticate("google", {
@@ -40,7 +41,9 @@ router.get(
   })
 );
 
-// Google auth redirect handler
+// @route GET api/auth/google/callback
+// @desc  Google auth redirect handler
+// @access Private
 router.get(
   "/google/callback",
   passport.authenticate("google"),
@@ -51,7 +54,10 @@ router.get(
   }
 );
 
-// Github auth redirect handler
+// @route GET api/auth/github/callback
+// @desc   Github auth redirect handler
+// @access Private
+
 router.get(
   "/github/callback",
   passport.authenticate("github"),
@@ -63,93 +69,12 @@ router.get(
 );
 
 // @route POST api/auth/register
-// @desc Register user withl email
+// @desc  POST new user route
 // @access Public
-// router.post("/register", async (req, res, next) => {
-//   const { fullName, userName, email, password, passwordConfirm } = req.body;
-//   let errors = [];
-
-//   try {
-//     if (!fullName || !userName || !email || !password || !passwordConfirm) {
-//       errors.push({ msg: "Please enter all fields" });
-//     }
-
-//     if (password != passwordConfirm) {
-//       errors.push({ msg: "Passwords do not match" });
-//     }
-
-//     if (password.length < 6) {
-//       errors.push({ msg: "Password must be at least 6 characters" });
-//     }
-
-//     if (errors.length > 0) {
-//       return res.status(400).send({ errors });
-//     } else {
-//       //Getting the user from database by email address with mongoose
-//       let user = await User.findOne({ email });
-
-//       if (user) {
-//         errors.push({ msg: "User already exist" });
-
-//         return res.send({ success: false, errors });
-//       } else {
-//         // If there is a user alread exits with this email address
-
-//         // Getting the user's avatar from gravatar by using email address
-//         const pictureURL = gravatar.url(email, {
-//           s: "200",
-//           r: "pg",
-//           d: "mm"
-//         });
-
-//         // Creating new user instance ( we did not save the user to the db yet)
-//         user = new User({
-//           providerProfileId: "manualregistered",
-//           fullName,
-//           userName,
-//           email,
-//           password,
-//           pictureURL,
-//           gender: "notprovided",
-//           pictureURL: "manualregistered",
-//           providerProfileURL: "manualregistered",
-//           provider: "manualregistered"
-//         });
-
-//         // Crypt the user's password
-//         const salt = await bcrypt.genSalt(10);
-//         user.password = await bcrypt.hash(password, salt);
-
-//         //Saving the user to the db
-//         await user.save();
-
-//         const req = {
-//           user
-//         };
-//         const token = await authService.signToken(req, null);
-
-//         res.send({ token });
-//       }
-//     }
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send("Server Error");
-//   }
-// });
-
-// // Logout end point and handler
-// router.get("/logout", (req, res) => {
-//   req.logout();
-//   res.redirect("/");
-// });
-
-///V2
-
-//POST new user route (optional, everyone has access)
 router.post("/register", async (req, res, next) => {
   const { fullName, userName, email, password, passwordConfirm } = req.body;
 
-  if (!fullName || !userName || !email || !password || !passwordConfirm) {
+  if (!fullName && !userName && !email && !password && !passwordConfirm) {
     return res.status(422).json({
       errors: [
         {
@@ -160,39 +85,69 @@ router.post("/register", async (req, res, next) => {
     });
   }
 
+  if (!fullName) {
+    return res.status(422).json({
+      errors: [
+        {
+          reason: "fullname",
+          message: "Full Name is required"
+        }
+      ]
+    });
+  }
+
+  if (!userName) {
+    return res.status(422).json({
+      errors: [
+        {
+          reason: "username",
+          message: "Username is required"
+        }
+      ]
+    });
+  }
+
   if (!email) {
     return res.status(422).json({
-      errors: {
-        reason: "email",
-        message: "Email is required"
-      }
+      errors: [
+        {
+          reason: "email",
+          message: "Email is required"
+        }
+      ]
     });
   }
 
   if (!password) {
     return res.status(422).json({
-      errors: {
-        reason: "password",
-        nessage: "Password is required"
-      }
+      errors: [
+        {
+          reason: "password",
+          nessage: "Password is required"
+        }
+      ]
     });
   }
 
   if (password != passwordConfirm) {
     return res.status(422).json({
-      errors: {
-        reason: "password",
-        message: "Passwords do not match."
-      }
+      errors: [
+        {
+          reason: "password",
+          message: "Passwords do not match."
+        }
+      ]
     });
   }
 
   if (password.length < 6) {
     return res.status(422).json({
-      errors: {
-        reason: "password",
-        message: "Passwords must be at least 6 characters."
-      }
+      errors: [
+        {
+          reason: "password",
+          message: "Passwords must be at least 6 characters."
+        }
+      ]
     });
   }
 
@@ -201,19 +156,23 @@ router.post("/register", async (req, res, next) => {
 
   if (userByEmail) {
     return res.status(422).json({
-      errors: {
-        reason: "email",
-        message: "Email already exists. Did you forget your password?"
-      }
+      errors: [
+        {
+          reason: "email",
+          message: "Email already exists. Did you forget your password?"
+        }
+      ]
     });
   }
 
   if (userByUsername) {
     return res.status(422).json({
-      errors: {
-        reason: "username",
-        message: "Username already taken. Please try another one."
-      }
+      errors: [
+        {
+          reason: "username",
+          message: "Username already taken. Please try another one."
+        }
+      ]
     });
   }
 
@@ -233,7 +192,6 @@ router.post("/register", async (req, res, next) => {
     password,
     pictureURL,
     gender: "notprovided",
-    pictureURL: "manualregistered",
     providerProfileURL: "manualregistered",
     provider: "manualregistered"
   });
@@ -251,15 +209,99 @@ router.post("/register", async (req, res, next) => {
   const token = await authService.signToken(userInfo, null);
 
   res.send({ token });
+  res.redirect("/");
 });
 
-// Logout end point and handler
+// @route POST api/auth/login
+// @desc  POST User Login and verification route
+// @access Public
+router.post("/login", async (req, res, next) => {
+  const { email, password } = req.body;
+  try {
+    if (!email) {
+      return res.status(422).json({
+        errors: [
+          {
+            reason: "email",
+            message: "Email is required"
+          }
+        ]
+      });
+    }
+
+    if (!password) {
+      return res.status(422).json({
+        errors: [
+          {
+            reason: "password",
+            message: "Password is required"
+          }
+        ]
+      });
+    }
+
+    const userByEmail = await User.findOne({ email });
+
+    if (userByEmail === null) {
+      return res.status(422).json({
+        errors: [
+          {
+            reason: "Email",
+            message: "Email is incorrect"
+          }
+        ]
+      });
+    }
+
+    //Checking if the password from the from and database is matching
+    const isMatch = await bcrypt.compare(password, userByEmail.password);
+
+    if (!isMatch) {
+      return res.status(422).json({
+        errors: [
+          {
+            reason: "password",
+            message: "Password is incorrect"
+          }
+        ]
+      });
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+
+  return passport.authenticate(
+    "local",
+    { session: false },
+    async (err, passportUser, info) => {
+      if (err) {
+        return next(err);
+      }
+
+      if (passportUser) {
+        const userInfo = {
+          user: {
+            _id: passportUser._id
+          }
+        };
+
+        const token = await authService.signToken(userInfo, null);
+
+        res.send({ token });
+        res.redirect("/");
+      }
+
+      return res.status(400).info;
+    }
+  )(req, res, next);
+});
+
+// @route GET api/auth/logout
+// @desc  GET User logout route
+// @access Public
 router.get("/logout", (req, res) => {
   req.logout();
   res.redirect("/");
 });
-
-// Login Page
-router.get("/login", (req, res) => res.send("yes"));
-
 module.exports = router;

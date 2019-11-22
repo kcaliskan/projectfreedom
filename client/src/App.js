@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 //Auth Components
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
-import SignUp from "./components/auth/SignUp";
+import SignIn from "./components/auth/SignIn";
 
 import Success from "./components/auth/utils/success";
 
@@ -39,7 +39,7 @@ const App = () => {
           <Switch>
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
-            <Route exact path="/signup" component={SignUp} />
+            <Route exact path="/signin" component={SignIn} />
 
             <Route exact path="/user/success/:id" component={Success} />
           </Switch>

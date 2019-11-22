@@ -13,7 +13,10 @@ const Register = ({ manualRegister, isAuthenticated, errors }) => {
     passwordConfirm: ""
   });
 
-  const { fullName, userName, email, password, passwordConfirm } = formData;
+  let { fullName, userName, email, password, passwordConfirm } = formData;
+  userName = userName.toLowerCase().replace(/\s+/g, "");
+  email = userName.toLowerCase();
+  password = password.replace(/\s+/g, "");
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,7 +24,7 @@ const Register = ({ manualRegister, isAuthenticated, errors }) => {
 
   const onSubmit = e => {
     e.preventDefault();
-
+    e.target.parentNode.className = "none";
     manualRegister({ fullName, userName, email, password, passwordConfirm });
   };
 
@@ -37,26 +40,18 @@ const Register = ({ manualRegister, isAuthenticated, errors }) => {
       </p>
     ));
 
-  const styleHandler = field => {
-    return errors.find(error => {
-      if (error.reason === field) {
-        return true;
-      }
-      return false;
-    });
+  const styleHandler = (errors, inputName) => {
+    return errors.some(error => error.reason.toLowerCase().includes(inputName));
   };
 
-  const divStyle = {
-    margin: "40px",
-    border: "5px solid pink"
-  };
   return (
     <Fragment>
       {errors.length > 0 && <div>{displayErrors(errors)}</div>}
       <form onSubmit={e => onSubmit(e)}>
         <div
           className={
-            styleHandler("allfields") || styleHandler("fullname")
+            styleHandler(errors, "fullname") ||
+            styleHandler(errors, "allfields")
               ? "error"
               : null
           }
@@ -71,7 +66,8 @@ const Register = ({ manualRegister, isAuthenticated, errors }) => {
         </div>
         <div
           className={
-            styleHandler("allfields") || styleHandler("username")
+            styleHandler(errors, "username") ||
+            styleHandler(errors, "allfields")
               ? "error"
               : null
           }
@@ -86,7 +82,9 @@ const Register = ({ manualRegister, isAuthenticated, errors }) => {
         </div>
         <div
           className={
-            styleHandler("allfields") || styleHandler("email") ? "error" : null
+            styleHandler(errors, "email") || styleHandler(errors, "allfields")
+              ? "error"
+              : null
           }
         >
           <input
@@ -99,7 +97,8 @@ const Register = ({ manualRegister, isAuthenticated, errors }) => {
         </div>
         <div
           className={
-            styleHandler("allfields") || styleHandler("password")
+            styleHandler(errors, "password") ||
+            styleHandler(errors, "allfields")
               ? "error"
               : null
           }
@@ -114,7 +113,8 @@ const Register = ({ manualRegister, isAuthenticated, errors }) => {
         </div>
         <div
           className={
-            styleHandler("allfields") || styleHandler("password")
+            styleHandler(errors, "password") ||
+            styleHandler(errors, "allfields")
               ? "error"
               : null
           }

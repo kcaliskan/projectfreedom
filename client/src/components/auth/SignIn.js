@@ -4,13 +4,15 @@ import { connect } from "react-redux";
 import { manualLogin } from "../../actions/auth";
 import { Redirect } from "react-router-dom";
 
-const SignUp = ({ manualLogin, isAuthenticated }) => {
+const SignIn = ({ manualLogin, isAuthenticated, errors }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: ""
   });
 
-  const { email, password } = formData;
+  let { email, password } = formData;
+  email = email.toLowerCase();
+  password = password.replace(/\s+/g, "");
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,10 +29,28 @@ const SignUp = ({ manualLogin, isAuthenticated }) => {
     return <Redirect to="/" />;
   }
 
+  const displayErrors = errors =>
+    errors.map((error, i) => (
+      <p key={i}>
+        <span>{error.message}</span>
+      </p>
+    ));
+
+  const styleHandler = (errors, inputName) => {
+    return errors.some(error => error.reason.toLowerCase().includes(inputName));
+  };
+
   return (
     <Fragment>
+      {errors.length > 0 && <div>{displayErrors(errors)}</div>}
       <form onSubmit={e => onSubmit(e)}>
-        <div>
+        <div
+          className={
+            styleHandler(errors, "email") || styleHandler(errors, "allfields")
+              ? "error"
+              : null
+          }
+        >
           <input
             type="email"
             placeholder="Email"
@@ -39,7 +59,14 @@ const SignUp = ({ manualLogin, isAuthenticated }) => {
             onChange={e => onChange(e)}
           />
         </div>
-        <div>
+        <div
+          className={
+            styleHandler(errors, "password") ||
+            styleHandler(errors, "allfields")
+              ? "error"
+              : null
+          }
+        >
           <input
             type="password"
             placeholder="Password"
@@ -55,13 +82,14 @@ const SignUp = ({ manualLogin, isAuthenticated }) => {
   );
 };
 
-SignUp.propTypes = {
+SignIn.propTypes = {
   manualLogin: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  errors: state.auth.errors
 });
 
-export default connect(mapStateToProps, { manualLogin })(SignUp);
+export default connect(mapStateToProps, { manualLogin })(SignIn);

@@ -92,7 +92,7 @@ export const manualRegister = ({
 
 /// Manual Login
 // Login User
-export const manualLogin = (email, password) => async dispatch => {
+export const manualLogin = ({ email, password }) => async dispatch => {
   const config = {
     headers: {
       "Content-Type": "application/json"
@@ -111,8 +111,11 @@ export const manualLogin = (email, password) => async dispatch => {
 
     dispatch(loadUser());
   } catch (err) {
+    const errors = err.response.data.errors;
+    console.log(errors);
     dispatch({
-      type: LOGIN_FAIL
+      type: LOGIN_FAIL,
+      payload: errors
     });
   }
 };
