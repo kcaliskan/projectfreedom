@@ -15,19 +15,24 @@ import setAuthToken from "../components/auth/utils/setAuthToken";
 export const loadUser = () => async dispatch => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
+  }
 
-    try {
-      const res = await axios.get("/api/auth/getUser");
+  try {
+    const res = await axios.get("/api/auth/getUser");
 
-      dispatch({
-        type: USER_LOADED,
-        payload: res.data
-      });
-    } catch (err) {
-      dispatch({
-        type: AUTH_ERROR
-      });
+    dispatch({
+      type: USER_LOADED,
+      payload: res.data
+    });
+  } catch (err) {
+    let errors = err.response.data.errors;
+    if (!errors) {
+      errors = [];
     }
+    dispatch({
+      type: AUTH_ERROR,
+      payload: errors
+    });
   }
 };
 
@@ -43,8 +48,13 @@ export const providerRegister = () => async dispatch => {
 
     dispatch(loadUser());
   } catch (err) {
+    let errors = err.response.data.errors;
+    if (!errors) {
+      errors = [];
+    }
     dispatch({
-      type: AUTH_ERROR
+      type: AUTH_ERROR,
+      payload: errors
     });
   }
 };
@@ -81,12 +91,22 @@ export const manualRegister = ({
 
     dispatch(loadUser());
   } catch (err) {
-    const errors = err.response.data.errors;
+    let errors;
 
-    dispatch({
-      type: REGISTER_FAIL,
-      payload: errors
-    });
+    if (!err) {
+      errors = err.response.data.errors;
+
+      dispatch({
+        type: REGISTER_FAIL,
+        payload: errors
+      });
+    } else {
+      errors = [];
+      dispatch({
+        type: REGISTER_FAIL,
+        payload: errors
+      });
+    }
   }
 };
 
@@ -111,8 +131,11 @@ export const manualLogin = ({ email, password }) => async dispatch => {
 
     dispatch(loadUser());
   } catch (err) {
-    const errors = err.response.data.errors;
-    console.log(errors);
+    let errors = err.response.data.errors;
+    if (!errors) {
+      errors = [];
+    }
+
     dispatch({
       type: LOGIN_FAIL,
       payload: errors

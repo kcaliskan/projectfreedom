@@ -33,6 +33,13 @@ const UserSchema = new Schema({
   },
   provider: {
     type: String
+  },
+  codewarsUserName: {
+    type: String
+  },
+  date: {
+    type: Date,
+    default: Date.now
   }
 });
 

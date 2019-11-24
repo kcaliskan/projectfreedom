@@ -74,142 +74,148 @@ router.get(
 router.post("/register", async (req, res, next) => {
   const { fullName, userName, email, password, passwordConfirm } = req.body;
 
-  if (!fullName && !userName && !email && !password && !passwordConfirm) {
-    return res.status(422).json({
-      errors: [
-        {
-          reason: "allfields",
-          message: "You must fill out all fields."
-        }
-      ]
+  try {
+    if (!fullName && !userName && !email && !password && !passwordConfirm) {
+      return res.status(422).json({
+        errors: [
+          {
+            reason: "allfields",
+            message: "You must fill out all fields."
+          }
+        ]
+      });
+    }
+
+    if (!fullName) {
+      return res.status(422).json({
+        errors: [
+          {
+            reason: "fullname",
+            message: "Full Name is required"
+          }
+        ]
+      });
+    }
+
+    if (!userName) {
+      return res.status(422).json({
+        errors: [
+          {
+            reason: "username",
+            message: "Username is required"
+          }
+        ]
+      });
+    }
+
+    if (!email) {
+      return res.status(422).json({
+        errors: [
+          {
+            reason: "email",
+            message: "Email is required"
+          }
+        ]
+      });
+    }
+
+    if (!password) {
+      return res.status(422).json({
+        errors: [
+          {
+            reason: "password",
+            nessage: "Password is required"
+          }
+        ]
+      });
+    }
+
+    if (password != passwordConfirm) {
+      return res.status(422).json({
+        errors: [
+          {
+            reason: "password",
+            message: "Passwords do not match."
+          }
+        ]
+      });
+    }
+
+    if (password.length < 6) {
+      return res.status(422).json({
+        errors: [
+          {
+            reason: "password",
+            message: "Passwords must be at least 6 characters."
+          }
+        ]
+      });
+    }
+
+    let userByEmail = await User.findOne({ email });
+    let userByUsername = await User.findOne({ userName });
+
+    if (userByEmail) {
+      return res.status(422).json({
+        errors: [
+          {
+            reason: "email",
+            message: "Email already exists. Did you forget your password?"
+          }
+        ]
+      });
+    }
+
+    if (userByUsername) {
+      return res.status(422).json({
+        errors: [
+          {
+            reason: "username",
+            message: "Username already taken. Please try another one."
+          }
+        ]
+      });
+    }
+
+    // Getting the user's avatar from gravatar by using email address
+    const pictureURL = gravatar.url(email, {
+      s: "200",
+      r: "pg",
+      d: "mm"
     });
-  }
 
-  if (!fullName) {
-    return res.status(422).json({
-      errors: [
-        {
-          reason: "fullname",
-          message: "Full Name is required"
-        }
-      ]
+    // Creating new user instance ( we did not save the user to the db yet)
+    user = new User({
+      providerProfileId: "",
+      fullName,
+      userName,
+      email,
+      password,
+      pictureURL,
+      gender: "",
+      providerProfileURL: "",
+      provider: "",
+      codewarsUserName: ""
     });
+
+    // Crypt the user's password
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(password, salt);
+
+    //Saving the user to the db
+    await user.save();
+
+    const userInfo = {
+      user
+    };
+    const token = await authService.signToken(userInfo, null);
+
+    res.send({ token });
+    return;
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
   }
-
-  if (!userName) {
-    return res.status(422).json({
-      errors: [
-        {
-          reason: "username",
-          message: "Username is required"
-        }
-      ]
-    });
-  }
-
-  if (!email) {
-    return res.status(422).json({
-      errors: [
-        {
-          reason: "email",
-          message: "Email is required"
-        }
-      ]
-    });
-  }
-
-  if (!password) {
-    return res.status(422).json({
-      errors: [
-        {
-          reason: "password",
-          nessage: "Password is required"
-        }
-      ]
-    });
-  }
-
-  if (password != passwordConfirm) {
-    return res.status(422).json({
-      errors: [
-        {
-          reason: "password",
-          message: "Passwords do not match."
-        }
-      ]
-    });
-  }
-
-  if (password.length < 6) {
-    return res.status(422).json({
-      errors: [
-        {
-          reason: "password",
-          message: "Passwords must be at least 6 characters."
-        }
-      ]
-    });
-  }
-
-  let userByEmail = await User.findOne({ email });
-  let userByUsername = await User.findOne({ userName });
-
-  if (userByEmail) {
-    return res.status(422).json({
-      errors: [
-        {
-          reason: "email",
-          message: "Email already exists. Did you forget your password?"
-        }
-      ]
-    });
-  }
-
-  if (userByUsername) {
-    return res.status(422).json({
-      errors: [
-        {
-          reason: "username",
-          message: "Username already taken. Please try another one."
-        }
-      ]
-    });
-  }
-
-  // Getting the user's avatar from gravatar by using email address
-  const pictureURL = gravatar.url(email, {
-    s: "200",
-    r: "pg",
-    d: "mm"
-  });
-
-  // Creating new user instance ( we did not save the user to the db yet)
-  user = new User({
-    providerProfileId: "manualregistered",
-    fullName,
-    userName,
-    email,
-    password,
-    pictureURL,
-    gender: "notprovided",
-    providerProfileURL: "manualregistered",
-    provider: "manualregistered"
-  });
-
-  // Crypt the user's password
-  const salt = await bcrypt.genSalt(10);
-  user.password = await bcrypt.hash(password, salt);
-
-  //Saving the user to the db
-  await user.save();
-
-  const userInfo = {
-    user
-  };
-  const token = await authService.signToken(userInfo, null);
-
-  res.send({ token });
-  res.redirect("/");
 });
 
 // @route POST api/auth/login
@@ -289,7 +295,7 @@ router.post("/login", async (req, res, next) => {
         const token = await authService.signToken(userInfo, null);
 
         res.send({ token });
-        res.redirect("/");
+        return;
       }
 
       return res.status(400).info;

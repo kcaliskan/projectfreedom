@@ -14,8 +14,9 @@ const Register = ({ manualRegister, isAuthenticated, errors }) => {
   });
 
   let { fullName, userName, email, password, passwordConfirm } = formData;
+
   userName = userName.toLowerCase().replace(/\s+/g, "");
-  email = userName.toLowerCase();
+  email = email.toLowerCase();
   password = password.replace(/\s+/g, "");
 
   const onChange = e => {
@@ -28,11 +29,6 @@ const Register = ({ manualRegister, isAuthenticated, errors }) => {
     manualRegister({ fullName, userName, email, password, passwordConfirm });
   };
 
-  //Redirect if logged in
-  if (isAuthenticated) {
-    return <Redirect to="/" />;
-  }
-
   const displayErrors = errors =>
     errors.map((error, i) => (
       <p key={i}>
@@ -43,6 +39,11 @@ const Register = ({ manualRegister, isAuthenticated, errors }) => {
   const styleHandler = (errors, inputName) => {
     return errors.some(error => error.reason.toLowerCase().includes(inputName));
   };
+
+  //Redirect if logged in
+  if (isAuthenticated) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <Fragment>

@@ -1,12 +1,42 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-const Landing = () => {
+const Landing = ({ auth }) => {
   const logOutHandler = () => {
     localStorage.removeItem("token");
   };
 
-  return (
+  const authLinks = (
+    <Fragment>
+      <div>
+        <a href="/api/auth/logout" onClick={() => logOutHandler()}>
+          Logout
+        </a>
+      </div>
+      <div>
+        <Link
+          to={location =>
+            auth.user === null ? "#" : `/${auth.user.userName}/codewars`
+          }
+        >
+          Codewars
+        </Link>
+      </div>
+      <div>
+        <Link
+          to={location =>
+            auth.user === null ? "#" : `/${auth.user.userName}/settings`
+          }
+        >
+          Settings
+        </Link>
+      </div>
+    </Fragment>
+  );
+
+  const guestLinks = (
     <Fragment>
       <Link to="/login">
         <div>hello</div>
@@ -14,14 +44,27 @@ const Landing = () => {
       <div>
         <Link to="/register">Register</Link>
       </div>
-      <a href="/api/auth/logout" onClick={() => logOutHandler()}>
-        Logout
-      </a>
       <div>
         <Link to="/signin">Login</Link>
       </div>
     </Fragment>
   );
+
+  return (
+    <Fragment>
+      {!auth.loading && (
+        <Fragment>{auth.isAuthenticated ? authLinks : guestLinks}</Fragment>
+      )}
+    </Fragment>
+  );
 };
 
-export default Landing;
+Landing.propTypes = {
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps)(Landing);

@@ -3,6 +3,7 @@ import setAuthToken from "./setAuthToken";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
+// If user successfully login's the app
 const Success = ({ match }) => {
   useEffect(() => {
     const jwtToken = match.params.id;
