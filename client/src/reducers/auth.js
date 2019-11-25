@@ -5,7 +5,9 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   LOGIN_SUCCESS,
-  LOGIN_FAIL
+  LOGIN_FAIL,
+  UPDATE_PROFILE,
+  UPDATE_PROFILE_ERROR
 } from "../actions/types";
 
 const initialState = {
@@ -48,6 +50,21 @@ export default function(state = initialState, action) {
         isAuthenticated: true,
         loading: false,
         errors: []
+      };
+    case UPDATE_PROFILE:
+      return {
+        ...state,
+        ...payload,
+        isAuthenticated: true,
+        loading: false,
+        errors: []
+      };
+    case UPDATE_PROFILE_ERROR:
+      return {
+        ...state,
+        isAuthenticated: true,
+        loading: false,
+        errors: payload
       };
     default:
       return state;

@@ -1,41 +1,41 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { updateProfile } from "../../actions/user";
 
-const UserSettings = ({ auth }) => {
+const UserSettings = ({ auth, updateProfile, history }) => {
   const { loading, errors, isAuthenticated } = auth;
 
   const [formData, setFormData] = useState({
-    fullName: "",
-    userName: "",
-    email: "",
-    gender: "",
-    codewarsUserName: ""
+    fullName: auth.user.fullName,
+    userName: auth.user.userName,
+    email: auth.user.email,
+    gender: auth.user.gender
   });
-
-  let { fullName, userName, email, gender, codewarsUserName } = auth.user;
 
   useEffect(() => {
     setFormData({
-      fullName: loading || !fullName ? "" : fullName,
-      userName: loading || !userName ? "" : userName,
-      email: loading || !email ? "" : email,
-      gender: loading || !gender ? "" : gender,
-      codewarsUserName: loading || !codewarsUserName ? "" : codewarsUserName
+      fullName: loading || !auth.user.fullName ? "" : auth.user.fullName,
+      userName: loading || !auth.user.userName ? "" : auth.user.userName,
+      email: loading || !auth.user.email ? "" : auth.user.email,
+      gender: loading || !auth.user.gender ? "" : auth.user.gender
     });
   }, [auth.user]);
+
+  let { fullName, userName, email, gender } = formData;
+
+  userName = userName.toLowerCase().replace(/\s+/g, "");
+  email = email.toLowerCase();
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  console.log(gender);
-
   const onSubmit = e => {
     e.preventDefault();
     e.target.parentNode.className = "none";
-    // updateProfie({ fullName, userName, email, gender });
+    updateProfile(formData, history);
   };
 
   //Redirect if logged in
@@ -119,8 +119,8 @@ const UserSettings = ({ auth }) => {
                   : null
               }
             >
-              <select onChange={e => onChange(e)} value={gender}>
-                <option value="Don't Disclose" name="dontdisclose">
+              <select onChange={e => onChange(e)} name="gender" value={gender}>
+                <option value="dontdisclose" name="dontdisclose">
                   Don't Disclose
                 </option>
                 <option value="Male" name="male" placeholder="Gender">
@@ -131,23 +131,6 @@ const UserSettings = ({ auth }) => {
                 </option>
               </select>
             </div>
-
-            <div
-              className={
-                styleHandler(errors, "gender") ||
-                styleHandler(errors, "allfields")
-                  ? "error"
-                  : null
-              }
-            >
-              <input
-                type="text"
-                placeholder="Codewars Username"
-                name="codewarsUserName"
-                value={codewarsUserName}
-                onChange={e => onChange(e)}
-              />
-            </div>
             <input type="submit" value="Update Profile" />
           </form>
         </Fragment>
@@ -156,9 +139,17 @@ const UserSettings = ({ auth }) => {
   );
 };
 
+UserSettings.propTypes = {
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.array.isRequired,
+  updateProfile: PropTypes.func.isRequired
+};
+
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.auth.errors
 });
 
-export default connect(mapStateToProps)(UserSettings);
+export default connect(mapStateToProps, { updateProfile })(
+  withRouter(UserSettings)
+);
