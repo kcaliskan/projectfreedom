@@ -18,7 +18,7 @@ const Landing = ({ auth }) => {
       <div>
         <Link
           to={location =>
-            auth.user === null ? "#" : `/${auth.user.userName}/codewars`
+            auth.user === null ? "#" : `/${auth.user.userName}/codewarsresult`
           }
         >
           Codewars

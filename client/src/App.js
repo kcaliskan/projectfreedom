@@ -7,12 +7,13 @@ import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import SignIn from "./components/auth/SignIn";
 import UserSettings from "./components/auth/UserSettings";
+import CodewarsSettings from "./components/auth/Codewars";
 
 //Layout Components
 import Landing from "./components/layout/Landing";
 
 // Analysis Components
-import Codewars from "./components/analysis/Codewars";
+import CodewarsResult from "./components/analysis/CodewarsResult";
 
 //Utility functions
 import setAuthToken from "./components/auth/utils/setAuthToken";
@@ -23,7 +24,7 @@ import PrivateRoute from "./components/auth/utils/PrivateRoute";
 import { Provider } from "react-redux";
 import reduxStore from "./reduxStore";
 import { loadUser } from "./actions/auth";
-
+import { getCurrentProfile } from "./actions/user";
 //Styling
 import "./App.css";
 
@@ -34,6 +35,7 @@ if (localStorage.token) {
 const App = () => {
   useEffect(() => {
     reduxStore.dispatch(loadUser());
+    reduxStore.dispatch(getCurrentProfile());
   }, []);
 
   return (
@@ -46,11 +48,21 @@ const App = () => {
             <Route exact path="/register" component={Register} />
             <Route exact path="/signin" component={SignIn} />
             <Route exact path="/user/success/:id" component={Success} />
-            <Route exact path="/:username/codewars" component={Codewars} />
+            <Route
+              exact
+              path="/:username/codewarsresult"
+              component={CodewarsResult}
+            />
             <PrivateRoute
               exact
               path="/:username/settings"
               component={UserSettings}
+            />
+
+            <PrivateRoute
+              exact
+              path="/:username/codewars/settings"
+              component={CodewarsSettings}
             />
           </Switch>
         </Fragment>

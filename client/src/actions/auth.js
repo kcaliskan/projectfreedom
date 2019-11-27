@@ -10,6 +10,7 @@ import {
   LOGIN_FAIL
 } from "./types";
 import setAuthToken from "../components/auth/utils/setAuthToken";
+import { getCurrentProfile } from "./user";
 
 // Load User with JWT and MongoDB
 export const loadUser = () => async dispatch => {
@@ -130,6 +131,7 @@ export const manualLogin = ({ email, password }) => async dispatch => {
     });
 
     dispatch(loadUser());
+    dispatch(getCurrentProfile());
   } catch (err) {
     let errors = err.response.data.errors;
     if (!errors) {

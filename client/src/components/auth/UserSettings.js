@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Redirect, withRouter } from "react-router-dom";
+import { Redirect, withRouter, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { updateProfile } from "../../actions/user";
@@ -60,6 +60,18 @@ const UserSettings = ({ auth, updateProfile, history }) => {
         "Loading"
       ) : (
         <Fragment>
+          <div>
+            Profile Settings
+            <Link
+              to={location =>
+                auth.user === null
+                  ? "#"
+                  : `/${auth.user.userName}/codewars/settings`
+              }
+            >
+              Codewars
+            </Link>
+          </div>
           {errors.length > 0 && <div>{displayErrors(errors)}</div>}
           <form onSubmit={e => onSubmit(e)}>
             <div
