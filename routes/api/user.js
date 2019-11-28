@@ -3,6 +3,7 @@ const router = express.Router();
 const authService = require("../services/AuthService");
 const axios = require("axios");
 const cheerio = require("cheerio");
+const moment = require("moment");
 
 const User = require("../../models/User");
 const CodewarsProfile = require("../../models/CodewarsProfile");
@@ -422,17 +423,17 @@ const getCodewarsKatasAndTags = async (username, userid) => {
         //We create an empty array for putting all of the tags for the challange
         let tagKeywords = [];
 
+        if (challangePageHtml.status === 404) {
+          tagKeywords = "";
+          continue;
+        }
+
         if (challangePageHtml.status === 200) {
           let $ = cheerio.load(challangePageHtml.data);
           $(".keyword-tag").each((i, elem) => {
             tagKeywords[i] = $(elem).text();
           });
           tagKeywords.join(", ");
-        }
-
-        if (challangePageHtml.status === 404) {
-          tagKeywords = "";
-          continue;
         }
 
         //Adding challange to the our mother array (to keep all of the challanges into one single array)
@@ -447,7 +448,6 @@ const getCodewarsKatasAndTags = async (username, userid) => {
 
     // If there is a profile
     if (profile) {
-      console.log(totalCompletedChallanges[0]);
       //Update the profile
       profile = await CodewarsProfile.findOneAndUpdate(
         {
@@ -462,6 +462,7 @@ const getCodewarsKatasAndTags = async (username, userid) => {
         },
         { new: true }
       );
+      analysisCodewarsData(userId);
       return profile;
     }
 
@@ -478,6 +479,8 @@ const getCodewarsKatasAndTags = async (username, userid) => {
     profile = new CodewarsProfile(profileFields);
     await profile.save();
 
+    analysisCodewarsData(userId);
+
     return profile;
   } catch (err) {
     console.error(err.message);
@@ -485,4 +488,57 @@ const getCodewarsKatasAndTags = async (username, userid) => {
   }
 };
 
+const analysisCodewarsData = async userId => {
+  const user_id = userId;
+
+  try {
+    //Get the user profile
+    let profile = await CodewarsProfile.findOne({ user: user_id });
+
+    //Get the all completed challanges
+    const completedChallanges = profile.completedChallanges.data;
+    let sortDataByDate = {};
+
+    //Loop through the completed challanges array to sort them by year, month, and day
+    for (let i = 0; i < completedChallanges.length; i++) {
+      const completedChallangeId = completedChallanges[i].id;
+      const completedChallangeName = completedChallanges[i].name;
+      const completedChllangeTags = completedChallanges[i].tags;
+
+      const completedDate = completedChallanges[i].completedAt;
+      const solvedYear = moment(completedDate, "YYYY-MM-DD").year();
+      const solvedMonth = moment(completedDate, "YYYY-MM-DD").month();
+
+      if (sortDataByDate[`${solvedYear}`][`${solvedMonth}`]) {
+        sortDataByDate[`${solvedYear}`][`${solvedMonth}`].push({
+          name: completedChallangeName,
+          challangeId: completedChallangeId,
+          tags: completedChllangeTags
+        });
+      } else {
+        sortDataByDate[`${solvedYear}`] = {};
+        sortDataByDate[`${solvedYear}`][`${solvedMonth}`] = [];
+        sortDataByDate[`${solvedYear}`][`${solvedMonth}`].push({
+          name: completedChallangeName,
+          challangeId: completedChallangeId,
+          tags: completedChllangeTags
+        });
+      }
+    }
+
+    profile = await CodewarsProfile.findOneAndUpdate(
+      {
+        user: userId
+      },
+      {
+        completedByYear: sortDataByDate
+      },
+      { new: true }
+    );
+
+    return profile;
+  } catch (err) {
+    console.log(err);
+  }
+};
 module.exports = router;

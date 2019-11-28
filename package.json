@@ -22,6 +22,7 @@
     "gravatar": "^1.8.0",
     "http-proxy-middleware": "^0.20.0",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.24.0",
     "mongoose": "^5.7.11",
     "passport": "^0.4.0",
     "passport-github2": "^0.1.11",
