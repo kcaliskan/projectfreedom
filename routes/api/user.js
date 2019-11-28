@@ -59,31 +59,6 @@ router.put("/profile/update", authService.verifyToken, async (req, res) => {
       });
     }
 
-    // let userByEmail = await User.findOne({ email });
-    // let userByUsername = await User.findOne({ userName });
-
-    // if (userByEmail) {
-    //   return res.status(422).json({
-    //     errors: [
-    //       {
-    //         reason: "email",
-    //         message: "Email already exists."
-    //       }
-    //     ]
-    //   });
-    // }
-
-    // if (userByUsername) {
-    //   return res.status(422).json({
-    //     errors: [
-    //       {
-    //         reason: "username",
-    //         message: "Username already taken. Please try another one."
-    //       }
-    //     ]
-    //   });
-    // }
-
     //Find the signed in user's profile
     const user = await User.findById(req.user.userId).select("-password");
 
@@ -131,13 +106,6 @@ router.put("/profile/update", authService.verifyToken, async (req, res) => {
         return res.json(userProfile);
       }
     );
-
-    // // Getting the user's avatar from gravatar by using email address
-    // const pictureURL = gravatar.url(email, {
-    //   s: "200",
-    //   r: "pg",
-    //   d: "mm"
-    // });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -165,6 +133,16 @@ router.put(
     }
 
     try {
+      let profile = await CodewarsProfile.findOne({ user: req.user.userId });
+
+      if (
+        profile.codeChallenges.totalCompleted ===
+        codewarsResponse.data.codeChallenges.totalCompleted
+      ) {
+        getCodewarsKatasAndTags(codewarsUserName, req.user.userId);
+        return profile;
+      }
+
       const config = {
         headers: {
           Authorization: "exvY9BPx1KzxrnVkDP9X"
@@ -176,99 +154,8 @@ router.put(
         config
       );
 
-      // // Get the completed challanges result for the user, it only contains first completed 200 challanges
-      // const completedChallangesResponse = await axios.get(
-      //   `https://www.codewars.com/api/v1/users/${codewarsUserName}/code-challenges/completed?page=0`,
-      //   config
-      // );
-
-      // const totalPages = completedChallangesResponse.data.totalPages;
-      // const totalChallanges = completedChallangesResponse.data.totalItems;
-      // const totalCompletedChallanges = [];
-      // if (totalPages > 1) {
-      //   for (let i = 0; i < totalPages; i++) {
-      //     let completedChallangesResponse = await axios.get(
-      //       `https://www.codewars.com/api/v1/users/${codewarsUserName}/code-challenges/completed?page=${i}`,
-      //       config
-      //     );
-
-      //     // Get the total mumber Of challanges array
-      //     let totalNumberOfChallanges = completedChallangesResponse.data.data;
-
-      //     // Push the completed challanges one by one to the totalCompletedChallanges array
-      //     for (let j = 0; j < totalNumberOfChallanges.length; j++) {
-      //       let challangeId = totalNumberOfChallanges[j].id.trim();
-
-      //       if (challangeId === "50654ddff44f800200000001") {
-      //         continue;
-      //       }
-
-      //       if (totalCompletedChallanges.length === totalChallanges) {
-      //         break;
-      //       }
-
-      //       if (
-      //         totalNumberOfChallanges[j] === null ||
-      //         totalNumberOfChallanges[j] === undefined
-      //       ) {
-      //         continue;
-      //       }
-
-      //       if (challangeId === undefined || challangeId === null) {
-      //         continue;
-      //       }
-
-      //       console.log(challangeId);
-      //       let challangePageHtml = await axios.get(
-      //         `https://www.codewars.com/kata/${challangeId}`
-      //       );
-
-      //       let tagKeywords = [];
-      //       if (challangePageHtml.status === 200) {
-      //         let $ = cheerio.load(challangePageHtml.data);
-
-      //         $(".keyword-tag").each((i, elem) => {
-      //           tagKeywords[i] = $(elem).text();
-      //         });
-      //         tagKeywords.join(", ");
-      //       }
-
-      //       if (challangePageHtml.status === 404) {
-      //         tagKeywords = "";
-      //         continue;
-      //       }
-
-      //       totalCompletedChallanges.unshift(totalNumberOfChallanges[j]);
-      //       totalCompletedChallanges[0].tags = tagKeywords;
-      //       console.log(totalCompletedChallanges.length);
-      //     }
-      //   }
-      // } else {
-      //   let totalNumberOfChallanges = completedChallangesResponse.data.data;
-
-      //   for (let j = 0; j < totalNumberOfChallanges.length; j++) {
-      //     totalCompletedChallanges.push(totalNumberOfChallanges[j]);
-      //   }
-      // }
-
-      let profile = await CodewarsProfile.findOne({ user: req.user.userId });
-
       //If there is a profile
       if (profile) {
-        // //Update the profile
-        // profile = await CodewarsProfile.findOneAndUpdate(
-        //   {
-        //     user: req.user.userId,
-        //     completedChallanges: {
-        //       totalPages: completedChallangesResponse.data.totalPages,
-        //       totalItems: completedChallangesResponse.data.totalItems,
-        //       data: totalCompletedChallanges
-        //     }
-        //   },
-        //   { new: true }
-        // );
-        // return res.json(profile);
-
         //Update the profile
         profile = await CodewarsProfile.findOneAndUpdate(
           { user: req.user.userId },
@@ -286,15 +173,6 @@ router.put(
       profile = new CodewarsProfile(profileFields);
       await profile.save();
 
-      // profile = await CodewarsProfile.findOneAndUpdate(
-      //   { user: req.user.userId },
-      //   { $set: codewarsResponse.data }
-      // completedChallanges: {
-      //   totalPages: completedChallangesResponse.data.totalPages,
-      //   totalItems: completedChallangesResponse.data.totalItems,
-      //   data: totalCompletedChallanges
-      // }
-      // );
       getCodewarsKatasAndTags(codewarsUserName, req.user.userId);
       return res.json(profile);
     } catch (err) {
@@ -310,7 +188,7 @@ router.put(
 router.get("/getCurrentProfile", authService.verifyToken, async (req, res) => {
   try {
     const profile = await CodewarsProfile.findOne({ user: req.user.userId });
-    console.log(profile);
+
     res.json(profile);
   } catch (err) {
     console.error(err.message);
@@ -323,8 +201,9 @@ const getCodewarsKatasAndTags = async (username, userid) => {
   const codewarsUserName = username;
   const userId = userid;
 
-  console.log(codewarsUserName, userId);
   try {
+    let profile = await CodewarsProfile.findOne({ user: userId });
+
     const config = {
       headers: {
         Authorization: "exvY9BPx1KzxrnVkDP9X"
@@ -335,6 +214,16 @@ const getCodewarsKatasAndTags = async (username, userid) => {
       `https://www.codewars.com/api/v1/users/${codewarsUserName}`,
       config
     );
+    console.log(profile);
+    //If the user's completed challange number from db, equals to current codewars, we directly return its profile because there is no need to get and check the tags again
+    if (
+      profile.codeChallenges.totalCompleted ===
+      codewarsResponse.data.codeChallenges.totalCompleted
+    ) {
+      console.log("im directly returned");
+      analysisCodewarsData(userId);
+      return profile;
+    }
 
     // // Get the completed challanges result for the user, it only contains first completed 200 challanges
     const completedChallangesResponse = await axios.get(
@@ -444,8 +333,6 @@ const getCodewarsKatasAndTags = async (username, userid) => {
       }
     }
 
-    let profile = await CodewarsProfile.findOne({ user: userId });
-
     // If there is a profile
     if (profile) {
       //Update the profile
@@ -507,7 +394,15 @@ const analysisCodewarsData = async userId => {
 
       const completedDate = completedChallanges[i].completedAt;
       const solvedYear = moment(completedDate, "YYYY-MM-DD").year();
-      const solvedMonth = moment(completedDate, "YYYY-MM-DD").month();
+      const solvedMonth = 1 + moment(completedDate, "YYYY-MM-DD").month();
+
+      if (!sortDataByDate[`${solvedYear}`]) {
+        sortDataByDate[`${solvedYear}`] = {};
+      }
+
+      if (!sortDataByDate[`${solvedYear}`][`${solvedMonth}`]) {
+        sortDataByDate[`${solvedYear}`][`${solvedMonth}`] = [];
+      }
 
       if (sortDataByDate[`${solvedYear}`][`${solvedMonth}`]) {
         sortDataByDate[`${solvedYear}`][`${solvedMonth}`].push({
@@ -515,16 +410,28 @@ const analysisCodewarsData = async userId => {
           challangeId: completedChallangeId,
           tags: completedChllangeTags
         });
-      } else {
-        sortDataByDate[`${solvedYear}`] = {};
-        sortDataByDate[`${solvedYear}`][`${solvedMonth}`] = [];
-        sortDataByDate[`${solvedYear}`][`${solvedMonth}`].push({
-          name: completedChallangeName,
-          challangeId: completedChallangeId,
-          tags: completedChllangeTags
-        });
       }
     }
+
+    // let years = [];
+    // for (let key in sortDataByDate) {
+    //   if (sortDataByDate.hasOwnProperty(key)) years.push(key);
+    // }
+
+    // let months = [];
+    // for (let key in sortDataByDate[years]) {
+    //   if (sortDataByDate[years].hasOwnProperty(key)) months.push(key);
+    // }
+
+    // console.log(keys);
+    // console.log(sortDataByDate[2018]);
+
+    // for (let z = 0; z < years.length; z++) {
+    //   console.log(
+    //     "year:" + years[z],
+    //     "totalSolved:" + sortDataByDate[years[z]][months[z]].length
+    //   );
+    // }
 
     profile = await CodewarsProfile.findOneAndUpdate(
       {
