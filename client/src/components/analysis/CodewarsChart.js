@@ -60,13 +60,14 @@ const CodewarsChart = ({ profile }) => {
   const { options, series } = chartSettings;
 
   return (
-    <Chart
-      options={options}
-      series={series}
-      type="bar"
-      width={500}
-      height={320}
-    />
+    <Fragment>Leblebi</Fragment>
+    // <Chart
+    //   options={options}
+    //   series={series}
+    //   type="bar"
+    //   width={500}
+    //   height={320}
+    // />
   );
 };
 

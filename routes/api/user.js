@@ -403,19 +403,23 @@ const analysisCodewarsData = async userId => {
     const completedChallanges = profile.completedChallanges.data;
     let sortByYearAndMonth = {};
     let sortByDay = {};
+
     //Loop through the completed challanges array to sort them by year, month
     for (let i = 0; i < completedChallanges.length; i++) {
       const completedChallangeId = completedChallanges[i].id;
       const completedChallangeName = completedChallanges[i].name;
       const completedChllangeTags = completedChallanges[i].tags;
-
       const completedDate = completedChallanges[i].completedAt;
-      const solvedYear = moment(completedDate, "YYYY-MM-DD").year();
+
+      const completedDateFormatted = moment(completedDate).format("YYYY-MM-DD");
+
+      const solvedYear = moment(completedDateFormatted, "YYYY-MM-DD").year();
       // const solvedMonth = 1 + moment(completedDate, "YYYY-MM-DD").month();
-      const solvedMonth = moment(completedDate).format("MMMM");
+      const solvedMonth = moment(completedDateFormatted).format("MMMM");
 
       const solvedDay = moment(completedDate).format("dddd");
 
+      console.log(solvedDay);
       if (!sortByYearAndMonth[`${solvedYear}`]) {
         sortByYearAndMonth[`${solvedYear}`] = {};
       }
@@ -435,13 +439,12 @@ const analysisCodewarsData = async userId => {
       if (!sortByDay["solvedDay"]) {
         sortByDay["solvedDay"] = {};
       }
-      if (!sortByDay["solvedDay"][`${solvedDay}`]) {
-        sortByDay["solvedDay"][`${solvedDay}`] = 1;
-      }
 
-      if (sortByDay["solvedDay"][`${solvedDay}`]) {
-        sortByDay["solvedDay"][`${solvedDay}`] =
-          sortByDay["solvedDay"][`${solvedDay}`] + 1;
+      if (!sortByDay["solvedDay"][`${solvedDay}`]) {
+        sortByDay["solvedDay"][`${solvedDay}`] = 0;
+        sortByDay["solvedDay"][`${solvedDay}`]++;
+      } else {
+        sortByDay["solvedDay"][`${solvedDay}`]++;
       }
     }
 
@@ -467,17 +470,16 @@ const analysisCodewarsData = async userId => {
         let year = years[z];
 
         if (sortByYearAndMonth[years[z]].hasOwnProperty(months[j])) {
-          if (numbers[year]) {
-            numbers[year] =
-              numbers[year] + sortByYearAndMonth[years[z]][months[j]].length;
-          } else {
+          if (!numbers[year]) {
             numbers[year] = sortByYearAndMonth[years[z]][months[j]].length;
+          } else {
+            numbers[year] += sortByYearAndMonth[years[z]][months[j]].length;
           }
         }
       }
     }
-    console.log(numbers);
-    console.log(sortByDay.solvedDay);
+
+    console.log(sortByDay);
     profile = await CodewarsProfile.findOneAndUpdate(
       {
         user: userId
