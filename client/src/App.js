@@ -48,11 +48,7 @@ const App = () => {
             <Route exact path="/register" component={Register} />
             <Route exact path="/signin" component={SignIn} />
             <Route exact path="/user/success/:id" component={Success} />
-            <Route
-              exact
-              path="/:username/codewarsresult"
-              component={CodewarsResult}
-            />
+
             <PrivateRoute
               exact
               path="/:username/settings"
@@ -63,6 +59,12 @@ const App = () => {
               exact
               path="/:username/codewars/settings"
               component={CodewarsSettings}
+            />
+
+            <PrivateRoute
+              exact
+              path="/:username/codewarsresult"
+              component={CodewarsResult}
             />
           </Switch>
         </Fragment>

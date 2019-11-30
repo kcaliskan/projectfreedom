@@ -93,7 +93,12 @@ const ProfileSchema = new mongoose.Schema({
     },
     data: []
   },
-  completedByYear: {},
+  completedByYearAndMonth: {},
+  completedByDay: {},
+  isAnalysisReady: {
+    type: Boolean,
+    default: false
+  },
   date: {
     type: Date,
     default: Date.now

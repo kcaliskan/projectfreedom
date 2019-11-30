@@ -135,14 +135,6 @@ router.put(
     try {
       let profile = await CodewarsProfile.findOne({ user: req.user.userId });
 
-      if (
-        profile.codeChallenges.totalCompleted ===
-        codewarsResponse.data.codeChallenges.totalCompleted
-      ) {
-        getCodewarsKatasAndTags(codewarsUserName, req.user.userId);
-        return profile;
-      }
-
       const config = {
         headers: {
           Authorization: "exvY9BPx1KzxrnVkDP9X"
@@ -156,6 +148,15 @@ router.put(
 
       //If there is a profile
       if (profile) {
+        //If the user's completed challange number from db, equals to current codewars, we directly return its profile because there is no need to get and check the profile again
+        if (
+          profile.codeChallenges.totalCompleted ==
+          codewarsResponse.data.codeChallenges.totalCompleted
+        ) {
+          getCodewarsKatasAndTags(codewarsUserName, req.user.userId);
+          return res.json(profile);
+        }
+
         //Update the profile
         profile = await CodewarsProfile.findOneAndUpdate(
           { user: req.user.userId },
@@ -196,6 +197,22 @@ router.get("/getCurrentProfile", authService.verifyToken, async (req, res) => {
   }
 });
 
+// @route GET api/user/isAnalysisReady
+// @desc Get the analysis status from the db
+// @access Private
+router.get("/isAnalysisReady", authService.verifyToken, async (req, res) => {
+  try {
+    const profile = await CodewarsProfile.findOne({
+      user: req.user.userId
+    }).select("isAnalysisReady");
+
+    res.send(profile.isAnalysisReady);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 ////*** FUNCTIONS ***/////
 const getCodewarsKatasAndTags = async (username, userid) => {
   const codewarsUserName = username;
@@ -214,22 +231,21 @@ const getCodewarsKatasAndTags = async (username, userid) => {
       `https://www.codewars.com/api/v1/users/${codewarsUserName}`,
       config
     );
-    console.log(profile);
-    //If the user's completed challange number from db, equals to current codewars, we directly return its profile because there is no need to get and check the tags again
-    if (
-      profile.codeChallenges.totalCompleted ===
-      codewarsResponse.data.codeChallenges.totalCompleted
-    ) {
-      console.log("im directly returned");
-      analysisCodewarsData(userId);
-      return profile;
-    }
 
     // // Get the completed challanges result for the user, it only contains first completed 200 challanges
     const completedChallangesResponse = await axios.get(
       `https://www.codewars.com/api/v1/users/${codewarsUserName}/code-challenges/completed?page=0`,
       config
     );
+
+    // //If the user's completed challange number from db, equals to current codewars, we directly return its profile because there is no need to get and check the tags again
+    if (
+      profile.completedChallanges.totalItems ==
+      completedChallangesResponse.data.totalItems
+    ) {
+      return analysisCodewarsData(userId);
+    }
+
     const totalPages = completedChallangesResponse.data.totalPages;
     const totalCompletedChallanges = [];
 
@@ -362,6 +378,7 @@ const getCodewarsKatasAndTags = async (username, userid) => {
         data: totalCompletedChallanges
       }
     };
+
     // If there is no profile, create one
     profile = new CodewarsProfile(profileFields);
     await profile.save();
@@ -384,9 +401,9 @@ const analysisCodewarsData = async userId => {
 
     //Get the all completed challanges
     const completedChallanges = profile.completedChallanges.data;
-    let sortDataByDate = {};
-
-    //Loop through the completed challanges array to sort them by year, month, and day
+    let sortByYearAndMonth = {};
+    let sortByDay = {};
+    //Loop through the completed challanges array to sort them by year, month
     for (let i = 0; i < completedChallanges.length; i++) {
       const completedChallangeId = completedChallanges[i].id;
       const completedChallangeName = completedChallanges[i].name;
@@ -394,51 +411,81 @@ const analysisCodewarsData = async userId => {
 
       const completedDate = completedChallanges[i].completedAt;
       const solvedYear = moment(completedDate, "YYYY-MM-DD").year();
-      const solvedMonth = 1 + moment(completedDate, "YYYY-MM-DD").month();
+      // const solvedMonth = 1 + moment(completedDate, "YYYY-MM-DD").month();
+      const solvedMonth = moment(completedDate).format("MMMM");
 
-      if (!sortDataByDate[`${solvedYear}`]) {
-        sortDataByDate[`${solvedYear}`] = {};
+      const solvedDay = moment(completedDate).format("dddd");
+
+      if (!sortByYearAndMonth[`${solvedYear}`]) {
+        sortByYearAndMonth[`${solvedYear}`] = {};
       }
 
-      if (!sortDataByDate[`${solvedYear}`][`${solvedMonth}`]) {
-        sortDataByDate[`${solvedYear}`][`${solvedMonth}`] = [];
+      if (!sortByYearAndMonth[`${solvedYear}`][`${solvedMonth}`]) {
+        sortByYearAndMonth[`${solvedYear}`][`${solvedMonth}`] = [];
       }
 
-      if (sortDataByDate[`${solvedYear}`][`${solvedMonth}`]) {
-        sortDataByDate[`${solvedYear}`][`${solvedMonth}`].push({
+      if (sortByYearAndMonth[`${solvedYear}`][`${solvedMonth}`]) {
+        sortByYearAndMonth[`${solvedYear}`][`${solvedMonth}`].push({
           name: completedChallangeName,
           challangeId: completedChallangeId,
           tags: completedChllangeTags
         });
       }
+
+      if (!sortByDay["solvedDay"]) {
+        sortByDay["solvedDay"] = {};
+      }
+      if (!sortByDay["solvedDay"][`${solvedDay}`]) {
+        sortByDay["solvedDay"][`${solvedDay}`] = 1;
+      }
+
+      if (sortByDay["solvedDay"][`${solvedDay}`]) {
+        sortByDay["solvedDay"][`${solvedDay}`] =
+          sortByDay["solvedDay"][`${solvedDay}`] + 1;
+      }
     }
 
-    // let years = [];
-    // for (let key in sortDataByDate) {
-    //   if (sortDataByDate.hasOwnProperty(key)) years.push(key);
-    // }
+    //Get completed years from the sortByYearAndMonth object
+    let years = [];
+    for (let key in sortByYearAndMonth) {
+      if (sortByYearAndMonth.hasOwnProperty(key)) years.push(key);
+    }
 
-    // let months = [];
-    // for (let key in sortDataByDate[years]) {
-    //   if (sortDataByDate[years].hasOwnProperty(key)) months.push(key);
-    // }
+    //Get months of the each year from the sortByYearAndMonth object
+    let months = [];
+    for (let i = 0; i < years.length; i++) {
+      for (let key in sortByYearAndMonth[years[i]]) {
+        if (sortByYearAndMonth[years[i]].hasOwnProperty(key)) months.push(key);
+      }
+    }
 
-    // console.log(keys);
-    // console.log(sortDataByDate[2018]);
+    //Figure out that how many challages completed each year
+    let numbers = {};
 
-    // for (let z = 0; z < years.length; z++) {
-    //   console.log(
-    //     "year:" + years[z],
-    //     "totalSolved:" + sortDataByDate[years[z]][months[z]].length
-    //   );
-    // }
+    for (let z = 0; z < years.length; z++) {
+      for (let j = 0; j <= months.length; j++) {
+        let year = years[z];
 
+        if (sortByYearAndMonth[years[z]].hasOwnProperty(months[j])) {
+          if (numbers[year]) {
+            numbers[year] =
+              numbers[year] + sortByYearAndMonth[years[z]][months[j]].length;
+          } else {
+            numbers[year] = sortByYearAndMonth[years[z]][months[j]].length;
+          }
+        }
+      }
+    }
+    console.log(numbers);
+    console.log(sortByDay.solvedDay);
     profile = await CodewarsProfile.findOneAndUpdate(
       {
         user: userId
       },
       {
-        completedByYear: sortDataByDate
+        completedByYearAndMonth: sortByYearAndMonth,
+        completedByDay: sortByDay,
+        isAnalysisReady: true
       },
       { new: true }
     );

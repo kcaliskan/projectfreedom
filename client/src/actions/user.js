@@ -6,7 +6,9 @@ import {
   GET_CODEWARS_PROFILE,
   GET_CODEWARS_PROFILE_ERROR,
   GET_CURRENT_PROFILE,
-  GET_CURRENT_PROFILE_ERROR
+  GET_CURRENT_PROFILE_ERROR,
+  IS_ANALYSIS_READY,
+  IS_ANALYSIS_READY_ERROR
 } from "./types";
 import { loadUser } from "./auth";
 
@@ -120,6 +122,27 @@ export const getCurrentProfile = () => async dispatch => {
     }
     dispatch({
       type: GET_CURRENT_PROFILE_ERROR,
+      payload: errors
+    });
+  }
+};
+
+// Get the user's analysis completion status from DB
+export const isAnalysisReady = () => async dispatch => {
+  try {
+    const res = await axios.get("/api/user/isAnalysisReady");
+
+    dispatch({
+      type: IS_ANALYSIS_READY,
+      payload: res.data
+    });
+  } catch (err) {
+    let errors = err.response.data.errors;
+    if (!errors) {
+      errors = [];
+    }
+    dispatch({
+      type: IS_ANALYSIS_READY_ERROR,
       payload: errors
     });
   }
