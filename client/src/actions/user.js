@@ -116,6 +116,7 @@ export const getCurrentProfile = () => async dispatch => {
       payload: res.data
     });
   } catch (err) {
+    console.log(err);
     let errors = err.response.data.errors;
     if (!errors) {
       errors = [];

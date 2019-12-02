@@ -5,38 +5,84 @@ import CodewarsChart from "./CodewarsChart";
 import PropTypes from "prop-types";
 import axios from "axios";
 
-const CodewarsResult = ({ profile, auth }) => {
-  const [loadingLocalState, setLoadingLocalState] = useState(true);
+// const CodewarsResult = ({ profile, auth, getCurrentProfile }) => {
+//   const [loadingLocalState, setLoadingLocalState] = useState(true);
 
-  let loading = loadingLocalState;
+//   const [codewarsProfile, setProfile] = useState({
+//     codewarsProfile: profile
+//   });
 
-  useEffect(() => {
-    checkStatus();
-  }, [profile]);
+//   let loading = loadingLocalState;
 
-  const noProfile = <Fragment>There is no profile create it amk</Fragment>;
+//   useEffect(() => {
+//     checkStatus();
+//   }, []);
 
-  const checkStatus = async () => {
+//   const noProfile = <Fragment>There is no profile create it amk</Fragment>;
+
+//   const checkStatus = async () => {
+//     const res = await axios.get("/api/user/isAnalysisReady");
+//     const isReady = res.data;
+//     console.log(isReady, "im api res");
+
+//     if (isReady) {
+//       setLoadingLocalState(false);
+//     } else {
+//       setTimeout(() => {
+//         checkStatus();
+//         getCurrentProfile();
+//       }, 3500);
+//     }
+//   };
+
+//   const handleDisplay = loading => {
+//     if (loading === false) {
+//       return <CodewarsChart />;
+//     } else {
+//       return (
+//         <Fragment>
+//           <div>loading</div>
+//         </Fragment>
+//       );
+//     }
+//   };
+
+//   return <Fragment>{profile ? handleDisplay(loading) : noProfile}</Fragment>;
+// };
+
+///// V2 //////
+class CodewarsResult extends React.Component {
+  state = { loadingLocalState: true, codewarsProfile: {} };
+
+  noProfile = (<Fragment>There is no profile create it amk</Fragment>);
+
+  checkStatus = async () => {
     const res = await axios.get("/api/user/isAnalysisReady");
     const isReady = res.data;
     console.log(isReady, "im api res");
 
     if (isReady) {
-      setLoadingLocalState(false);
-      console.log(loading, "im state");
-      // handleDisplay(loading);
+      this.props.getCurrentProfile();
+      this.setState({
+        loadingLocalState: false,
+        codewarsProfile: this.props.profile
+      });
+
+      // this.handleDisplay(this.state.loadingLocalState)
     } else {
       setTimeout(() => {
-        checkStatus();
-        getCurrentProfile();
+        this.checkStatus();
+        this.props.getCurrentProfile();
       }, 3500);
     }
   };
 
-  const handleDisplay = loading => {
+  handleDisplay = loading => {
     if (loading === false) {
-      return <CodewarsChart />;
+      console.log(this.state);
+      return <CodewarsChart codewarsProfile={this.state.codewarsProfile} />;
     } else {
+      this.checkStatus();
       return (
         <Fragment>
           <div>loading</div>
@@ -45,12 +91,25 @@ const CodewarsResult = ({ profile, auth }) => {
     }
   };
 
-  return <Fragment>{profile ? handleDisplay(loading) : noProfile}</Fragment>;
-};
+  // componentDidMount() {
+  //   this.checkStatus();
+  // }
+
+  render() {
+    return (
+      <Fragment>
+        {this.props.profile
+          ? this.handleDisplay(this.state.loadingLocalState)
+          : this.noProfile}
+      </Fragment>
+    );
+  }
+}
+///// V2 //////
 
 const mapStateToProps = props => ({
   auth: props.auth,
   profile: props.profile.codewars
 });
 
-export default connect(mapStateToProps)(CodewarsResult);
+export default connect(mapStateToProps, { getCurrentProfile })(CodewarsResult);

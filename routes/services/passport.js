@@ -25,39 +25,53 @@ passport.use(
       callbackURL: "/api/auth/google/callback"
     },
     async (accessToken, refreshToken, profile, done) => {
-      const existingUser = await User.findOne({
-        providerProfileId: profile.id
-      });
-      const {
-        name,
-        given_name,
-        family_name,
-        picture,
-        email,
-        gender
-      } = profile._json;
-
-      const profileURL = profile._json.profile;
-      const userName = given_name.toLowerCase() + family_name.toLowerCase();
-      const { provider } = profile;
-      const providerProfileId = profile.id;
-
-      if (existingUser) {
-        done(null, existingUser);
-      } else {
-        const newUser = await new User({
-          providerProfileId,
-          fullName: name,
-          userName,
-          pictureURL: picture,
+      try {
+        const {
+          name,
+          given_name,
+          family_name,
+          picture,
           email,
-          gender,
-          providerProfileURL: profileURL,
-          provider,
-          password: "providerlogin",
-          codewarsUserName: ""
-        }).save();
-        done(null, newUser);
+          gender
+        } = profile._json;
+
+        const profileURL = profile._json.profile;
+        const userName = given_name.toLowerCase() + family_name.toLowerCase();
+        const { provider } = profile;
+        const providerProfileId = profile.id;
+
+        const existingUser = await User.findOne({
+          providerProfileId: profile.id
+        });
+
+        const isAlreadyRegistered = await User.findOne(
+          { email },
+          { providerProfileId: "" }
+        );
+
+        // if (isAlreadyRegistered !== null) {
+        //   return done(null, false, { message: ["Password incorrect"] });
+        // }
+
+        if (existingUser) {
+          done(null, existingUser);
+        } else {
+          const newUser = await new User({
+            providerProfileId,
+            fullName: name,
+            userName,
+            pictureURL: picture,
+            email,
+            gender,
+            providerProfileURL: profileURL,
+            provider,
+            password: "providerlogin",
+            codewarsUserName: ""
+          }).save();
+          done(null, newUser);
+        }
+      } catch (err) {
+        console.log(err);
       }
     }
   )
@@ -72,8 +86,6 @@ passport.use(
       callbackURL: "/api/auth/github/callback"
     },
     async (accessToken, refreshToken, profile, done) => {
-      console.log(profile);
-
       const existingUser = await User.findOne({
         providerProfileId: profile.id
       });

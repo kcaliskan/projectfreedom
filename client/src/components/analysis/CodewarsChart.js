@@ -1,79 +1,142 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
+import { getCurrentProfile } from "../../actions/user";
 import Chart from "react-apexcharts";
 import { connect } from "react-redux";
 
-const CodewarsChart = ({ profile }) => {
-  const sortByYearAndMonth = profile.completedByYearAndMonth;
-
-  //Get completed years from the sortByYearAndMonth object
-  let years = [];
-  for (let key in sortByYearAndMonth) {
-    if (sortByYearAndMonth.hasOwnProperty(key)) years.push(key);
-  }
-
-  //Get months of the each year from the sortByYearAndMonth object
-  let months = [];
-  for (let i = 0; i < years.length; i++) {
-    for (let key in sortByYearAndMonth[years[i]]) {
-      if (sortByYearAndMonth[years[i]].hasOwnProperty(key)) months.push(key);
-    }
-  }
-
-  //Figure out that how many challages completed each year
-  let numbers = {};
-
-  for (let z = 0; z < years.length; z++) {
-    for (let j = 0; j <= months.length; j++) {
-      let year = years[z];
-
-      if (sortByYearAndMonth[years[z]].hasOwnProperty(months[j])) {
-        if (numbers[year]) {
-          numbers[year] =
-            numbers[year] + sortByYearAndMonth[years[z]][months[j]].length;
-        } else {
-          numbers[year] = sortByYearAndMonth[years[z]][months[j]].length;
-        }
-      }
-    }
-  }
-
-  console.log(numbers);
-
-  const [chartSettings, setStateX] = useState({
+class CodewarsChart extends React.Component {
+  state = {
     options: {
       chart: {
         id: "apexchart-example",
         type: "column"
       },
       xaxis: {
-        categories: years
+        categories: this.props.codewarsProfile.completedByYear
+          ? this.props.codewarsProfile.completedByYear.years
+          : [0]
+      },
+      title: {
+        text: "Completed Challanges By Year",
+        align: "center"
       }
     },
     series: [
       {
-        name: "series-1",
-        data: numbers
+        name: "Completed Challange",
+        data: this.props.codewarsProfile.completedByYear
+          ? this.props.codewarsProfile.completedByYear.completedYearTotal
+          : [0]
       }
     ]
-  });
+  };
 
-  const { options, series } = chartSettings;
+  componentDidUpdate() {
+    // this.props.getCurrentProfile();
+    // this.setState({
+    //   options: {
+    //     chart: {
+    //       id: "apexchart-example",
+    //       type: "column"
+    //     },
+    //     xaxis: {
+    //       categories: this.props.codewarsProfile.completedByYear
+    //         ? this.props.codewarsProfile.completedByYear.years
+    //         : [0]
+    //     },
+    //     title: {
+    //       text: "Completed Challanges By Year",
+    //       align: "center"
+    //     }
+    //   },
+    //   series: [
+    //     {
+    //       name: "Completed Challange",
+    //       data: this.props.codewarsProfile.completedByYear
+    //         ? this.props.codewarsProfile.completedByYear.completedYearTotal
+    //         : [0]
+    //     }
+    //   ]
+    // });
+  }
 
-  return (
-    <Fragment>Leblebi</Fragment>
-    // <Chart
-    //   options={options}
-    //   series={series}
-    //   type="bar"
-    //   width={500}
-    //   height={320}
-    // />
-  );
-};
+  byYearHandler = () => {
+    console.log(this.props.codewarsProfile.completedByDay.dataForChart);
 
-const mapStateToProps = props => ({
-  auth: props.auth,
-  profile: props.profile.codewars
-});
+    this.setState({
+      options: {
+        chart: {
+          id: "apexchart-example",
+          type: "column"
+        },
+        xaxis: {
+          categories: this.props.codewarsProfile.completedByYear.years
+        },
+        title: {
+          text: "Completed Challanges By Year",
+          align: "center"
+        }
+      },
+      series: [
+        {
+          name: "Completed Challange",
+          data: this.props.codewarsProfile.completedByYear.completedYearTotal
+        }
+      ]
+    });
+  };
 
-export default connect(mapStateToProps)(CodewarsChart);
+  byMonthHandler = () => {};
+
+  byDayHandler = () => {
+    console.log(this.props.codewarsProfile.completedByDay.dataForChart);
+
+    this.setState({
+      options: {
+        chart: {
+          id: "apexchart-example",
+          type: "column"
+        },
+        xaxis: {
+          categories: this.props.codewarsProfile.completedByDay.dataForChart
+            ? this.props.codewarsProfile.completedByDay.dataForChart
+                .completedDayName
+            : [0]
+        },
+        title: {
+          text: "Completed Challanges By Day",
+          align: "center"
+        }
+      },
+      series: [
+        {
+          name: "Completed Challange",
+          data: this.props.codewarsProfile.completedByDay.dataForChart
+            ? this.props.codewarsProfile.completedByDay.dataForChart
+                .completedDayValue
+            : [0]
+        }
+      ]
+    });
+  };
+
+  render() {
+    return (
+      <Fragment>
+        <ul>
+          <li onClick={() => this.byYearHandler()}>By Year</li>
+          <li onClick={() => this.byMonthHandler()}>By Month</li>
+          <li onClick={() => this.byDayHandler()}>By Day</li>
+        </ul>
+        <Chart
+          options={this.state.options}
+          series={this.state.series}
+          type="bar"
+          width={800}
+          height={600}
+        />
+      </Fragment>
+    );
+  }
+}
+
+export default connect(null, { getCurrentProfile })(CodewarsChart);

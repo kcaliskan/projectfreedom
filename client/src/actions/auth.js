@@ -53,6 +53,7 @@ export const providerRegister = () => async dispatch => {
     if (!errors) {
       errors = [];
     }
+
     dispatch({
       type: AUTH_ERROR,
       payload: errors
@@ -92,9 +93,10 @@ export const manualRegister = ({
 
     dispatch(loadUser());
   } catch (err) {
+    console.log(err.response.data.errors);
     let errors;
 
-    if (!err) {
+    if (err) {
       errors = err.response.data.errors;
 
       dispatch({

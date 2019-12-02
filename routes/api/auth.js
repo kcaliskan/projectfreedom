@@ -46,7 +46,9 @@ router.get(
 // @access Private
 router.get(
   "/google/callback",
-  passport.authenticate("google"),
+  passport.authenticate("google", {
+    failureRedirect: "/login/userexits"
+  }),
   async (req, res) => {
     const authToken = await authService.signToken(req, res);
     const authURLToken = encodeURIComponent(authToken);
@@ -57,7 +59,6 @@ router.get(
 // @route GET api/auth/github/callback
 // @desc   Github auth redirect handler
 // @access Private
-
 router.get(
   "/github/callback",
   passport.authenticate("github"),

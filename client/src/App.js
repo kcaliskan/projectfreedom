@@ -8,6 +8,7 @@ import Register from "./components/auth/Register";
 import SignIn from "./components/auth/SignIn";
 import UserSettings from "./components/auth/UserSettings";
 import CodewarsSettings from "./components/auth/Codewars";
+import LoginFail from "./components/auth/LoginFail";
 
 //Layout Components
 import Landing from "./components/layout/Landing";
@@ -46,6 +47,8 @@ const App = () => {
           <Switch>
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
+            <Route exact path="/login/userexits" component={LoginFail} />
+
             <Route exact path="/signin" component={SignIn} />
             <Route exact path="/user/success/:id" component={Success} />
 

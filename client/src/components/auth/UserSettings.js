@@ -8,10 +8,10 @@ const UserSettings = ({ auth, updateProfile, history }) => {
   const { loading, errors, isAuthenticated } = auth;
 
   const [formData, setFormData] = useState({
-    fullName: auth.user.fullName,
-    userName: auth.user.userName,
-    email: auth.user.email,
-    gender: auth.user.gender
+    fullName: loading || !auth.user.fullName ? "" : auth.user.fullName,
+    userName: loading || !auth.user.userName ? "" : auth.user.userName,
+    email: loading || !auth.user.email ? "" : auth.user.email,
+    gender: loading || !auth.user.gender ? "" : auth.user.gender
   });
 
   useEffect(() => {
@@ -150,18 +150,15 @@ const UserSettings = ({ auth, updateProfile, history }) => {
     </Fragment>
   );
 };
-
 UserSettings.propTypes = {
   auth: PropTypes.object.isRequired,
   errors: PropTypes.array.isRequired,
   updateProfile: PropTypes.func.isRequired
 };
-
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.auth.errors
 });
-
 export default connect(mapStateToProps, { updateProfile })(
   withRouter(UserSettings)
 );

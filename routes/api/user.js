@@ -301,6 +301,8 @@ const getCodewarsKatasAndTags = async (username, userid) => {
           //Adding keywords to the challange
           totalCompletedChallanges[0].tags = tagKeywords;
         }
+
+        console.log(totalCompletedChallanges);
       }
     } else {
       // Get the array of the completed challanges
@@ -346,6 +348,8 @@ const getCodewarsKatasAndTags = async (username, userid) => {
 
         //Adding keywords to the challange
         totalCompletedChallanges[0].tags = tagKeywords;
+
+        console.log(totalCompletedChallanges);
       }
     }
 
@@ -419,7 +423,6 @@ const analysisCodewarsData = async userId => {
 
       const solvedDay = moment(completedDate).format("dddd");
 
-      console.log(solvedDay);
       if (!sortByYearAndMonth[`${solvedYear}`]) {
         sortByYearAndMonth[`${solvedYear}`] = {};
       }
@@ -436,15 +439,11 @@ const analysisCodewarsData = async userId => {
         });
       }
 
-      if (!sortByDay["solvedDay"]) {
-        sortByDay["solvedDay"] = {};
-      }
-
-      if (!sortByDay["solvedDay"][`${solvedDay}`]) {
-        sortByDay["solvedDay"][`${solvedDay}`] = 0;
-        sortByDay["solvedDay"][`${solvedDay}`]++;
+      if (!sortByDay[`${solvedDay}`]) {
+        sortByDay[`${solvedDay}`] = 0;
+        sortByDay[`${solvedDay}`]++;
       } else {
-        sortByDay["solvedDay"][`${solvedDay}`]++;
+        sortByDay[`${solvedDay}`]++;
       }
     }
 
@@ -454,40 +453,113 @@ const analysisCodewarsData = async userId => {
       if (sortByYearAndMonth.hasOwnProperty(key)) years.push(key);
     }
 
-    //Get months of the each year from the sortByYearAndMonth object
-    let months = [];
+    // //Get months of the each year from the sortByYearAndMonth object
+    // let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    let months = {};
+
+    // for (let i = 0; i < years.length; i++) {
+    //   for (let key in sortByYearAndMonth[years[i]]) {
+    //     if (sortByYearAndMonth[years[i]].hasOwnProperty(key)) months.push(key);
+    //   }
+    // }
+
     for (let i = 0; i < years.length; i++) {
       for (let key in sortByYearAndMonth[years[i]]) {
-        if (sortByYearAndMonth[years[i]].hasOwnProperty(key)) months.push(key);
+        if (sortByYearAndMonth[years[i]].hasOwnProperty(key)) months[key] = 0;
       }
     }
+
+    let monthsX = [];
+    for (let key in months) {
+      if (months.hasOwnProperty(key)) monthsX.push(key);
+    }
+
+    ///// V2 //////
+    //Get months of the each year from the sortByYearAndMonth object
+    // let months = [];
+
+    // for (let i = 0; i < years.length; i++) {
+    //   for (let key in sortByYearAndMonth[years[i]]) {
+    //     if (sortByYearAndMonth[years[i]].hasOwnProperty(key)) {
+    //       months.push(key)
+
+    //       sortByYearAndMonth[years[i]][months[months.length-1]]
+    //     };
+    //   }
+    // }
+
+    ////// V2 ////////
 
     //Figure out that how many challages completed each year
     let numbers = {};
 
+    // for (let z = 0; z < years.length; z++) {
+    //   for (let j = 0; j <= months.length; j++) {
+    //     let year = years[z];
+
+    //     if (sortByYearAndMonth[years[z]].hasOwnProperty(months[j])) {
+    //       if (!numbers[year]) {
+    //         numbers[year] = sortByYearAndMonth[years[z]][months[j]].length;
+    //       } else {
+    //         numbers[year] += sortByYearAndMonth[years[z]][months[j]].length;
+    //       }
+    //     }
+    //   }
+    // }
+
     for (let z = 0; z < years.length; z++) {
-      for (let j = 0; j <= months.length; j++) {
+      for (let j = 0; j <= monthsX.length; j++) {
         let year = years[z];
 
-        if (sortByYearAndMonth[years[z]].hasOwnProperty(months[j])) {
+        if (sortByYearAndMonth[years[z]].hasOwnProperty(monthsX[j])) {
           if (!numbers[year]) {
-            numbers[year] = sortByYearAndMonth[years[z]][months[j]].length;
+            numbers[year] = sortByYearAndMonth[years[z]][monthsX[j]].length;
           } else {
-            numbers[year] += sortByYearAndMonth[years[z]][months[j]].length;
+            numbers[year] += sortByYearAndMonth[years[z]][monthsX[j]].length;
           }
         }
       }
     }
+    console.log(numbers);
 
-    console.log(sortByDay);
+    const completedYearTotal = [];
+
+    for (const property in numbers) {
+      completedYearTotal.push(`${numbers[property]}`);
+    }
+
+    const completedDayName = [];
+    const completedDayValue = [];
+
+    for (const property in sortByDay) {
+      completedDayValue.push(`${sortByDay[property]}`);
+    }
+
+    console.log(monthsX);
+
+    for (let key in sortByDay) {
+      if (sortByDay.hasOwnProperty(key)) completedDayName.push(key);
+    }
+
     profile = await CodewarsProfile.findOneAndUpdate(
       {
         user: userId
       },
       {
         completedByYearAndMonth: sortByYearAndMonth,
-        completedByDay: sortByDay,
-        isAnalysisReady: true
+        completedByDay: {
+          sortByDay,
+          dataForChart: {
+            completedDayName,
+            completedDayValue
+          }
+        },
+        isAnalysisReady: true,
+        completedByYear: {
+          years,
+          completedYearTotal: completedYearTotal
+        }
       },
       { new: true }
     );
