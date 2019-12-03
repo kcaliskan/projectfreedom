@@ -15,6 +15,7 @@ import Landing from "./components/layout/Landing";
 
 // Analysis Components
 import CodewarsResult from "./components/analysis/CodewarsResult";
+import Ch from "./components/analysis/Ch";
 
 //Utility functions
 import setAuthToken from "./components/auth/utils/setAuthToken";
@@ -69,6 +70,8 @@ const App = () => {
               path="/:username/codewarsresult"
               component={CodewarsResult}
             />
+
+            <Route exact path="/ch" component={Ch} />
           </Switch>
         </Fragment>
       </Router>

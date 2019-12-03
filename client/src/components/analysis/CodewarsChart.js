@@ -10,6 +10,9 @@ class CodewarsChart extends React.Component {
         id: "apexchart-example",
         type: "column"
       },
+      plotOptions: {},
+      stroke: {},
+      fill: {},
       xaxis: {
         categories: this.props.codewarsProfile.completedByYear
           ? this.props.codewarsProfile.completedByYear.years
@@ -30,37 +33,8 @@ class CodewarsChart extends React.Component {
     ]
   };
 
-  componentDidUpdate() {
-    // this.props.getCurrentProfile();
-    // this.setState({
-    //   options: {
-    //     chart: {
-    //       id: "apexchart-example",
-    //       type: "column"
-    //     },
-    //     xaxis: {
-    //       categories: this.props.codewarsProfile.completedByYear
-    //         ? this.props.codewarsProfile.completedByYear.years
-    //         : [0]
-    //     },
-    //     title: {
-    //       text: "Completed Challanges By Year",
-    //       align: "center"
-    //     }
-    //   },
-    //   series: [
-    //     {
-    //       name: "Completed Challange",
-    //       data: this.props.codewarsProfile.completedByYear
-    //         ? this.props.codewarsProfile.completedByYear.completedYearTotal
-    //         : [0]
-    //     }
-    //   ]
-    // });
-  }
-
   byYearHandler = () => {
-    console.log(this.props.codewarsProfile.completedByDay.dataForChart);
+    const myEmptyObj = {};
 
     this.setState({
       options: {
@@ -68,6 +42,9 @@ class CodewarsChart extends React.Component {
           id: "apexchart-example",
           type: "column"
         },
+        plotOptions: myEmptyObj,
+        stroke: myEmptyObj,
+        fill: myEmptyObj,
         xaxis: {
           categories: this.props.codewarsProfile.completedByYear.years
         },
@@ -83,19 +60,55 @@ class CodewarsChart extends React.Component {
         }
       ]
     });
+    console.log(this.state, "by year");
   };
 
-  byMonthHandler = () => {};
-
-  byDayHandler = () => {
-    console.log(this.props.codewarsProfile.completedByDay.dataForChart);
-
+  byMonthHandler = () => {
     this.setState({
       options: {
         chart: {
           id: "apexchart-example",
           type: "column"
         },
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: "100%",
+            endingShape: "rounded"
+          }
+        },
+        stroke: {
+          show: true,
+          width: 5,
+          colors: ["transparent"]
+        },
+        fill: {
+          opacity: 1
+        },
+        xaxis: {
+          categories: this.props.codewarsProfile.completedByMonth.months
+        },
+        title: {
+          text: "Completed Challanges By Year and Month",
+          align: "center"
+        }
+      },
+      series: this.props.codewarsProfile.completedByMonth.seriesArray
+    });
+    console.log(this.state, "by month");
+  };
+
+  byDayHandler = () => {
+    const myEmptyObj = {};
+    this.setState({
+      options: {
+        chart: {
+          id: "apexchart-example",
+          type: "column"
+        },
+        plotOptions: myEmptyObj,
+        stroke: myEmptyObj,
+        fill: myEmptyObj,
         xaxis: {
           categories: this.props.codewarsProfile.completedByDay.dataForChart
             ? this.props.codewarsProfile.completedByDay.dataForChart
@@ -117,21 +130,22 @@ class CodewarsChart extends React.Component {
         }
       ]
     });
+
+    console.log(this.state, "by day");
   };
 
   render() {
     return (
       <Fragment>
         <ul>
-          <li onClick={() => this.byYearHandler()}>By Year</li>
-          <li onClick={() => this.byMonthHandler()}>By Month</li>
-          <li onClick={() => this.byDayHandler()}>By Day</li>
+          <li onClick={this.byYearHandler}>By Year</li>
+          <li onClick={this.byMonthHandler}>By Month</li>
+          <li onClick={this.byDayHandler}>By Day</li>
         </ul>
         <Chart
           options={this.state.options}
           series={this.state.series}
           type="bar"
-          width={800}
           height={600}
         />
       </Fragment>
