@@ -275,31 +275,38 @@ const getCodewarsKatasAndTags = async (username, userid) => {
           }
 
           //We go to challange page to get the tags of it
-          let challangePageHtml = await axios.get(
-            `https://www.codewars.com/kata/${challangeId}`
+          // let challangePageHtml = await axios.get(
+          //   `https://www.codewars.com/kata/${challangeId}`
+          // );
+
+          let challangeData = await axios.get(
+            `https://www.codewars.com/api/v1/code-challenges/${challangeId}`,
+            config
           );
 
           //We create an empty array for putting all of the tags for the challange
-          let tagKeywords = [];
+          let tagKeywords = challangeData.data.tags;
+          let category = challangeData.data.category;
+          console.log(challangeData.data);
+          // if (challangePageHtml.status === 200) {
+          //   let $ = cheerio.load(challangePageHtml.data);
+          //   $(".keyword-tag").each((i, elem) => {
+          //     tagKeywords[i] = $(elem).text();
+          //   });
+          //   tagKeywords.join(", ");
+          // }
 
-          if (challangePageHtml.status === 200) {
-            let $ = cheerio.load(challangePageHtml.data);
-            $(".keyword-tag").each((i, elem) => {
-              tagKeywords[i] = $(elem).text();
-            });
-            tagKeywords.join(", ");
-          }
-
-          if (challangePageHtml.status === 404) {
-            tagKeywords = "";
-            continue;
-          }
+          // if (challangePageHtml.status === 404) {
+          //   tagKeywords = "";
+          //   continue;
+          // }
 
           //Adding challange to the our mother array (to keep all of the challanges into one single array)
           totalCompletedChallanges.unshift(totalNumberOfChallanges[j]);
 
           //Adding keywords to the challange
           totalCompletedChallanges[0].tags = tagKeywords;
+          totalCompletedChallanges[0].category = category;
         }
 
         // console.log(totalCompletedChallanges);
@@ -323,31 +330,34 @@ const getCodewarsKatasAndTags = async (username, userid) => {
         }
 
         //We go to challange page to get the tags of it
-        let challangePageHtml = await axios.get(
-          `https://www.codewars.com/kata/${challangeId}`
+        let challangeData = await axios.get(
+          `https://www.codewars.com/api/v1/code-challenges/${challangeId}`,
+          config
         );
 
         //We create an empty array for putting all of the tags for the challange
-        let tagKeywords = [];
+        let tagKeywords = challangeData.data.tags;
+        let category = challangeData.data.category;
+        console.log(challangeData.data);
+        // if (challangePageHtml.status === 404) {
+        //   tagKeywords = "";
+        //   continue;
+        // }
 
-        if (challangePageHtml.status === 404) {
-          tagKeywords = "";
-          continue;
-        }
-
-        if (challangePageHtml.status === 200) {
-          let $ = cheerio.load(challangePageHtml.data);
-          $(".keyword-tag").each((i, elem) => {
-            tagKeywords[i] = $(elem).text();
-          });
-          tagKeywords.join(", ");
-        }
+        // if (challangePageHtml.status === 200) {
+        //   let $ = cheerio.load(challangePageHtml.data);
+        //   $(".keyword-tag").each((i, elem) => {
+        //     tagKeywords[i] = $(elem).text();
+        //   });
+        //   tagKeywords.join(", ");
+        // }
 
         //Adding challange to the our mother array (to keep all of the challanges into one single array)
         totalCompletedChallanges.unshift(totalNumberOfChallanges[j]);
 
         //Adding keywords to the challange
         totalCompletedChallanges[0].tags = tagKeywords;
+        totalCompletedChallanges[0].category = category;
 
         // console.log(totalCompletedChallanges);
       }
@@ -485,33 +495,7 @@ const analysisCodewarsData = async userId => {
       }
     }
 
-    // let numbersByMonth = {};
-
-    // for (let i = 0; i < years.length; i++) {
-    //   for (let j = 0; j <= monthsX.length; j++) {
-    //     let year = years[i];
-    //     let month = monthsX[j];
-
-    //     if (sortByYearAndMonth[year].hasOwnProperty(month)) {
-    //       if (!numbersByMonth[year]) {
-    //         numbersByMonth[year] = {};
-    //         numbersByMonth[year]["solved"] = [];
-    //         numbersByMonth[year]["solved"].push(
-    //           sortByYearAndMonth[years[i]][monthsX[j]].length
-    //         );
-    //       } else {
-    //         numbersByMonth[year]["solved"].push(
-    //           sortByYearAndMonth[years[i]][monthsX[j]].length
-    //         );
-    //       }
-    //     } else {
-    //       numbersByMonth[year]["solved"].push(0);
-    //     }
-    //   }
-    // }
-
-    ////  V2 /////
-
+    // Figure out how many challanges completed by year and month and organize them as array for the apexchart
     let numbersByMonth = {};
 
     for (let i = 0; i < years.length; i++) {
@@ -534,10 +518,6 @@ const analysisCodewarsData = async userId => {
         }
       }
     }
-
-    ///// V2 END /////
-
-    // console.log(numbersByMonth);
 
     const completedYearTotal = [];
 
@@ -565,8 +545,19 @@ const analysisCodewarsData = async userId => {
       });
     }
 
-    console.log(seriesArray);
+    // Figure out the most solved challanges by category
+    const allCompletedChallanges = profile.completedChallanges.data;
+    const completedChallangesByTag = {};
+    const completedChallangesByCatName = [];
+    const completedChallangesByNumber = [];
 
+    for (let i = 0; i < allCompletedChallanges.length; i++) {
+      if (!completedChallangesByTag[`${allCompletedChallanges[i]}`]) {
+        completedChallangesByTag[`${allCompletedChallanges[i]}`] = 1;
+      } else {
+        completedChallangesByTag[`${allCompletedChallanges[i]}`]++;
+      }
+    }
     profile = await CodewarsProfile.findOneAndUpdate(
       {
         user: userId

@@ -37,7 +37,7 @@ class CodewarsResult extends React.Component {
           </Fragment>
         );
       } else {
-        return <CodewarsChart codewarsProfile={profile} />;
+        return <CodewarsChart codewarsProfile={profile} chartType={"byYear"} />;
       }
     } else {
       return (
