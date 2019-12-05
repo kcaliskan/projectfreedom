@@ -6,15 +6,21 @@ class CodewarsChartMonth extends React.Component {
   state = {
     options: {
       chart: {
-        id: "apexchart-example",
+        id: "completed-by-year-and-month",
         type: "column"
       },
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth: "100%",
+          columnWidth:
+            this.props.codewarsProfile.completedChallanges.data.length > 100
+              ? "100%"
+              : "25%",
           endingShape: "rounded"
         }
+      },
+      dataLabels: {
+        enabled: true
       },
       stroke: {
         show: true,
@@ -26,6 +32,14 @@ class CodewarsChartMonth extends React.Component {
       },
       xaxis: {
         categories: this.props.codewarsProfile.completedByMonth.months
+      },
+      yaxis: {
+        tickAmount: 10,
+        labels: {
+          formatter: function(val) {
+            return val.toFixed(0);
+          }
+        }
       },
       title: {
         text: "Completed Challanges By Year and Month",

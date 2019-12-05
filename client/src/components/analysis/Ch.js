@@ -10,29 +10,29 @@ class CodewarsChart extends React.Component {
         id: "apexchart-example",
         type: "column"
       },
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          columnWidth: "100%",
-          endingShape: "rounded"
-        }
-      },
-      dataLabels: {
-        enabled: true,
-        name: {
-          fontSize: "154px",
-          color: "red"
-        },
-        value: {
-          fontSize: "154px",
-          color: "red"
-        }
-      },
-      stroke: {
-        show: true,
-        width: 5,
-        colors: ["transparent"]
-      },
+      // plotOptions: {
+      //   bar: {
+      //     horizontal: true,
+      //     columnWidth: "100%",
+      //     endingShape: "rounded"
+      //   }
+      // },
+      // dataLabels: {
+      //   enabled: true,
+      //   name: {
+      //     fontSize: "154px",
+      //     color: "red"
+      //   },
+      //   value: {
+      //     fontSize: "154px",
+      //     color: "red"
+      //   }
+      // },
+      // stroke: {
+      //   show: true,
+      //   width: 5,
+      //   colors: ["transparent"]
+      // },
       xaxis: {
         categories: [
           "Feb",
@@ -45,10 +45,10 @@ class CodewarsChart extends React.Component {
           "Sep",
           "Oct"
         ]
-      },
-      fill: {
-        opacity: 1
       }
+      // fill: {
+      //   opacity: 1
+      // }
     },
     series: [
       {

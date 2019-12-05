@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import CodewarsChartDay from "./CodewarsChartDay";
 import CodewarsChartMonth from "./CodewarsChartMonth";
 import CodewarsChartYear from "./CodewarsChartYear";
+import CodewarsChartCategory from "./CodewarsChartCategory";
 
 class CodewarsChart extends React.Component {
   state = { chartType: this.props.chartType };
@@ -20,6 +21,9 @@ class CodewarsChart extends React.Component {
     if (chartType === "byMonth") {
       return <CodewarsChartMonth />;
     }
+    if (chartType === "byCategory") {
+      return <CodewarsChartCategory />;
+    }
   };
 
   render() {
@@ -33,6 +37,9 @@ class CodewarsChart extends React.Component {
             By Month
           </li>
           <li onClick={() => this.setState({ chartType: "byDay" })}>By Day</li>
+          <li onClick={() => this.setState({ chartType: "byCategory" })}>
+            By Category
+          </li>
         </ul>
         {this.displayHandler(this.state.chartType)}
       </Fragment>

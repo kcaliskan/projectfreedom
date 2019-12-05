@@ -2,6 +2,7 @@ import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import Navbar from "./Navbar";
 
 const Landing = ({ auth }) => {
   const logOutHandler = () => {
@@ -38,6 +39,7 @@ const Landing = ({ auth }) => {
 
   const guestLinks = (
     <Fragment>
+      <Navbar />
       <Link to="/login">
         <div>hello</div>
       </Link>

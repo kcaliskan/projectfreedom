@@ -6,18 +6,22 @@ class CodewarsChartYear extends React.Component {
   state = {
     options: {
       chart: {
-        id: "apexchart-example",
+        id: "completed-by-year",
         type: "column"
       },
-      plotOptions: {
-        bar: {
-          none: []
-        }
-      },
-      stroke: { none: [] },
-      stroke: { none: [] },
       xaxis: {
         categories: this.props.codewarsProfile.completedByYear.years
+      },
+      yaxis: {
+        tickAmount: 10,
+        labels: {
+          formatter: function(val) {
+            return val.toFixed(0);
+          }
+        }
+      },
+      dataLabels: {
+        enabled: true
       },
       title: {
         text: "Completed Challanges By Year",

@@ -15,7 +15,7 @@ class CodewarsResult extends React.Component {
     const isReady = res.data;
     console.log(isReady, "im api res");
 
-    if (isReady) {
+    if (isReady && this.props.profile) {
       this.setState({
         loadingLocalState: false,
         codewarsProfile: this.props.profile
@@ -30,15 +30,7 @@ class CodewarsResult extends React.Component {
 
   handleDisplay = (loading, profile) => {
     if (loading === false) {
-      if (!profile.completedByYear) {
-        return (
-          <Fragment>
-            <div>"Loading"</div>
-          </Fragment>
-        );
-      } else {
-        return <CodewarsChart codewarsProfile={profile} chartType={"byYear"} />;
-      }
+      return <CodewarsChart codewarsProfile={profile} chartType={"byYear"} />;
     } else {
       return (
         <Fragment>

@@ -40,6 +40,7 @@ const ProfileSchema = new mongoose.Schema({
   },
   completedByYear: {},
   completedByMonth: {},
+  completedByCategory: {},
   date: {
     type: Date,
     default: Date.now

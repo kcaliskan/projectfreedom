@@ -552,12 +552,28 @@ const analysisCodewarsData = async userId => {
     const completedChallangesByNumber = [];
 
     for (let i = 0; i < allCompletedChallanges.length; i++) {
-      if (!completedChallangesByTag[`${allCompletedChallanges[i]}`]) {
-        completedChallangesByTag[`${allCompletedChallanges[i]}`] = 1;
+      if (!completedChallangesByTag[allCompletedChallanges[i]["category"]]) {
+        completedChallangesByTag[
+          `${allCompletedChallanges[i]["category"]}`
+        ] = 1;
+        completedChallangesByCatName.push(
+          `${allCompletedChallanges[i]["category"]}`
+        );
       } else {
-        completedChallangesByTag[`${allCompletedChallanges[i]}`]++;
+        completedChallangesByTag[`${allCompletedChallanges[i]["category"]}`]++;
+      }
+
+      if (i === allCompletedChallanges.length - 1) {
+        for (let j = 0; j < completedChallangesByCatName.length; j++) {
+          completedChallangesByNumber.push(
+            completedChallangesByTag[`${completedChallangesByCatName[j]}`]
+          );
+        }
       }
     }
+
+    console.log(completedChallangesByCatName, completedChallangesByNumber);
+
     profile = await CodewarsProfile.findOneAndUpdate(
       {
         user: userId
@@ -580,6 +596,10 @@ const analysisCodewarsData = async userId => {
         completedByYear: {
           years,
           completedYearTotal: completedYearTotal
+        },
+        completedByCategory: {
+          completedChallangesByCatName,
+          completedChallangesByNumber
         }
       },
       { new: true }
