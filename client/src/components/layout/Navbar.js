@@ -4,19 +4,23 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <div className="navbar-full">
+    <div className="navbar-container">
       <div className="navbar-wrapper">
-        <Link to="/" className="navbar-logo" />
-        <Link to="/" className="navbar-logo-text">
+        <Link className="navbar-logo" to="/" />
+        <Link className="navbar-logo-text" to="/">
           AlgoTrack
         </Link>
-        <Link to="/register" className="navbar-account-create">
-          <p className="account-create-p-1">GET YOUR ANALYSIS</p>
-          <p className="account-create-p-2">It's free</p>
+        <div className="navbar-gap" />
+        <Link className="navbar-create-acount" to="/register">
+          <Link to="/register" className="navbar-create-acount-text">
+            <p>GET YOUR ANALYSIS</p> <p>It's free</p>
+          </Link>
         </Link>
-        <Link to="/login">
-          <div>Login</div>
-        </Link>
+        <div className="navbar-login">
+          <Link class="navbar-login-button" to="/login">
+            Log In
+          </Link>
+        </div>
       </div>
     </div>
   );
