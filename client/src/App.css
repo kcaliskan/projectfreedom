@@ -18,7 +18,7 @@ body {
 
 a {
   color: inherit; /* blue colors for links too */
-  text-decoration: inherit; /* no underline */
+  text-decoration: none; /* no underline */
 }
 
 .error {
@@ -26,75 +26,108 @@ a {
 }
 
 /* Mainly Navbar Component*/
-
-.navbar-container {
+.navbar-full {
   width: 100%;
   height: 60px;
   background-color: #323941;
 }
 
-.navbar-wrapper {
+.navbar-container {
   max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  padding-top: 5px;
-  grid-template-columns: 45px 165px 615px 300px 75px;
   height: 55px;
+  display: grid;
+  grid-template-columns: 1fr 2fr 4.5fr 3fr 1.5fr;
+  margin: 0 auto;
+  justify-items: center;
+  align-items: center;
+  padding-top: 5px;
+}
+
+.navbar-logo-fr {
+  width: 100px;
+  height: 50px;
+  display: grid;
+  justify-items: end;
 }
 
 .navbar-logo {
-  background: url("./assets//logo.png") no-repeat center;
-}
-.navbar-logo-text {
-  color: #eff0f9;
-  font-weight: 600;
-  font-size: 35px;
-  padding-left: 5px;
+  width: 45px;
+  height: 50px;
+  background: url("./assets/logo.png") no-repeat center;
 }
 
-.navbar-login {
-  align-self: center;
-  justify-self: center;
+.navbar-logo-text-fr {
+  width: 200px;
+  height: 50px;
+  display: grid;
+  justify-items: start;
+  align-items: center;
 }
+
+.navbar-logo-text {
+  font-weight: 600;
+  color: #eff0f9;
+  font-size: 35px;
+  margin-left: 5px;
+}
+
+.navbar-gap-fr {
+  width: 450px;
+  height: 50px;
+}
+
+.navbar-create-account-fr {
+  width: 300px;
+  height: 50px;
+  display: grid;
+  justify-items: end;
+  align-items: center;
+}
+
+.navbar-create-account-button {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  width: 250px;
+  height: 35px;
+  background-color: #3bbd8e;
+  border-radius: 100px;
+}
+
+.navbar-create-account-button p:first-child {
+  display: inline-block;
+  color: #eff0f9;
+  justify-self: end;
+  padding-right: 5px;
+}
+
+.navbar-create-account-button p:last-child {
+  display: inline-block;
+  color: #b7ede0;
+}
+
+.navbar-create-account-button:hover {
+  background-color: #74d6b9;
+}
+
+.navbar-login-fr {
+  width: 150px;
+  height: 50px;
+  display: grid;
+  align-items: center;
+  justify-items: start;
+}
+
 .navbar-login-button {
   color: #eff0f9;
-  font-weight: 600;
   font-size: 17px;
   padding: 5px 10px;
+  margin-left: 5px;
+  border: 2px transparent solid;
 }
 
 .navbar-login-button:hover {
   border: 2px #3bbd8e solid;
   border-radius: 100px;
 }
-
-.navbar-create-acount {
-  display: grid;
-  background-color: #3bbd8e;
-  border-radius: 100px;
-  width: 255px;
-  height: 40px;
-  justify-self: end;
-  align-self: center;
-  border: 1px solid #3e444c;
-}
-.navbar-create-acount-text {
-  align-self: center;
-  justify-self: center;
-}
-.navbar-create-acount-text p:first-child {
-  display: inline-block;
-  color: #eff0f9;
-}
-
-.navbar-create-acount-text p:last-child {
-  display: inline-block;
-  /* color: #d7d8e0; */
-  color: #b7ede0;
-}
-
-.navbar-create-acount:hover {
-  background-color: #74d6b9;
-}
-
 /* Mainly Navbar Component*/
