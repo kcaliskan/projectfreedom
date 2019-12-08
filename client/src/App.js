@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 //Auth Components
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
-import SignIn from "./components/auth/SignIn";
 import UserSettings from "./components/auth/UserSettings";
 import CodewarsSettings from "./components/auth/Codewars";
 import LoginFail from "./components/auth/LoginFail";
@@ -50,7 +49,6 @@ const App = () => {
             <Route exact path="/register" component={Register} />
             <Route exact path="/login/userexits" component={LoginFail} />
 
-            <Route exact path="/signin" component={SignIn} />
             <Route exact path="/user/success/:id" component={Success} />
 
             <PrivateRoute

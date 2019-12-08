@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Chart from "react-apexcharts";
 import { connect } from "react-redux";
+import Navbar from "../layout/Navbar";
 
 class CodewarsChartMonth extends React.Component {
   state = {
@@ -20,7 +21,20 @@ class CodewarsChartMonth extends React.Component {
         }
       },
       dataLabels: {
-        enabled: true
+        enabled: true,
+        textAnchor: "middle",
+        style: {
+          fontSize: "14px",
+          fontFamily: "Nunito, sans-serif",
+          colors: ["#24262f"]
+        },
+        dropShadow: {
+          enabled: false,
+          top: 1,
+          left: 1,
+          blur: 1,
+          opacity: 0.45
+        }
       },
       stroke: {
         show: true,
@@ -51,12 +65,14 @@ class CodewarsChartMonth extends React.Component {
 
   render() {
     return (
-      <Chart
-        options={this.state.options}
-        series={this.state.series}
-        type="bar"
-        height={600}
-      />
+      <Fragment>
+        <Chart
+          options={this.state.options}
+          series={this.state.series}
+          type="bar"
+          height={600}
+        />
+      </Fragment>
     );
   }
 }

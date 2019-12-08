@@ -5,6 +5,7 @@ import CodewarsChartDay from "./CodewarsChartDay";
 import CodewarsChartMonth from "./CodewarsChartMonth";
 import CodewarsChartYear from "./CodewarsChartYear";
 import CodewarsChartCategory from "./CodewarsChartCategory";
+import Navbar from "../layout/Navbar";
 
 class CodewarsChart extends React.Component {
   state = { chartType: this.props.chartType };
@@ -29,6 +30,7 @@ class CodewarsChart extends React.Component {
   render() {
     return (
       <Fragment>
+        <Navbar />
         <ul>
           <li onClick={() => this.setState({ chartType: "byYear" })}>
             By Year

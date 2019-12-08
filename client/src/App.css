@@ -110,7 +110,8 @@ a {
   background-color: #74d6b9;
 }
 
-.navbar-login-fr {
+.navbar-login-fr,
+.navbar-logout-fr {
   width: 150px;
   height: 50px;
   display: grid;
@@ -118,16 +119,67 @@ a {
   justify-items: start;
 }
 
-.navbar-login-button {
+.navbar-login-button,
+.navbar-codewars-button {
   color: #eff0f9;
   font-size: 17px;
   padding: 5px 10px;
   margin-left: 5px;
   border: 2px transparent solid;
+  transition: border 0.2s, border-radius 0.2s;
 }
 
-.navbar-login-button:hover {
+.navbar-logout-button,
+.navbar-settings-button {
+  color: #eff0f9;
+  font-size: 17px;
+  padding: 5px 10px;
+  border: 2px transparent solid;
+  transition: border 0.2s, border-radius 0.2s;
+}
+
+.navbar-login-button:hover,
+.navbar-logout-button:hover,
+.navbar-codewars-button:hover,
+.navbar-settings-button:hover {
   border: 2px #3bbd8e solid;
   border-radius: 100px;
 }
+
+.navbar-auth-options-fr {
+  width: 300px;
+  height: 50px;
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  justify-items: end;
+  align-items: center;
+}
+
+.navbar-codewars-button {
+  display: inline-block;
+  justify-self: end;
+  border: 2px transparent solid;
+}
+
+.navbar-codewars-img {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  background: url("./assets//codewarslogo.png") no-repeat center center/cover;
+  border-radius: 5px;
+  vertical-align: middle;
+}
+
+.navbar-codewars-text {
+  display: inline-block;
+  height: 25px;
+  vertical-align: middle;
+  padding-left: 5px;
+}
+
+.navbar-settings-button {
+  display: inline-block;
+  border: 2px transparent solid;
+}
+
 /* Mainly Navbar Component*/

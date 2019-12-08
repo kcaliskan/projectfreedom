@@ -4,28 +4,65 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const Navbar = ({ auth }) => {
-  const userLinks = <Fragment>userLinks</Fragment>;
   const guestLinks = (
     <div className="navbar-full">
       <div className="navbar-container">
         <div className="navbar-logo-fr">
-          <Link className="navbar-logo"></Link>
+          <Link to="/" className="navbar-logo"></Link>
         </div>
         <div className="navbar-logo-text-fr">
-          <Link href="/" className="navbar-logo-text">
+          <Link to="/" className="navbar-logo-text">
             AlgoTrack
           </Link>
         </div>
         <div className="navbar-gap-fr"></div>
         <div className="navbar-create-account-fr">
-          <a href="/" className="navbar-create-account-button">
+          <a href="/register" className="navbar-create-account-button">
             <p>GET YOUR ANALYSIS</p>
             <p>It's free</p>
           </a>
         </div>
         <div className="navbar-login-fr">
-          <a href="/" className="navbar-login-button">
+          <a href="/login" className="navbar-login-button">
             Log In
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+
+  const userLinks = (
+    <div className="navbar-full">
+      <div className="navbar-container">
+        <div className="navbar-logo-fr">
+          <Link to="/" className="navbar-logo"></Link>
+        </div>
+        <div className="navbar-logo-text-fr">
+          <Link to="/" className="navbar-logo-text">
+            AlgoTrack
+          </Link>
+        </div>
+        <div className="navbar-gap-fr"></div>
+        <div className="navbar-auth-options-fr">
+          <a
+            href={
+              auth.user === null ? "#" : `/${auth.user.userName}/codewarsresult`
+            }
+            className="navbar-codewars-button"
+          >
+            <div className="navbar-codewars-img" />
+            <div className="navbar-codewars-text">Codewars Analysis</div>
+          </a>
+          <a
+            href={auth.user === null ? "#" : `/${auth.user.userName}/settings`}
+            className="navbar-settings-button"
+          >
+            Settings
+          </a>
+        </div>
+        <div className="navbar-logout-fr">
+          <a href="/login" className="navbar-logout-button">
+            Log Out
           </a>
         </div>
       </div>
