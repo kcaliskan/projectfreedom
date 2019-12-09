@@ -8,21 +8,17 @@ const Navbar = ({ auth }) => {
     <div className="navbar-full">
       <div className="navbar-container">
         <div className="navbar-logo-fr">
-          <Link to="/" className="navbar-logo"></Link>
-        </div>
-        <div className="navbar-logo-text-fr">
+          <Link to="/" className="navbar-logo" />
           <Link to="/" className="navbar-logo-text">
             AlgoTrack
           </Link>
         </div>
         <div className="navbar-gap-fr"></div>
-        <div className="navbar-create-account-fr">
+        <div className="navbar-options-fr">
           <a href="/register" className="navbar-create-account-button">
             <p>GET YOUR ANALYSIS</p>
             <p>It's free</p>
           </a>
-        </div>
-        <div className="navbar-login-fr">
           <a href="/login" className="navbar-login-button">
             Log In
           </a>
@@ -35,15 +31,13 @@ const Navbar = ({ auth }) => {
     <div className="navbar-full">
       <div className="navbar-container">
         <div className="navbar-logo-fr">
-          <Link to="/" className="navbar-logo"></Link>
-        </div>
-        <div className="navbar-logo-text-fr">
+          <Link to="/" className="navbar-logo" />
           <Link to="/" className="navbar-logo-text">
             AlgoTrack
           </Link>
         </div>
         <div className="navbar-gap-fr"></div>
-        <div className="navbar-auth-options-fr">
+        <div className="navbar-options-fr">
           <a
             href={
               auth.user === null ? "#" : `/${auth.user.userName}/codewarsresult`
@@ -59,8 +53,6 @@ const Navbar = ({ auth }) => {
           >
             Settings
           </a>
-        </div>
-        <div className="navbar-logout-fr">
           <a href="/login" className="navbar-logout-button">
             Log Out
           </a>

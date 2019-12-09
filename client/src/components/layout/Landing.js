@@ -1,5 +1,4 @@
-import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Navbar from "./Navbar";
@@ -37,23 +36,24 @@ const Landing = ({ auth }) => {
   //   </Fragment>
   // );
 
-  const authLinks = (
-    <Fragment>
-      <Navbar />
-    </Fragment>
-  );
-
-  const guestLinks = (
-    <Fragment>
-      <Navbar />
-    </Fragment>
-  );
-
   return (
     <Fragment>
-      {!auth.loading && (
-        <Fragment>{auth.isAuthenticated ? authLinks : guestLinks}</Fragment>
-      )}
+      <Navbar />
+      <div className="landing-page-container">
+        <div className="landing-page-top-content">
+          <div className="landing-page-text-content-wrapper">
+            <p>Get your visual </p>
+            <p className="landing-page-codewars-text">Codewars</p>
+            <p>performance</p>
+          </div>
+
+          <a className="landing-page-create-account-button">
+            <p>SEE YOUR PERFORMANCE</p>
+            <p>It's free</p>
+          </a>
+        </div>
+        <div className="landing-page-bottom-content"></div>
+      </div>
     </Fragment>
   );
 };

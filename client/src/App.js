@@ -11,7 +11,7 @@ import LoginFail from "./components/auth/LoginFail";
 
 //Layout Components
 import Landing from "./components/layout/Landing";
-
+import Footer from "./components/layout/Footer";
 // Analysis Components
 import CodewarsResult from "./components/analysis/CodewarsResult";
 import Ch from "./components/analysis/Ch";
@@ -42,36 +42,34 @@ const App = () => {
   return (
     <Provider store={reduxStore}>
       <Router>
-        <Fragment>
-          <Route exact path="/" component={Landing} />
-          <Switch>
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/login/userexits" component={LoginFail} />
+        <Route exact path="/" component={Landing} />
+        <Switch>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/login/userexits" component={LoginFail} />
 
-            <Route exact path="/user/success/:id" component={Success} />
+          <Route exact path="/user/success/:id" component={Success} />
 
-            <PrivateRoute
-              exact
-              path="/:username/settings"
-              component={UserSettings}
-            />
+          <PrivateRoute
+            exact
+            path="/:username/settings"
+            component={UserSettings}
+          />
 
-            <PrivateRoute
-              exact
-              path="/:username/codewars/settings"
-              component={CodewarsSettings}
-            />
+          <PrivateRoute
+            exact
+            path="/:username/codewars/settings"
+            component={CodewarsSettings}
+          />
 
-            <PrivateRoute
-              exact
-              path="/:username/codewarsresult"
-              component={CodewarsResult}
-            />
+          <PrivateRoute
+            exact
+            path="/:username/codewarsresult"
+            component={CodewarsResult}
+          />
 
-            <Route exact path="/ch" component={Ch} />
-          </Switch>
-        </Fragment>
+          <Route exact path="/ch" component={Ch} />
+        </Switch>
       </Router>
     </Provider>
   );

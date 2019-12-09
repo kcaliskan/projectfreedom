@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { manualLogin } from "../../actions/auth";
 import { Redirect } from "react-router-dom";
+import Footer from "../layout/Footer";
 
 const Login = ({ manualLogin, isAuthenticated, errors }) => {
   const [formData, setFormData] = useState({
@@ -88,6 +89,7 @@ const Login = ({ manualLogin, isAuthenticated, errors }) => {
 
         <input type="submit" value="Login" />
       </form>
+      <Footer />
     </Fragment>
   );
 };

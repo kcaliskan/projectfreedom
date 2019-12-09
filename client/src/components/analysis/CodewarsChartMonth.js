@@ -26,7 +26,7 @@ class CodewarsChartMonth extends React.Component {
         style: {
           fontSize: "14px",
           fontFamily: "Nunito, sans-serif",
-          colors: ["#24262f"]
+          colors: ["#3d3f4f"]
         },
         dropShadow: {
           enabled: false,

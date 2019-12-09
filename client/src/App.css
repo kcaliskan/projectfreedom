@@ -13,7 +13,9 @@
 
 html,
 body {
-  background-color: #eff0f3;
+  background-color: #f4f5f7;
+  width: 100%;
+  height: 100%;
 }
 
 a {
@@ -25,7 +27,22 @@ a {
   border: 5px solid red;
 }
 
-/* Mainly Navbar Component*/
+.website-wrapper {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.main-div-for-footer {
+  flex-grow: 1;
+}
+
+.footer-component {
+  flex-shrink: 0;
+}
+
+/* Mainly Navbar Component Start */
 .navbar-full {
   width: 100%;
   height: 60px;
@@ -36,7 +53,7 @@ a {
   max-width: 1200px;
   height: 55px;
   display: grid;
-  grid-template-columns: 1fr 2fr 4.5fr 3fr 1.5fr;
+  grid-template-columns: 2.5fr 5.5fr 4fr;
   margin: 0 auto;
   justify-items: center;
   align-items: center;
@@ -44,10 +61,11 @@ a {
 }
 
 .navbar-logo-fr {
-  width: 100px;
+  width: 250px;
   height: 50px;
   display: grid;
-  justify-items: end;
+  justify-items: start;
+  grid-template-columns: 45px 205px;
 }
 
 .navbar-logo {
@@ -56,19 +74,12 @@ a {
   background: url("./assets/logo.png") no-repeat center;
 }
 
-.navbar-logo-text-fr {
-  width: 200px;
-  height: 50px;
-  display: grid;
-  justify-items: start;
-  align-items: center;
-}
-
 .navbar-logo-text {
   font-weight: 600;
   color: #eff0f9;
   font-size: 35px;
   margin-left: 5px;
+  align-self: center;
 }
 
 .navbar-gap-fr {
@@ -76,110 +87,162 @@ a {
   height: 50px;
 }
 
-.navbar-create-account-fr {
-  width: 300px;
-  height: 50px;
-  display: grid;
-  justify-items: end;
-  align-items: center;
+.navbar-gap-fr {
+  width: 400px;
+}
+
+.navbar-options-fr {
+  justify-self: end;
 }
 
 .navbar-create-account-button {
-  display: grid;
-  grid-template-columns: auto auto;
-  align-items: center;
-  width: 250px;
-  height: 35px;
   background-color: #3bbd8e;
   border-radius: 100px;
+  padding: 8px 15px;
+  vertical-align: middle;
 }
 
 .navbar-create-account-button p:first-child {
   display: inline-block;
   color: #eff0f9;
-  justify-self: end;
-  padding-right: 5px;
+  font-size: 17px;
+  vertical-align: middle;
 }
 
 .navbar-create-account-button p:last-child {
   display: inline-block;
   color: #b7ede0;
+  padding-left: 5px;
+  font-size: 15px;
+  vertical-align: middle;
+}
+
+.navbar-login-button {
+  margin-left: 5px;
+  padding: 5px 10px;
+  color: #eff0f9;
+  font-size: 17px;
+  border: 2px transparent solid;
+  transition: border 0.2s, border-radius 0.2s;
+}
+
+.navbar-login-button:hover {
+  border: 2px #3bbd8e solid;
+  border-radius: 100px;
 }
 
 .navbar-create-account-button:hover {
   background-color: #74d6b9;
 }
 
-.navbar-login-fr,
-.navbar-logout-fr {
-  width: 150px;
-  height: 50px;
-  display: grid;
-  align-items: center;
-  justify-items: start;
-}
-
-.navbar-login-button,
-.navbar-codewars-button {
-  color: #eff0f9;
-  font-size: 17px;
-  padding: 5px 10px;
-  margin-left: 5px;
-  border: 2px transparent solid;
-  transition: border 0.2s, border-radius 0.2s;
-}
-
-.navbar-logout-button,
-.navbar-settings-button {
-  color: #eff0f9;
-  font-size: 17px;
-  padding: 5px 10px;
-  border: 2px transparent solid;
-  transition: border 0.2s, border-radius 0.2s;
-}
-
-.navbar-login-button:hover,
-.navbar-logout-button:hover,
-.navbar-codewars-button:hover,
-.navbar-settings-button:hover {
-  border: 2px #3bbd8e solid;
-  border-radius: 100px;
-}
-
-.navbar-auth-options-fr {
-  width: 300px;
-  height: 50px;
-  display: grid;
-  grid-template-columns: 4fr 1fr;
-  justify-items: end;
-  align-items: center;
-}
-
 .navbar-codewars-button {
   display: inline-block;
-  justify-self: end;
   border: 2px transparent solid;
+  padding: 5px 10px;
+  color: #eff0f9;
+}
+
+.navbar-codewars-text {
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 5px;
 }
 
 .navbar-codewars-img {
   display: inline-block;
   width: 25px;
   height: 25px;
-  background: url("./assets//codewarslogo.png") no-repeat center center/cover;
-  border-radius: 5px;
+  background: url("./assets/codewarslogo.png") no-repeat center center/cover;
+  border-radius: 10px;
   vertical-align: middle;
-}
-
-.navbar-codewars-text {
-  display: inline-block;
-  height: 25px;
-  vertical-align: middle;
-  padding-left: 5px;
 }
 
 .navbar-settings-button {
   display: inline-block;
+  vertical-align: middle;
   border: 2px transparent solid;
+  padding: 5px 10px;
+  color: #eff0f9;
 }
 
-/* Mainly Navbar Component*/
+.navbar-logout-button {
+  display: inline-block;
+  vertical-align: middle;
+  border: 2px transparent solid;
+  padding: 5px 10px;
+  color: #eff0f9;
+}
+
+.navbar-logout-button:hover,
+.navbar-codewars-button:hover,
+.navbar-settings-button:hover {
+  border: 2px #3bbd8e solid;
+  border-radius: 100px;
+}
+/* Mainly Navbar Component End*/
+
+/* Mainly Landing Component */
+
+.landing-page-container {
+  width: 1200px;
+  padding-top: 50px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.landing-page-top-content {
+  width: 400px;
+  justify-content: center;
+}
+
+.landing-page-top-content p {
+  display: inline-block;
+  font-size: 52px;
+  font-weight: 600;
+  color: #323a46;
+}
+
+.landing-page-text-content-wrapper .landing-page-codewars-text {
+  color: #74d6b9;
+  font-weight: 700;
+  font-size: 57px;
+}
+
+.landing-page-create-account-button {
+  display: inline-block;
+  background-color: #3bbd8e;
+  margin-top: 20px;
+  border-radius: 100px;
+  padding: 8px 15px;
+  cursor: pointer;
+}
+
+.landing-page-create-account-button p:first-child {
+  display: inline-block;
+  color: #eff0f9;
+  font-size: 17px;
+}
+
+.landing-page-create-account-button p:last-child {
+  display: inline-block;
+  color: #b7ede0;
+  padding-left: 5px;
+  font-size: 15px;
+}
+
+.landing-page-create-account-button:hover {
+  background-color: #74d6b9;
+}
+
+.landing-page-bottom-content {
+  display: inline-block;
+  justify-items: center;
+  width: 800px;
+  height: 479px;
+  background: url("./assets/algotrack-landing.png") no-repeat center
+    center/cover;
+}
+
+/* Mainly Landing Component End */

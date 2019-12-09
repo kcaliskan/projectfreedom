@@ -3,6 +3,7 @@ import { Redirect, withRouter, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { updateProfile } from "../../actions/user";
+import Navbar from "../layout/Navbar";
 
 const UserSettings = ({ auth, updateProfile, history }) => {
   const { loading, errors, isAuthenticated } = auth;
@@ -40,7 +41,9 @@ const UserSettings = ({ auth, updateProfile, history }) => {
 
   //Redirect if logged in
   if (!isAuthenticated) {
-    return <Redirect to="/login" />;
+    console.log("im here");
+    console.log(auth, isAuthenticated);
+    // return <Redirect to="/login" />;
   }
 
   const displayErrors = errors =>
@@ -60,6 +63,7 @@ const UserSettings = ({ auth, updateProfile, history }) => {
         "Loading"
       ) : (
         <Fragment>
+          <Navbar />
           <div>
             Profile Settings
             <Link
