@@ -2,10 +2,11 @@ import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { manualLogin } from "../../actions/auth";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import Footer from "../layout/Footer";
+import Navbar from "../layout/Navbar";
 
-const Login = ({ manualLogin, isAuthenticated, errors }) => {
+const Login = ({ auth, manualLogin, isAuthenticated, errors }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: ""
@@ -48,47 +49,67 @@ const Login = ({ manualLogin, isAuthenticated, errors }) => {
           <Redirect to="/" />
         ) : (
           <Fragment>
-            <a href="/api/auth/google">Login With Google</a> <br />
-            <a href="/api/auth/github">Login With Github</a>
+            <Navbar />
           </Fragment>
         )}
       </Fragment>
-      {errors.length > 0 && <div>{displayErrors(errors)}</div>}
-      <form onSubmit={e => onSubmit(e)}>
-        <div
-          className={
-            styleHandler(errors, "email") || styleHandler(errors, "allfields")
-              ? "error"
-              : null
-          }
-        >
-          <input
-            type="email"
-            placeholder="Email"
-            name="email"
-            value={email}
-            onChange={e => onChange(e)}
-          />
-        </div>
-        <div
-          className={
-            styleHandler(errors, "password") ||
-            styleHandler(errors, "allfields")
-              ? "error"
-              : null
-          }
-        >
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={password}
-            onChange={e => onChange(e)}
-          />
-        </div>
 
-        <input type="submit" value="Login" />
-      </form>
+      <div className="form-container">
+        <div className="form-wrapper-div">
+          <div className="login-component-top-text">Member Login</div>
+          <a href="/api/auth/google" className="login-w-google-button">
+            <div className="login-google-icon"></div>
+            <p>Continue with Google</p>
+          </a>
+          <a href="/api/auth/github" className="login-w-github-button">
+            <div className="login-github-icon"></div>
+            <p>Continue with Github</p>
+          </a>
+          {errors.length > 0 && (
+            <div className="login-component-error-div">
+              {displayErrors(errors)}
+            </div>
+          )}
+          <form onSubmit={e => onSubmit(e)}>
+            <input
+              type="email"
+              placeholder="Email"
+              name="email"
+              value={email}
+              onChange={e => onChange(e)}
+              className={
+                styleHandler(errors, "email") ||
+                styleHandler(errors, "allfields")
+                  ? "error"
+                  : "loginInputSyle"
+              }
+            />
+
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              value={password}
+              onChange={e => onChange(e)}
+              className={
+                styleHandler(errors, "password") ||
+                styleHandler(errors, "allfields")
+                  ? "error"
+                  : "loginInputSyle"
+              }
+            />
+
+            <input
+              type="submit"
+              value="Login"
+              className="login-component-login-button"
+            />
+          </form>
+          <Link className="login-form-register-button" to="/register">
+            Don't have an account?
+          </Link>
+        </div>
+      </div>
       <Footer />
     </Fragment>
   );
@@ -100,6 +121,7 @@ Login.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  auth: state.auth,
   isAuthenticated: state.auth.isAuthenticated,
   errors: state.auth.errors
 });

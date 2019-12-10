@@ -4,7 +4,8 @@ import {
   GET_CURRENT_PROFILE,
   GET_CURRENT_PROFILE_ERROR,
   IS_ANALYSIS_READY,
-  IS_ANALYSIS_READY_ERROR
+  IS_ANALYSIS_READY_ERROR,
+  CLEAR_PROFILE
 } from "../actions/types";
 
 const initialState = {
@@ -32,6 +33,12 @@ export default function(state = initialState, action) {
         ...state,
         loading: false,
         errors: payload
+      };
+    case CLEAR_PROFILE:
+      return {
+        codewars: null,
+        loading: false,
+        errors: []
       };
     default:
       return state;

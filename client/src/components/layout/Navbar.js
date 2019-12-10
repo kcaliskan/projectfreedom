@@ -2,8 +2,9 @@ import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { logout } from "../../actions/auth";
 
-const Navbar = ({ auth }) => {
+const Navbar = ({ auth, logout }) => {
   const guestLinks = (
     <div className="navbar-full">
       <div className="navbar-container">
@@ -15,13 +16,13 @@ const Navbar = ({ auth }) => {
         </div>
         <div className="navbar-gap-fr"></div>
         <div className="navbar-options-fr">
-          <a href="/register" className="navbar-create-account-button">
+          <Link to="/register" className="navbar-create-account-button">
             <p>GET YOUR ANALYSIS</p>
             <p>It's free</p>
-          </a>
-          <a href="/login" className="navbar-login-button">
+          </Link>
+          <Link to="/login" className="navbar-login-button">
             Log In
-          </a>
+          </Link>
         </div>
       </div>
     </div>
@@ -38,24 +39,24 @@ const Navbar = ({ auth }) => {
         </div>
         <div className="navbar-gap-fr"></div>
         <div className="navbar-options-fr">
-          <a
-            href={
+          <Link
+            to={
               auth.user === null ? "#" : `/${auth.user.userName}/codewarsresult`
             }
             className="navbar-codewars-button"
           >
             <div className="navbar-codewars-img" />
             <div className="navbar-codewars-text">Codewars Analysis</div>
-          </a>
-          <a
-            href={auth.user === null ? "#" : `/${auth.user.userName}/settings`}
+          </Link>
+          <Link
+            to={auth.user === null ? "#" : `/${auth.user.userName}/settings`}
             className="navbar-settings-button"
           >
             Settings
-          </a>
-          <a href="/login" className="navbar-logout-button">
+          </Link>
+          <div onClick={() => logout()} className="navbar-logout-button">
             Log Out
-          </a>
+          </div>
         </div>
       </div>
     </div>
@@ -78,4 +79,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps)(Navbar);
+export default connect(mapStateToProps, { logout })(Navbar);

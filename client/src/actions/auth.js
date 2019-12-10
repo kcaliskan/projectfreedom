@@ -7,7 +7,9 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   LOGIN_SUCCESS,
-  LOGIN_FAIL
+  LOGIN_FAIL,
+  CLEAR_PROFILE,
+  LOGOUT
 } from "./types";
 import setAuthToken from "../components/auth/utils/setAuthToken";
 import { getCurrentProfile } from "./user";
@@ -135,6 +137,7 @@ export const manualLogin = ({ email, password }) => async dispatch => {
     dispatch(loadUser());
     dispatch(getCurrentProfile());
   } catch (err) {
+    console.log(err);
     let errors = err.response.data.errors;
     if (!errors) {
       errors = [];
@@ -142,6 +145,26 @@ export const manualLogin = ({ email, password }) => async dispatch => {
 
     dispatch({
       type: LOGIN_FAIL,
+      payload: errors
+    });
+  }
+};
+
+// Logout / Clear Profile
+export const logout = () => dispatch => {
+  try {
+    axios.get("/api/auth/logout");
+
+    dispatch({ type: CLEAR_PROFILE });
+    dispatch({ type: LOGOUT });
+  } catch (err) {
+    let errors = err.response.data.errors;
+    if (!errors) {
+      errors = [];
+    }
+
+    dispatch({
+      type: AUTH_ERROR,
       payload: errors
     });
   }

@@ -31,7 +31,6 @@ export const updateProfile = (formData, history) => async dispatch => {
     dispatch(loadUser());
     history.push("/");
   } catch (err) {
-    console.log(err);
     let errors;
 
     if (err) {

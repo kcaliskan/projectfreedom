@@ -97,15 +97,21 @@ router.put("/profile/update", authService.verifyToken, async (req, res) => {
 
     //Update the profile
     userProfile = await User.findOneAndUpdate(
-      { user: req.user.userId },
-      { $set: req.body },
-      function(err, userProfile) {
-        if (err) {
-          return res.send(err);
-        }
-        return res.json(userProfile);
-      }
+      { _id: req.user.userId },
+      {
+        $set: req.body
+      },
+      { new: true }
+      // function(err, userProfile) {
+      //   if (err) {
+      //     return res.send(err);
+      //   }
+      //   return res.json(userProfile);
+      // }
     );
+    console.log(userProfile);
+
+    return res.json(userProfile);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
