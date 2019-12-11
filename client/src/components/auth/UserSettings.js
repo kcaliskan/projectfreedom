@@ -31,13 +31,11 @@ const UserSettings = ({ auth, updateProfile, history }) => {
   email = email.toLowerCase();
 
   const onChange = e => {
-    console.log(e.target.name, e.target.value);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const onSubmit = e => {
     e.preventDefault();
-    e.target.parentNode.className = "none";
     updateProfile(formData, history);
   };
 
@@ -60,284 +58,114 @@ const UserSettings = ({ auth, updateProfile, history }) => {
   return (
     <Fragment>
       {!auth.user ? (
-        "Loading"
+        <Fragment>
+          <Navbar />
+          <div className="create-profile-loading-container">
+            <div className="create-profile-loading-img" />
+            <div className="create-profile-loading-text">
+              Preparing your analysis. It can take up to two minutes...
+            </div>
+          </div>
+        </Fragment>
       ) : (
         <Fragment>
           <Navbar />
-          <div>
-            Profile Settings
+
+          <div className="choose-category-container">
+            <div className="chosen-category">Profile Settings</div>
+
             <Link
+              className="none-chosen-category"
               to={location =>
                 auth.user === null
                   ? "#"
                   : `/${auth.user.userName}/codewars/settings`
               }
             >
-              Codewars
+              Codewars Settings
             </Link>
           </div>
-          {errors.length > 0 && <div>{displayErrors(errors)}</div>}
-          <form onSubmit={e => onSubmit(e)}>
-            <div
-              className={
-                styleHandler(errors, "fullname") ||
-                styleHandler(errors, "allfields")
-                  ? "error"
-                  : null
-              }
-            >
-              <input
-                type="text"
-                placeholder="Full Name"
-                name="fullName"
-                value={fullName}
-                onChange={e => onChange(e)}
-              />
-            </div>
-            <div
-              className={
-                styleHandler(errors, "username") ||
-                styleHandler(errors, "allfields")
-                  ? "error"
-                  : null
-              }
-            >
-              <input
-                type="text"
-                placeholder="Username"
-                name="userName"
-                value={userName}
-                onChange={e => onChange(e)}
-              />
-            </div>
-            <div
-              className={
-                styleHandler(errors, "email") ||
-                styleHandler(errors, "allfields")
-                  ? "error"
-                  : null
-              }
-            >
-              <input
-                type="email"
-                placeholder="Email"
-                name="email"
-                value={email}
-                onChange={e => onChange(e)}
-              />
-            </div>
 
-            <div
-              className={
-                styleHandler(errors, "gender") ||
-                styleHandler(errors, "allfields")
-                  ? "error"
-                  : null
-              }
-            >
-              <select onChange={e => onChange(e)} name="gender" value={gender}>
-                <option value="dontdisclose" name="dontdisclose">
-                  Don't Disclose
-                </option>
-                <option value="Male" name="male" placeholder="Gender">
-                  Male
-                </option>
-                <option value="Female" name="female">
-                  Female
-                </option>
-              </select>
+          <div className="profile-settings-form-container">
+            <div className="profile-settings-form-wrapper-div">
+              <div className="user-settings-component-form-top-text">
+                Profile Update
+              </div>
+              {errors.length > 0 && (
+                <div className="register-component-error-div">
+                  {displayErrors(errors)}
+                </div>
+              )}
+              <form onSubmit={e => onSubmit(e)}>
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  name="fullName"
+                  value={fullName}
+                  onChange={e => onChange(e)}
+                  className={
+                    styleHandler(errors, "fullname") ||
+                    styleHandler(errors, "allfields")
+                      ? "error"
+                      : "registerInputStyle"
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Username"
+                  name="userName"
+                  value={userName}
+                  onChange={e => onChange(e)}
+                  className={
+                    styleHandler(errors, "username") ||
+                    styleHandler(errors, "allfields")
+                      ? "error"
+                      : "registerInputStyle"
+                  }
+                />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  name="email"
+                  value={email}
+                  onChange={e => onChange(e)}
+                  className={
+                    styleHandler(errors, "email") ||
+                    styleHandler(errors, "allfields")
+                      ? "error"
+                      : "registerInputStyle"
+                  }
+                />
+                <select
+                  onChange={e => onChange(e)}
+                  name="gender"
+                  value={gender}
+                  className="registerInputStyle"
+                >
+                  <option value="dontdisclose" name="dontdisclose">
+                    Don't Disclose
+                  </option>
+                  <option value="Male" name="male" placeholder="Gender">
+                    Male
+                  </option>
+                  <option value="Female" name="female">
+                    Female
+                  </option>
+                </select>
+                <input
+                  type="submit"
+                  value="Update Profile"
+                  className="user-settings-component-update-button"
+                />
+              </form>
             </div>
-            <input type="submit" value="Update Profile" />
-          </form>
+          </div>
         </Fragment>
       )}
     </Fragment>
   );
 };
 
-//// V2 //////
-
-// class UserSettings extends React.Component {
-//   state = {
-//     fullName:
-//       this.props.auth.loading || !this.props.auth.user.fullName
-//         ? ""
-//         : this.props.auth.user.fullName,
-//     userName:
-//       this.props.auth.loading || !this.props.auth.user.userName
-//         ? ""
-//         : this.props.auth.user.userName,
-//     email:
-//       this.props.auth.loading || !this.props.auth.user.email
-//         ? ""
-//         : this.props.auth.user.email,
-//     gender:
-//       this.props.auth.loading || !this.props.auth.user.gender
-//         ? ""
-//         : this.props.auth.user.gender
-//   };
-
-//   componentDidMount() {
-//     this.props.loadUser();
-
-//     const { auth } = this.props.auth;
-//     let { fullName, userName, email, gender } = this.state;
-//     this.setState({
-//       fullName:
-//         this.props.auth.loading || !this.props.auth.user.fullName
-//           ? ""
-//           : this.props.auth.user.fullName,
-//       userName:
-//         this.props.auth.loading || !this.props.auth.user.userName
-//           ? ""
-//           : this.props.auth.user.userName,
-//       email:
-//         this.props.auth.loading || !this.props.auth.user.email
-//           ? ""
-//           : this.props.auth.user.email,
-//       gender:
-//         this.props.auth.loading || !this.props.auth.user.gender
-//           ? ""
-//           : this.props.auth.user.gender
-//     });
-//   }
-
-//   // userName = userName.toLowerCase().replace(/\s+/g, "");
-//   // email = email.toLowerCase();
-
-//   onChange = e => {
-//     this.setState({ ...this.state, [e.target.name]: e.target.value });
-//   };
-
-//   onSubmit = e => {
-//     e.preventDefault();
-//     e.target.parentNode.className = "none";
-//     updateProfile(this.state);
-//   };
-
-//   //Redirect if logged in
-//   // if (!this.props.isAuthenticated) {
-//   //   // return <Redirect to="/login" />;
-//   // }
-
-//   displayErrors = errors =>
-//     errors.map((error, i) => (
-//       <p key={i}>
-//         <span>{error.message}</span>
-//       </p>
-//     ));
-
-//   styleHandler = (errors, inputName) => {
-//     return errors.some(error => error.reason.toLowerCase().includes(inputName));
-//   };
-
-//   render() {
-//     console.log(this.props);
-//     const { loading, errors, isAuthenticated } = this.props.auth;
-//     return (
-//       <Fragment>
-//         {!this.props.auth.user ? (
-//           "Loading"
-//         ) : (
-//           <Fragment>
-//             <Navbar />
-//             <div>
-//               Profile Settings
-//               <Link
-//                 to={location =>
-//                   this.props.auth.user === null
-//                     ? "#"
-//                     : `/${this.props.auth.user.userName}/codewars/settings`
-//                 }
-//               >
-//                 Codewars
-//               </Link>
-//             </div>
-//             {errors.length > 0 && <div>{this.displayErrors(errors)}</div>}
-//             <form onSubmit={e => this.onSubmit(e)}>
-//               <div
-//                 className={
-//                   this.styleHandler(errors, "fullname") ||
-//                   this.styleHandler(errors, "allfields")
-//                     ? "error"
-//                     : null
-//                 }
-//               >
-//                 <input
-//                   type="text"
-//                   placeholder="Full Name"
-//                   name="fullName"
-//                   value={this.state.fullName}
-//                   onChange={e => this.onChange(e)}
-//                 />
-//               </div>
-//               <div
-//                 className={
-//                   this.styleHandler(errors, "username") ||
-//                   this.styleHandler(errors, "allfields")
-//                     ? "error"
-//                     : null
-//                 }
-//               >
-//                 <input
-//                   type="text"
-//                   placeholder="Username"
-//                   name="userName"
-//                   value={this.state.userName}
-//                   onChange={e => this.onChange(e)}
-//                 />
-//               </div>
-//               <div
-//                 className={
-//                   this.styleHandler(errors, "email") ||
-//                   this.styleHandler(errors, "allfields")
-//                     ? "error"
-//                     : null
-//                 }
-//               >
-//                 <input
-//                   type="email"
-//                   placeholder="Email"
-//                   name="email"
-//                   value={this.state.email}
-//                   onChange={e => this.onChange(e)}
-//                 />
-//               </div>
-
-//               <div
-//                 className={
-//                   this.styleHandler(errors, "gender") ||
-//                   this.styleHandler(errors, "allfields")
-//                     ? "error"
-//                     : null
-//                 }
-//               >
-//                 <select
-//                   onChange={e => this.onChange(e)}
-//                   name="gender"
-//                   value={this.state.gender}
-//                 >
-//                   <option value="dontdisclose" name="dontdisclose">
-//                     Don't Disclose
-//                   </option>
-//                   <option value="Male" name="male" placeholder="Gender">
-//                     Male
-//                   </option>
-//                   <option value="Female" name="female">
-//                     Female
-//                   </option>
-//                 </select>
-//               </div>
-//               <input type="submit" value="Update Profile" />
-//             </form>
-//           </Fragment>
-//         )}
-//       </Fragment>
-//     );
-//   }
-// }
-
-// ////// V2 ///////
 UserSettings.propTypes = {
   auth: PropTypes.object.isRequired,
   errors: PropTypes.array.isRequired,
@@ -345,7 +173,6 @@ UserSettings.propTypes = {
 };
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     auth: state.auth,
     errors: state.auth.errors

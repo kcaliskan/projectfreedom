@@ -110,6 +110,7 @@ const Login = ({ auth, manualLogin, isAuthenticated, errors }) => {
           </Link>
         </div>
       </div>
+      <Footer />
     </Fragment>
   );
 };

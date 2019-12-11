@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import Navbar from "./Navbar";
 import CreateProfile from "./CreateProfile";
+import Footer from "./Footer";
 
 const Landing = ({ auth }) => {
   const displayHandler = userName => {
@@ -14,6 +15,7 @@ const Landing = ({ auth }) => {
     <div className="create-profile-loading-container">
       <div className="create-profile-loading-img" />
       <div className="create-profile-loading-text">Loading...</div>
+      <Footer />
     </div>
   );
 
@@ -54,6 +56,7 @@ const Landing = ({ auth }) => {
             </div>
             <div className="landing-page-bottom-content"></div>
           </div>
+          <Footer />
         </Fragment>
       )}
     </Fragment>

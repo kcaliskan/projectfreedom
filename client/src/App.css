@@ -23,6 +23,11 @@ a {
   text-decoration: none; /* no underline */
 }
 
+#root {
+  position: relative;
+  min-height: 100vh;
+}
+
 .error {
   border: 1px solid rgba(242, 52, 82, 0.5);
   border-radius: 3px;
@@ -627,6 +632,52 @@ a {
 }
 
 /* CodewarsChart Component End */
+
+/* User Settings Component Start */
+
+.profile-settings-form-container {
+  max-width: 1200px;
+  width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0px;
+}
+
+.profile-settings-form-container .profile-settings-form-wrapper-div {
+  width: 450px;
+  background-color: #fff;
+  box-shadow: 0 5px 5px 0 rgba(154, 160, 185, 0.05),
+    0 5px 30px 0 rgba(166, 173, 201, 0.22);
+  justify-self: end;
+  border-radius: 8px;
+  padding: 10px 30px;
+}
+
+.user-settings-component-form-top-text {
+  font-size: 28px;
+  text-align: center;
+  color: #323941;
+  font-weight: 700;
+  padding: 20px 0;
+}
+
+.user-settings-component-update-button {
+  font-size: 18px;
+  color: #fff;
+  background-color: #3bbd8e;
+  border-radius: 100px;
+  padding: 10px 10px;
+  width: 100%;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.user-settings-component-update-button:hover {
+  background-color: #74d6b9;
+}
+/* User Settings Component End */
 
 /* Apexcharts Start */
 

@@ -95,7 +95,6 @@ export const manualRegister = ({
 
     dispatch(loadUser());
   } catch (err) {
-    console.log(err.response.data.errors);
     let errors;
 
     if (err) {
@@ -137,7 +136,6 @@ export const manualLogin = ({ email, password }) => async dispatch => {
     await dispatch(loadUser());
     await dispatch(getCurrentProfile());
   } catch (err) {
-    console.log(err);
     let errors = err.response.data.errors;
     if (!errors) {
       errors = [];

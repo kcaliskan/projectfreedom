@@ -3,6 +3,7 @@ import { Redirect, withRouter, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getCodewarsProfile, getCurrentProfile } from "../../actions/user";
+import Footer from "./Footer";
 
 const CreateProfile = ({ auth, getCodewarsProfile, history, profile }) => {
   const { loading, isAuthenticated } = auth;
@@ -119,6 +120,7 @@ const CreateProfile = ({ auth, getCodewarsProfile, history, profile }) => {
           </div>
         </Fragment>
       )}
+      <Footer />
     </Fragment>
   );
 };

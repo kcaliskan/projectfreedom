@@ -3,6 +3,7 @@ import { Redirect, withRouter, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getCodewarsProfile, getCurrentProfile } from "../../actions/user";
+import Navbar from "../layout/Navbar";
 
 const CodewarsSettings = ({ auth, getCodewarsProfile, history, profile }) => {
   const { loading, isAuthenticated } = auth;
@@ -41,7 +42,6 @@ const CodewarsSettings = ({ auth, getCodewarsProfile, history, profile }) => {
 
   const onSubmit = e => {
     e.preventDefault();
-    e.target.parentNode.className = "none";
     getCodewarsProfile({ codewarsUserNameInput }, history);
   };
 
@@ -64,10 +64,19 @@ const CodewarsSettings = ({ auth, getCodewarsProfile, history, profile }) => {
   return (
     <Fragment>
       {!auth.user ? (
-        "Loading"
+        <Fragment>
+          <Navbar />
+          <div className="create-profile-loading-container">
+            <div className="create-profile-loading-img" />
+            <div className="create-profile-loading-text">
+              Preparing your analysis. It can take up to two minutes...
+            </div>
+          </div>
+        </Fragment>
       ) : (
         <Fragment>
-          <div>
+          <Navbar />
+          {/* <div>
             <Link
               to={location =>
                 auth.user === null ? "#" : `/${auth.user.userName}/settings`
@@ -76,23 +85,52 @@ const CodewarsSettings = ({ auth, getCodewarsProfile, history, profile }) => {
               Profile Settings
             </Link>
             Codewars
-          </div>
-          {errors !== undefined && errors.length > 0 && (
-            <div>{displayErrors(errors)}</div>
-          )}
-          <form onSubmit={e => onSubmit(e)}>
-            <div className={styleHandler(errors, "codewars") ? "error" : null}>
-              <input
-                type="text"
-                placeholder="Codewars Username"
-                name="codewarsUserNameInput"
-                value={codewarsUserNameInput}
-                onChange={e => onChange(e)}
-              />
-            </div>
+          </div> */}
 
-            <input type="submit" value="Update" />
-          </form>
+          <div className="choose-category-container">
+            <Link
+              className="none-chosen-category"
+              to={location =>
+                auth.user === null ? "#" : `/${auth.user.userName}/settings`
+              }
+            >
+              Profile Settings
+            </Link>
+
+            <div className="chosen-category">Codewars Settings</div>
+          </div>
+
+          <div className="profile-settings-form-container">
+            <div className="profile-settings-form-wrapper-div">
+              <div className="user-settings-component-form-top-text">
+                Profile Update
+              </div>
+              {errors.length > 0 && (
+                <div className="register-component-error-div">
+                  {displayErrors(errors)}
+                </div>
+              )}
+              <form onSubmit={e => onSubmit(e)}>
+                <input
+                  type="text"
+                  placeholder="Codewars Username"
+                  name="codewarsUserNameInput"
+                  value={codewarsUserNameInput}
+                  onChange={e => onChange(e)}
+                  className={
+                    styleHandler(errors, "codewars")
+                      ? "error"
+                      : "registerInputStyle"
+                  }
+                />
+                <input
+                  type="submit"
+                  value="Update"
+                  className="user-settings-component-update-button"
+                />
+              </form>
+            </div>
+          </div>
         </Fragment>
       )}
     </Fragment>

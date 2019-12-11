@@ -72,6 +72,7 @@ class App extends React.Component {
 
             <Route exact path="/ch" component={Ch} />
           </Switch>
+          <Footer />
         </Router>
       </Provider>
     );
