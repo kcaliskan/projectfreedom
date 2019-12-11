@@ -69,6 +69,14 @@ class CodewarsChart extends React.Component {
   render() {
     return (
       <Fragment>
+        <div className="choose-category-container">
+          <div className="choose-category-ct-name ct-category">Category</div>
+          <div className="choose-category-ct-name ct-year">Year</div>
+          <div className="choose-category-ct-name ct-day">Day</div>
+          <div className="choose-category-ct-name ct-year-month">
+            Year and Month
+          </div>
+        </div>
         <Chart
           options={this.state.options}
           series={this.state.series}

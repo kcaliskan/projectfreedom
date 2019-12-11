@@ -12,6 +12,14 @@ class CodewarsChartYear extends React.Component {
       xaxis: {
         categories: this.props.codewarsProfile.completedByYear.years
       },
+      plotOptions: {
+        bar: {
+          columnWidth:
+            this.props.codewarsProfile.completedByYear.years > 2
+              ? "100%"
+              : "15%"
+        }
+      },
       yaxis: {
         tickAmount: 10,
         labels: {
@@ -42,7 +50,7 @@ class CodewarsChartYear extends React.Component {
         options={this.state.options}
         series={this.state.series}
         type="bar"
-        height={600}
+        height={500}
       />
     );
   }

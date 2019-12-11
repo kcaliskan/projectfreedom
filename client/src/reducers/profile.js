@@ -19,8 +19,15 @@ export default function(state = initialState, action) {
 
   switch (type) {
     case GET_CURRENT_PROFILE:
-    case GET_CODEWARS_PROFILE:
     case IS_ANALYSIS_READY:
+      return {
+        loading: false,
+        codewars: payload,
+        errors: []
+      };
+
+    case GET_CODEWARS_PROFILE:
+      localStorage.setItem("codewarsProfile", "yes");
       return {
         loading: false,
         codewars: payload,

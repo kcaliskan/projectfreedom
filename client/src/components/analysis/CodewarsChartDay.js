@@ -16,6 +16,11 @@ class CodewarsChartDay extends React.Component {
         categories: this.props.codewarsProfile.completedByDay.dataForChart
           .completedDayName
       },
+      plotOptions: {
+        bar: {
+          columnWidth: "15%"
+        }
+      },
       yaxis: {
         tickAmount: 10,
         labels: {
@@ -44,7 +49,7 @@ class CodewarsChartDay extends React.Component {
         options={this.state.options}
         series={this.state.series}
         type="bar"
-        height={600}
+        height={500}
       />
     );
   }

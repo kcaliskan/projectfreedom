@@ -16,13 +16,13 @@ const Navbar = ({ auth, logout }) => {
         </div>
         <div className="navbar-gap-fr"></div>
         <div className="navbar-options-fr">
-          <Link to="/register" className="navbar-create-account-button">
+          <a href="/register" className="navbar-create-account-button">
             <p>GET YOUR ANALYSIS</p>
             <p>It's free</p>
-          </Link>
-          <Link to="/login" className="navbar-login-button">
+          </a>
+          <a href="/login" className="navbar-login-button">
             Log In
-          </Link>
+          </a>
         </div>
       </div>
     </div>

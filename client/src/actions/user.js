@@ -49,13 +49,11 @@ export const getCodewarsProfile = (
   { codewarsUserNameInput },
   history
 ) => async dispatch => {
-  axios.defaults.timeout = 18000000;
   try {
     const config = {
       headers: {
         "Content-Type": "application/json"
-      },
-      timeout: 18000000
+      }
     };
 
     const body = JSON.stringify({

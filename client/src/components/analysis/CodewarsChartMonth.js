@@ -16,7 +16,7 @@ class CodewarsChartMonth extends React.Component {
           columnWidth:
             this.props.codewarsProfile.completedChallanges.data.length > 100
               ? "100%"
-              : "25%",
+              : "5%",
           endingShape: "rounded"
         }
       },

@@ -4,16 +4,18 @@ import { getCurrentProfile } from "../../actions/user";
 import CodewarsChart from "./CodewarsChart";
 import PropTypes from "prop-types";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
+import Navbar from "../layout/Navbar";
 
 class CodewarsResult extends React.Component {
   state = { loadingLocalState: true };
 
-  noProfile = (<Fragment>There is no profile create it amk</Fragment>);
+  noProfile = () => <Redirect to="/" />;
 
   checkStatus = async () => {
     const res = await axios.get("/api/user/isAnalysisReady");
     const isReady = res.data;
-    console.log(isReady, "im api res");
+    // console.log(isReady, "im api res");
 
     if (isReady && this.props.profile) {
       this.setState({
@@ -30,11 +32,19 @@ class CodewarsResult extends React.Component {
 
   handleDisplay = (loading, profile) => {
     if (loading === false) {
-      return <CodewarsChart codewarsProfile={profile} chartType={"byYear"} />;
+      return (
+        <CodewarsChart codewarsProfile={profile} chartType={"ct-category"} />
+      );
     } else {
       return (
         <Fragment>
-          <div>loading</div>
+          <Navbar />
+          <div className="create-profile-loading-container">
+            <div className="create-profile-loading-img" />
+            <div className="create-profile-loading-text">
+              Preparing your analysis. It can take up to two minutes...
+            </div>
+          </div>
         </Fragment>
       );
     }
@@ -47,9 +57,9 @@ class CodewarsResult extends React.Component {
   render() {
     return (
       <Fragment>
-        {this.props.profile
+        {localStorage.getItem("codewarsProfile")
           ? this.handleDisplay(this.state.loadingLocalState, this.props.profile)
-          : this.noProfile}
+          : this.noProfile()}
       </Fragment>
     );
   }

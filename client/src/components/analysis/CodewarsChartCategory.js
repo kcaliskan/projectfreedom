@@ -7,7 +7,8 @@ class CodewarsChartCategory extends React.Component {
     options: {
       plotOptions: {
         bar: {
-          horizontal: true
+          horizontal: true,
+          columnWidth: "10%"
         }
       },
       dataLabels: {
@@ -37,7 +38,7 @@ class CodewarsChartCategory extends React.Component {
         options={this.state.options}
         series={this.state.series}
         type="bar"
-        height={600}
+        height={500}
       />
     );
   }

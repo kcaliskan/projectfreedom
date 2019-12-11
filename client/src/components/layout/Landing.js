@@ -3,18 +3,37 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import Navbar from "./Navbar";
+import CreateProfile from "./CreateProfile";
 
 const Landing = ({ auth }) => {
-  const { isAuthenticated } = auth;
-  const logOutHandler = () => {
-    localStorage.removeItem("token");
+  const displayHandler = userName => {
+    return <Redirect to={`/${userName}/codewarsresult`} />;
   };
+
+  const loading = (
+    <div className="create-profile-loading-container">
+      <div className="create-profile-loading-img" />
+      <div className="create-profile-loading-text">Loading...</div>
+    </div>
+  );
+
+  // <Redirect to={`/${auth.user.userName}/codewarsresult`} />
 
   return (
     <Fragment>
       {auth.isAuthenticated ? (
         <Fragment>
           <Navbar />
+          {localStorage.getItem("codewarsProfile") ? (
+            <Fragment>
+              <Navbar />
+              {auth.user && auth.user.userName
+                ? displayHandler(auth.user.userName)
+                : loading}
+            </Fragment>
+          ) : (
+            <CreateProfile />
+          )}
         </Fragment>
       ) : (
         <Fragment>

@@ -139,8 +139,6 @@ router.put(
     }
 
     try {
-      let profile = await CodewarsProfile.findOne({ user: req.user.userId });
-
       const config = {
         headers: {
           Authorization: "exvY9BPx1KzxrnVkDP9X"
@@ -151,6 +149,8 @@ router.put(
         `https://www.codewars.com/api/v1/users/${codewarsUserName}`,
         config
       );
+
+      let profile = await CodewarsProfile.findOne({ user: req.user.userId });
 
       //If there is a profile
       if (profile) {
@@ -183,8 +183,19 @@ router.put(
       getCodewarsKatasAndTags(codewarsUserName, req.user.userId);
       return res.json(profile);
     } catch (err) {
-      console.error(err.message);
-      res.status(500).send(err);
+      if (err.response.status === 404) {
+        return res.status(422).json({
+          errors: [
+            {
+              reason: "noprofile",
+              message: "There is no profile with this username"
+            }
+          ]
+        });
+      } else {
+        console.error(err.message);
+        res.status(500).send(err);
+      }
     }
   }
 );

@@ -11,27 +11,36 @@ class CodewarsChart extends React.Component {
   state = { chartType: this.props.chartType };
 
   displayHandler = chartType => {
-    if (chartType === "byYear") {
+    if (chartType === "ct-year") {
       return <CodewarsChartYear />;
     }
 
-    if (chartType === "byDay") {
+    if (chartType === "ct-day") {
       return <CodewarsChartDay />;
     }
 
-    if (chartType === "byMonth") {
+    if (chartType === "ct-all") {
       return <CodewarsChartMonth />;
     }
-    if (chartType === "byCategory") {
+    if (chartType === "ct-category") {
       return <CodewarsChartCategory />;
     }
   };
 
+  styleHandler = (chartType, categoryName) => {
+    if (chartType === categoryName) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   render() {
+    const { chartType } = this.state;
     return (
       <Fragment>
         <Navbar />
-        <ul>
+        {/* <ul>
           <li onClick={() => this.setState({ chartType: "byYear" })}>
             By Year
           </li>
@@ -42,7 +51,50 @@ class CodewarsChart extends React.Component {
           <li onClick={() => this.setState({ chartType: "byCategory" })}>
             By Category
           </li>
-        </ul>
+        </ul> */}
+        <div className="choose-category-container">
+          <div
+            id="categories"
+            className={
+              this.styleHandler(chartType, "ct-category")
+                ? "chosen-category"
+                : "none-chosen-category"
+            }
+            onClick={() => this.setState({ chartType: "ct-category" })}
+          >
+            Category
+          </div>
+          <div
+            className={
+              this.styleHandler(chartType, "ct-year")
+                ? "chosen-category"
+                : "none-chosen-category"
+            }
+            onClick={() => this.setState({ chartType: "ct-year" })}
+          >
+            Year
+          </div>
+          <div
+            className={
+              this.styleHandler(chartType, "ct-day")
+                ? "chosen-category"
+                : "none-chosen-category"
+            }
+            onClick={() => this.setState({ chartType: "ct-day" })}
+          >
+            Day
+          </div>
+          <div
+            className={
+              this.styleHandler(chartType, "ct-all")
+                ? "chosen-category"
+                : "none-chosen-category"
+            }
+            onClick={() => this.setState({ chartType: "ct-all" })}
+          >
+            Year and Month
+          </div>
+        </div>
         {this.displayHandler(this.state.chartType)}
       </Fragment>
     );

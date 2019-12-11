@@ -33,31 +33,16 @@ a {
   margin-bottom: 15px;
 }
 
-.website-wrapper {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.main-div-for-footer {
-  flex-grow: 1;
-}
-
-.footer-component {
-  flex-shrink: 0;
-}
-
 /* Mainly Navbar Component Start */
 .navbar-full {
   width: 100%;
-  height: 60px;
+  min-height: 60px;
   background-color: #323941;
 }
 
 .navbar-container {
   max-width: 1200px;
-  height: 55px;
+  min-height: 55px;
   display: grid;
   grid-template-columns: 2.5fr 5.5fr 4fr;
   margin: 0 auto;
@@ -383,3 +368,270 @@ a {
 }
 
 /* Login Component End */
+
+/* Register Component Start */
+
+.register-form-container {
+  max-width: 1200px;
+  width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0px;
+}
+
+.register-form-container .register-form-wrapper-div {
+  width: 450px;
+  background-color: #fff;
+  box-shadow: 0 5px 5px 0 rgba(154, 160, 185, 0.05),
+    0 5px 30px 0 rgba(166, 173, 201, 0.22);
+  justify-self: end;
+  border-radius: 8px;
+  padding: 10px 30px;
+}
+
+.registerInputStyle {
+  border: 1px solid #e4e6f2;
+  border-radius: 3px;
+  outline: none;
+  color: #323941;
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.register-component-error-div {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #e53657;
+}
+
+.register-component-register-button {
+  font-size: 18px;
+  color: #fff;
+  background-color: #3bbd8e;
+  border-radius: 100px;
+  padding: 10px 10px;
+  width: 100%;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.register-component-register-button:hover {
+  background-color: #74d6b9;
+}
+
+.register-component-form-register-text {
+  font-size: 28px;
+  text-align: center;
+  color: #323941;
+  font-weight: 700;
+  padding: 20px 0;
+}
+
+.register-component-top-text {
+  display: block;
+  width: 550px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 40px;
+  font-weight: 600;
+  color: #323a46;
+  font-weight: 700;
+  margin-top: 75px;
+  margin-bottom: 25px;
+}
+
+/* Register Component End */
+
+/* Create Profile Component Start */
+.create-profile-page-container {
+  width: 1200px;
+  padding-top: 50px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
+.create-component-left-side-img {
+  width: 600px;
+  height: 359px;
+  background: url("./assets/algotrack-landing.png") no-repeat center
+    center/cover;
+}
+
+.create-profile-form-container {
+  max-width: 600px;
+  width: 600px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.create-profile-form-container .create-profile-form-wrapper-div {
+  width: 450px;
+  background-color: #fff;
+  box-shadow: 0 5px 5px 0 rgba(154, 160, 185, 0.05),
+    0 5px 30px 0 rgba(166, 173, 201, 0.22);
+  justify-self: end;
+  border-radius: 8px;
+  padding: 10px 30px;
+}
+
+.createProfileInputStyle {
+  border: 1px solid #e4e6f2;
+  border-radius: 3px;
+  outline: none;
+  color: #323941;
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.create-profile-component-button {
+  font-size: 18px;
+  color: #fff;
+  background-color: #3bbd8e;
+  border-radius: 100px;
+  padding: 10px 10px;
+  width: 100%;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.create-profile-component-button:hover {
+  background-color: #74d6b9;
+}
+
+.create-profile-component-error-div {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #e53657;
+}
+
+.create-profile-component-form-text {
+  font-size: 28px;
+  text-align: center;
+  color: #323941;
+  font-weight: 700;
+  padding: 20px 0;
+}
+
+.create-profile-component-form-info-text {
+  font-size: 15px;
+  color: #323941;
+  font-weight: 500;
+  padding: 10px 0;
+  color: #e53657;
+}
+
+.create-profile-component-top-text {
+  display: block;
+  width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 40px;
+  font-weight: 600;
+  color: #323a46;
+  font-weight: 700;
+  margin-top: 75px;
+  margin-bottom: 25px;
+}
+
+.create-profile-component-top-text p {
+  display: inline;
+}
+
+.create-profile-page-codewars-text {
+  color: #74d6b9;
+  font-weight: 700;
+}
+
+.create-profile-loading-container {
+  width: 1200px;
+  padding-top: 50px;
+  height: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+}
+
+.create-profile-loading-img {
+  width: 300px;
+  height: 300px;
+  background: url("./assets/loading.gif") no-repeat center center/cover;
+}
+
+.create-profile-loading-text {
+  align-self: start;
+  font-size: 18px;
+  font-weight: 600;
+  color: #323a46;
+}
+
+/* Create Profile Component End */
+
+/* CodewarsChart Component Start */
+.choose-category-container {
+  width: 400px;
+  height: 50px;
+  margin: 25px auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #626972;
+  border-radius: 20px;
+  box-shadow: 0 5px 5px 0 rgba(154, 160, 185, 0.05),
+    0 5px 30px 0 rgba(166, 173, 201, 0.22);
+}
+/* 
+.choose-category-container div {
+  padding: 5px 10px;
+  color: #eff0f9;
+  border: 2px transparent solid;
+  text-align: center;
+} */
+
+.none-chosen-category {
+  padding: 5px 10px;
+  color: #eff0f9;
+  border: 2px transparent solid;
+  text-align: center;
+  margin-left: 5px;
+}
+
+.chosen-category {
+  padding: 5px 10px;
+  color: #eff0f9;
+  border: 2px #3bbd8e solid;
+  border-radius: 100px;
+  text-align: center;
+  margin-left: 5px;
+}
+
+.none-chosen-category:hover {
+  border: 2px #3bbd8e solid;
+  border-radius: 100px;
+  cursor: pointer;
+}
+
+.chosen-category:hover {
+  border: 2px #3bbd8e solid;
+  border-radius: 100px;
+  cursor: pointer;
+}
+
+/* CodewarsChart Component End */
+
+/* Apexcharts Start */
+
+.apexcharts-title-text {
+  font-size: 21.5px;
+  font-weight: 600;
+}
+/* Apexcharts End */

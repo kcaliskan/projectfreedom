@@ -134,8 +134,8 @@ export const manualLogin = ({ email, password }) => async dispatch => {
       payload: res.data
     });
 
-    dispatch(loadUser());
-    dispatch(getCurrentProfile());
+    await dispatch(loadUser());
+    await dispatch(getCurrentProfile());
   } catch (err) {
     console.log(err);
     let errors = err.response.data.errors;

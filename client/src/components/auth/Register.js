@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { manualRegister } from "../../actions/auth";
 import { Redirect } from "react-router-dom";
+import Navbar from "../layout/Navbar";
+import Footer from "../layout/Footer";
 
 const Register = ({ manualRegister, isAuthenticated, errors }) => {
   const [formData, setFormData] = useState({
@@ -25,7 +27,6 @@ const Register = ({ manualRegister, isAuthenticated, errors }) => {
 
   const onSubmit = e => {
     e.preventDefault();
-    e.target.parentNode.className = "none";
     manualRegister({ fullName, userName, email, password, passwordConfirm });
   };
 
@@ -47,89 +48,106 @@ const Register = ({ manualRegister, isAuthenticated, errors }) => {
 
   return (
     <Fragment>
-      {errors.length > 0 && <div>{displayErrors(errors)}</div>}
-      <form onSubmit={e => onSubmit(e)}>
-        <div
-          className={
-            styleHandler(errors, "fullname") ||
-            styleHandler(errors, "allfields")
-              ? "error"
-              : null
-          }
-        >
-          <input
-            type="text"
-            placeholder="Full Name"
-            name="fullName"
-            value={fullName}
-            onChange={e => onChange(e)}
-          />
+      <Navbar />
+      <div className="register-component-top-text">
+        Your Codewars visual only few clicks away..
+      </div>
+      <div className="register-form-container">
+        <div className="register-form-wrapper-div">
+          <div className="register-component-form-register-text">Register</div>
+          <a href="/api/auth/google" className="login-w-google-button">
+            <div className="login-google-icon"></div>
+            <p>Continue with Google</p>
+          </a>
+          <a href="/api/auth/github" className="login-w-github-button">
+            <div className="login-github-icon"></div>
+            <p>Continue with Github</p>
+          </a>
+          {errors.length > 0 && (
+            <div className="register-component-error-div">
+              {displayErrors(errors)}
+            </div>
+          )}
+          <form onSubmit={e => onSubmit(e)}>
+            <input
+              type="text"
+              placeholder="Full Name"
+              name="fullName"
+              value={fullName}
+              onChange={e => onChange(e)}
+              className={
+                styleHandler(errors, "fullname") ||
+                styleHandler(errors, "allfields")
+                  ? "error"
+                  : "registerInputStyle"
+              }
+            />
+
+            <input
+              type="text"
+              placeholder="Username"
+              name="userName"
+              value={userName}
+              onChange={e => onChange(e)}
+              className={
+                styleHandler(errors, "username") ||
+                styleHandler(errors, "allfields")
+                  ? "error"
+                  : "registerInputStyle"
+              }
+            />
+
+            <input
+              type="email"
+              placeholder="Email"
+              name="email"
+              value={email}
+              onChange={e => onChange(e)}
+              className={
+                styleHandler(errors, "email") ||
+                styleHandler(errors, "allfields")
+                  ? "error"
+                  : "registerInputStyle"
+              }
+            />
+
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              value={password}
+              onChange={e => onChange(e)}
+              className={
+                styleHandler(errors, "password") ||
+                styleHandler(errors, "allfields")
+                  ? "error"
+                  : "registerInputStyle"
+              }
+            />
+
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              name="passwordConfirm"
+              value={passwordConfirm}
+              onChange={e => onChange(e)}
+              className={
+                styleHandler(errors, "password") ||
+                styleHandler(errors, "allfields")
+                  ? "error"
+                  : "registerInputStyle"
+              }
+            />
+
+            <input
+              type="submit"
+              value="Register"
+              className="register-component-register-button"
+            />
+          </form>
         </div>
-        <div
-          className={
-            styleHandler(errors, "username") ||
-            styleHandler(errors, "allfields")
-              ? "error"
-              : null
-          }
-        >
-          <input
-            type="text"
-            placeholder="Username"
-            name="userName"
-            value={userName}
-            onChange={e => onChange(e)}
-          />
-        </div>
-        <div
-          className={
-            styleHandler(errors, "email") || styleHandler(errors, "allfields")
-              ? "error"
-              : null
-          }
-        >
-          <input
-            type="email"
-            placeholder="Email"
-            name="email"
-            value={email}
-            onChange={e => onChange(e)}
-          />
-        </div>
-        <div
-          className={
-            styleHandler(errors, "password") ||
-            styleHandler(errors, "allfields")
-              ? "error"
-              : null
-          }
-        >
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={password}
-            onChange={e => onChange(e)}
-          />
-        </div>
-        <div
-          className={
-            styleHandler(errors, "password") ||
-            styleHandler(errors, "allfields")
-              ? "error"
-              : null
-          }
-        >
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            name="passwordConfirm"
-            value={passwordConfirm}
-            onChange={e => onChange(e)}
-          />
-        </div>
-        <input type="submit" value="Register" />
-      </form>
+      </div>
+      {/* <Footer /> */}
     </Fragment>
   );
 };
