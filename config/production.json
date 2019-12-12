@@ -1,0 +1,8 @@
+{
+  "googleClientId": "411784900565-rbs3j7ec69r3d00aclfhug8a83fkbhmr.apps.googleusercontent.com",
+  "googleClientSecret": "Kpr-adWPO7p_50mJhljBXsF5",
+  "githubClientId": "ad7f84abd7d6ff7134d0",
+  "githubClientSecret": "20470c9907d3591eaaf51ed2c3e1c444a65bdc1a",
+  "mongoURI": "mongodb+srv://ipeksim:manhattan04money2016willcome2019@cluster0-mcbu1.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtSecret": "ipeksim2016manhattan2019"
+}
