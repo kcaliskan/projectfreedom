@@ -31,14 +31,14 @@ const Navbar = ({ auth, logout }) => {
   const userLinks = (
     <div className="navbar-full">
       <div className="navbar-container">
-        <div className="navbar-logo-fr">
-          <Link to="/" className="navbar-logo" />
+        <div className="navbar-auth-logo-fr">
+          <Link to="/" className="navbar-auth-logo" />
           <Link to="/" className="navbar-logo-text">
             AlgoTrack
           </Link>
         </div>
         <div className="navbar-gap-fr"></div>
-        <div className="navbar-options-fr">
+        <div className="navbar-auth-options-fr">
           <Link
             to={
               auth.user === null ? "#" : `/${auth.user.userName}/codewarsresult`

@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Navbar from "./Navbar";
 import CreateProfile from "./CreateProfile";
@@ -15,7 +15,7 @@ const Landing = ({ auth }) => {
     <div className="create-profile-loading-container">
       <div className="create-profile-loading-img" />
       <div className="create-profile-loading-text">Loading...</div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 
@@ -49,14 +49,17 @@ const Landing = ({ auth }) => {
                 <p>performance</p>
               </div>
 
-              <a className="landing-page-create-account-button">
+              <Link
+                className="landing-page-create-account-button"
+                to="/register"
+              >
                 <p>SEE YOUR PERFORMANCE</p>
                 <p>It's free</p>
-              </a>
+              </Link>
             </div>
             <div className="landing-page-bottom-content"></div>
           </div>
-          <Footer />
+          {/* <Footer /> */}
         </Fragment>
       )}
     </Fragment>

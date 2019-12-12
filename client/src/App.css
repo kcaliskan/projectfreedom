@@ -64,7 +64,21 @@ a {
   grid-template-columns: 45px 205px;
 }
 
+.navbar-auth-logo-fr {
+  width: 250px;
+  height: 50px;
+  display: grid;
+  justify-items: start;
+  grid-template-columns: 45px 205px;
+}
+
 .navbar-logo {
+  width: 45px;
+  height: 50px;
+  background: url("./assets/logo.png") no-repeat center;
+}
+
+.navbar-auth-logo {
   width: 45px;
   height: 50px;
   background: url("./assets/logo.png") no-repeat center;
@@ -88,6 +102,10 @@ a {
 }
 
 .navbar-options-fr {
+  justify-self: end;
+}
+
+.navbar-auth-options-fr {
   justify-self: end;
 }
 
@@ -594,13 +612,6 @@ a {
   box-shadow: 0 5px 5px 0 rgba(154, 160, 185, 0.05),
     0 5px 30px 0 rgba(166, 173, 201, 0.22);
 }
-/* 
-.choose-category-container div {
-  padding: 5px 10px;
-  color: #eff0f9;
-  border: 2px transparent solid;
-  text-align: center;
-} */
 
 .none-chosen-category {
   padding: 5px 10px;
@@ -682,7 +693,779 @@ a {
 /* Apexcharts Start */
 
 .apexcharts-title-text {
+  font-family: "Nunito", sans-serif;
   font-size: 21.5px;
   font-weight: 600;
 }
 /* Apexcharts End */
+
+/* Media Queries / Responsive Start */
+@media only screen and (max-width: 1200px) {
+  .navbar-container {
+    max-width: 1000px;
+    min-height: 55px;
+    display: grid;
+    grid-template-columns: 2.5fr 3.5fr 4fr;
+    margin: 0 auto;
+    justify-items: center;
+    align-items: center;
+    padding-top: 5px;
+  }
+
+  .navbar-gap-fr {
+    width: 350px;
+    height: 50px;
+  }
+
+  .landing-page-container {
+    width: 1000px;
+    padding-top: 50px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .landing-page-top-content {
+    width: 300px;
+    justify-content: center;
+  }
+
+  .landing-page-bottom-content {
+    display: inline-block;
+    justify-items: center;
+    width: 700px;
+    height: 419px;
+    background: url("./assets/algotrack-landing.png") no-repeat center
+      center/cover;
+  }
+
+  .form-container {
+    max-width: 1000px;
+    width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+  }
+
+  .register-form-container {
+    max-width: 1000px;
+    width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+  }
+
+  .create-profile-component-top-text {
+    display: block;
+    width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 40px;
+    font-weight: 600;
+    color: #323a46;
+    font-weight: 700;
+    margin-top: 75px;
+    margin-bottom: 25px;
+  }
+
+  .create-profile-page-container {
+    width: 1000px;
+    padding-top: 50px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .create-component-left-side-img {
+    width: 500px;
+    height: 299px;
+    background: url("./assets/algotrack-landing.png") no-repeat center
+      center/cover;
+  }
+
+  .create-profile-form-container {
+    max-width: 500px;
+    width: 500px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .create-profile-loading-container {
+    width: 400px;
+    padding-top: 50px;
+    height: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+  }
+
+  .profile-settings-form-container {
+    max-width: 1000px;
+    width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+  }
+}
+
+@media only screen and (max-width: 999px) {
+  .navbar-container {
+    max-width: 800px;
+    min-height: 55px;
+    display: grid;
+    grid-template-columns: 2.5fr 1.5fr 4fr;
+    margin: 0 auto;
+    justify-items: center;
+    align-items: center;
+    padding-top: 5px;
+  }
+
+  .navbar-gap-fr {
+    width: 150px;
+    height: 50px;
+  }
+
+  .landing-page-container {
+    width: 800px;
+    padding-top: 50px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .landing-page-top-content {
+    width: 300px;
+    justify-content: center;
+  }
+
+  .landing-page-bottom-content {
+    display: inline-block;
+    justify-items: center;
+    width: 500px;
+    height: 299px;
+    background: url("./assets/algotrack-landing.png") no-repeat center
+      center/cover;
+  }
+
+  .form-container {
+    max-width: 800px;
+    width: 800px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+  }
+
+  .register-form-container {
+    max-width: 800px;
+    width: 800px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+  }
+
+  .create-profile-component-top-text {
+    display: block;
+    width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 35px;
+    font-weight: 600;
+    color: #323a46;
+    font-weight: 700;
+    margin-top: 25px;
+    /* margin-bottom: 5px; */
+  }
+
+  .create-profile-page-container {
+    width: 800px;
+    padding-top: 25px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .create-component-left-side-img {
+    width: 400px;
+    height: 240px;
+    background: url("./assets/algotrack-landing.png") no-repeat center
+      center/cover;
+  }
+
+  .create-profile-form-container {
+    max-width: 400px;
+    width: 400px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .create-profile-loading-container {
+    width: 400px;
+    padding-top: 50px;
+    height: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+  }
+
+  .profile-settings-form-container {
+    max-width: 800px;
+    width: 800px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+  }
+}
+
+@media only screen and (max-width: 800px) and (min-width: 700px) {
+  .navbar-container {
+    max-width: 660px;
+    min-height: 55px;
+    display: grid;
+    grid-template-columns: 2.5fr 0.1fr 4fr;
+    margin: 0 auto;
+    justify-items: center;
+    align-items: center;
+    padding-top: 5px;
+  }
+
+  .navbar-gap-fr {
+    width: 10px;
+    height: 50px;
+  }
+
+  .landing-page-container {
+    width: 660px;
+    padding-top: 10px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .landing-page-top-content {
+    width: 300px;
+    justify-content: center;
+    order: 2;
+  }
+
+  .landing-page-top-content p {
+    display: inline-block;
+    font-size: 42px;
+    font-weight: 600;
+    color: #323a46;
+  }
+
+  .landing-page-text-content-wrapper .landing-page-codewars-text {
+    color: #74d6b9;
+    font-weight: 700;
+    font-size: 47px;
+  }
+
+  .landing-page-bottom-content {
+    order: 1;
+    display: inline-block;
+    justify-items: center;
+    width: 360px;
+    height: 216px;
+    background: url("./assets/algotrack-landing.png") no-repeat center
+      center/cover;
+  }
+
+  .form-container {
+    max-width: 660px;
+    width: 600px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+  }
+
+  .register-form-container {
+    max-width: 660px;
+    width: 600px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+  }
+
+  .create-profile-component-top-text {
+    display: block;
+    width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 35px;
+    font-weight: 600;
+    color: #323a46;
+    font-weight: 700;
+    margin-top: 25px;
+    /* margin-bottom: 5px; */
+  }
+
+  .create-profile-page-container {
+    width: 600px;
+    padding-top: 25px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .create-component-left-side-img {
+    display: none;
+    width: 300px;
+    height: 180px;
+    background: url("./assets/algotrack-landing.png") no-repeat center
+      center/cover;
+  }
+
+  .create-profile-form-container {
+    max-width: 600px;
+    width: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .create-profile-loading-container {
+    width: 660px;
+    padding-top: 50px;
+    height: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+  }
+
+  .profile-settings-form-container {
+    max-width: 660px;
+    width: 660px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+  }
+}
+
+@media only screen and (max-width: 700px) and (min-width: 545px) {
+  .navbar-container {
+    max-width: 600px;
+    min-height: 55px;
+    display: grid;
+    grid-template-columns: 0.5fr 0fr 5fr;
+    margin: 0 auto;
+    justify-items: center;
+    align-items: center;
+    padding-top: 5px;
+  }
+
+  .navbar-auth-logo-fr {
+    width: 40px;
+    height: 50px;
+    display: grid;
+    justify-items: start;
+    grid-template-columns: 45px 0px;
+  }
+
+  .navbar-logo-text {
+    display: none;
+  }
+
+  .navbar-gap-fr {
+    width: 0px;
+    height: 50px;
+  }
+
+  .navbar-auth-options-fr {
+    /* width: 500px; */
+    justify-self: end;
+  }
+
+  .form-container {
+    max-width: 500px;
+    width: 500px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+  }
+
+  .register-form-container {
+    max-width: 500px;
+    width: 500px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+  }
+
+  .create-profile-component-top-text {
+    display: block;
+    width: 500px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 35px;
+    font-weight: 600;
+    color: #323a46;
+    font-weight: 700;
+    margin-top: 25px;
+    /* margin-bottom: 5px; */
+  }
+
+  .create-profile-page-container {
+    width: 500px;
+    padding-top: 25px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .create-profile-form-container {
+    max-width: 500px;
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .create-profile-loading-container {
+    width: 500px;
+    padding-top: 50px;
+    height: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+  }
+
+  .profile-settings-form-container {
+    max-width: 550px;
+    width: 550px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+  }
+}
+
+@media only screen and (max-width: 545px) and (min-width: 420px) {
+  .navbar-container {
+    max-width: 420px;
+    min-height: 55px;
+    display: grid;
+    grid-template-columns: 0fr 0fr 4fr;
+    margin: 0 auto;
+    justify-items: center;
+    align-items: center;
+    padding-top: 5px;
+  }
+
+  .navbar-auth-logo-fr {
+    width: 0px;
+    height: 50px;
+    display: grid;
+    justify-items: start;
+    grid-template-columns: 45px 0px;
+  }
+
+  .navbar-logo-text {
+    display: none;
+  }
+
+  .navbar-gap-fr {
+    width: 0px;
+    height: 50px;
+  }
+
+  .navbar-auth-options-fr {
+    /* width: 500px; */
+    justify-self: end;
+  }
+
+  .profile-settings-form-container {
+    max-width: 400px;
+    width: 400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+  }
+}
+
+@media only screen and (max-width: 420px) and (min-width: 320px) {
+  .navbar-container {
+    max-width: 320px;
+    min-height: 55px;
+    display: grid;
+    grid-template-columns: 0fr 0fr 4fr;
+    margin: 0 auto;
+    justify-items: center;
+    align-items: center;
+    padding-top: 5px;
+  }
+
+  .landing-page-container {
+    width: 320px;
+    padding-top: 25px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .navbar-logo-text {
+    display: none;
+  }
+
+  .navbar-auth-logo {
+    display: none;
+  }
+  .navbar-logo-fr {
+    width: 50px;
+    height: 50px;
+    display: grid;
+    justify-items: start;
+    grid-template-columns: 45px 155px;
+  }
+
+  .navbar-auth-options-fr {
+    width: 320px;
+    font-size: 13px;
+  }
+
+  .navbar-auth-logo-fr {
+    display: none;
+  }
+
+  .navbar-gap-fr {
+    width: 0px;
+    height: 50px;
+  }
+
+  .landing-page-top-content {
+    width: 320px;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .landing-page-bottom-content {
+    display: none;
+  }
+
+  .navbar-create-account-button {
+    display: none;
+  }
+
+  .form-container {
+    max-width: 320px;
+    width: 320px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+  }
+
+  .register-form-container {
+    max-width: 320px;
+    width: 320px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+    /* margin-bottom: 120px; */
+  }
+
+  #footer .footer-cl {
+    margin-top: 40px;
+  }
+
+  .register-component-top-text {
+    display: block;
+    width: 320px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: #323a46;
+    font-weight: 700;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  .create-component-left-side-img {
+    display: none;
+  }
+
+  .create-profile-component-top-text {
+    display: block;
+    width: 320px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 25px;
+    font-weight: 600;
+    color: #323a46;
+    font-weight: 700;
+    margin-top: 25px;
+    margin-bottom: 5px;
+  }
+
+  .create-profile-page-container {
+    width: 320px;
+    padding-top: 5px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .create-profile-form-container {
+    max-width: 320px;
+    width: 320px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .choose-category-container {
+    width: 300px;
+    height: 50px;
+    margin: 15px auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: #626972;
+    border-radius: 20px;
+    box-shadow: 0 5px 5px 0 rgba(154, 160, 185, 0.05),
+      0 5px 30px 0 rgba(166, 173, 201, 0.22);
+    font-size: 13px;
+  }
+
+  .none-chosen-category {
+    padding: 2px 5px;
+    color: #eff0f9;
+    border: 2px transparent solid;
+    text-align: center;
+    margin-left: 5px;
+  }
+
+  .chosen-category {
+    padding: 2px 5px;
+    color: #eff0f9;
+    border: 2px #3bbd8e solid;
+    border-radius: 100px;
+    text-align: center;
+    margin-left: 5px;
+  }
+
+  .none-chosen-category:hover {
+    border: 2px #3bbd8e solid;
+    border-radius: 100px;
+    cursor: pointer;
+  }
+
+  .chosen-category:hover {
+    border: 2px #3bbd8e solid;
+    border-radius: 100px;
+    cursor: pointer;
+  }
+
+  .profile-settings-form-container {
+    max-width: 300px;
+    width: 300px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+    margin-bottom: 15px;
+  }
+
+  .form-container .form-wrapper-div {
+    width: 300px;
+    /* height: 400px; */
+    background-color: #fff;
+    box-shadow: 0 5px 5px 0 rgba(154, 160, 185, 0.05),
+      0 5px 30px 0 rgba(166, 173, 201, 0.22);
+    justify-self: end;
+    border-radius: 8px;
+    padding: 10px 30px;
+  }
+
+  .profile-settings-form-container .profile-settings-form-wrapper-div {
+    width: 300px;
+    background-color: #fff;
+    box-shadow: 0 5px 5px 0 rgba(154, 160, 185, 0.05),
+      0 5px 30px 0 rgba(166, 173, 201, 0.22);
+    justify-self: end;
+    border-radius: 8px;
+    padding: 10px 30px;
+  }
+
+  .apexcharts-title-text {
+    font-family: "Nunito", sans-serif;
+    font-size: 16px;
+    /* font-weight: 600; */
+  }
+
+  .create-profile-loading-container {
+    width: 320px;
+    padding-top: 5px;
+    height: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+  }
+
+  .create-profile-loading-img {
+    width: 300px;
+    height: 300px;
+    background: url("./assets/loading.gif") no-repeat center center/cover;
+  }
+
+  .create-profile-loading-text {
+    align-self: start;
+    font-size: 18px;
+    font-weight: 600;
+    color: #323a46;
+  }
+}
+
+/* Media Queries / Responsive End */

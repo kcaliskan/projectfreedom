@@ -27,6 +27,7 @@ import { Provider } from "react-redux";
 import reduxStore from "./reduxStore";
 import { loadUser } from "./actions/auth";
 import { getCurrentProfile } from "./actions/user";
+
 //Styling
 import "./App.css";
 
@@ -72,7 +73,7 @@ class App extends React.Component {
 
             <Route exact path="/ch" component={Ch} />
           </Switch>
-          <Footer />
+          {/* <Footer /> */}
         </Router>
       </Provider>
     );
