@@ -3,7 +3,8 @@ import axios from "axios";
 import {
   USER_LOADED,
   AUTH_ERROR,
-  PROVIDER_REGISTER_SUCCESS,
+  PROVIDER_LOGIN_SUCCESS,
+  PROVIDER_LOGIN_ERROR,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   LOGIN_SUCCESS,
@@ -40,16 +41,17 @@ export const loadUser = () => async dispatch => {
 };
 
 // Oauth Provider Action Handler
-export const providerRegister = () => async dispatch => {
+export const providerLogin = token => async dispatch => {
   try {
-    const res = await axios.get("/api/auth/getUser");
+    // const res = await axios.get("/api/auth/getUser");
 
     dispatch({
-      type: PROVIDER_REGISTER_SUCCESS,
-      payload: res.data
+      type: PROVIDER_LOGIN_SUCCESS,
+      payload: token
     });
 
-    dispatch(loadUser());
+    // await dispatch(loadUser());
+    // await dispatch(getCurrentProfile());
   } catch (err) {
     let errors = err.response.data.errors;
     if (!errors) {
@@ -57,7 +59,7 @@ export const providerRegister = () => async dispatch => {
     }
 
     dispatch({
-      type: AUTH_ERROR,
+      type: PROVIDER_LOGIN_ERROR,
       payload: errors
     });
   }
