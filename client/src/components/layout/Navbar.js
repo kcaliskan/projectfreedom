@@ -11,7 +11,7 @@ const Navbar = ({ auth, logout }) => {
         <div className="navbar-logo-fr">
           <Link to="/" className="navbar-logo" />
           <Link to="/" className="navbar-logo-text">
-            AlgoTrack
+            AlgoLevel
           </Link>
         </div>
         <div className="navbar-gap-fr"></div>
@@ -34,7 +34,7 @@ const Navbar = ({ auth, logout }) => {
         <div className="navbar-auth-logo-fr">
           <Link to="/" className="navbar-auth-logo" />
           <Link to="/" className="navbar-logo-text">
-            AlgoTrack
+            AlgoLevel
           </Link>
         </div>
         <div className="navbar-gap-fr"></div>

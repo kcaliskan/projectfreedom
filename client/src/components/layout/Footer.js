@@ -41,7 +41,7 @@ const Footer = ({ children }) => {
           <a href="https://kaan.dev" target="_blank">
             Kaan Caliskan
           </a>
-          . 2019 © AlgoTrack
+          . 2019 © AlgoLevel
         </div>
       </div>
     </div>
