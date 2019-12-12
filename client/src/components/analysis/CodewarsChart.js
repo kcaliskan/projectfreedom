@@ -84,7 +84,7 @@ class CodewarsChart extends React.Component {
           </div>
         </div>
         {this.displayHandler(this.state.chartType)}
-        <Footer />
+        {/* <Footer /> */}
       </Fragment>
     );
   }

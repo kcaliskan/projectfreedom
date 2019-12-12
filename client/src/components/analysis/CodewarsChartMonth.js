@@ -45,7 +45,9 @@ class CodewarsChartMonth extends React.Component {
         opacity: 1
       },
       xaxis: {
-        categories: this.props.codewarsProfile.completedByMonth.months
+        categories: this.props.codewarsProfile.completedByMonth
+          ? this.props.codewarsProfile.completedByMonth.months
+          : []
       },
       yaxis: {
         tickAmount: 10,
@@ -60,7 +62,9 @@ class CodewarsChartMonth extends React.Component {
         align: "center"
       }
     },
-    series: this.props.codewarsProfile.completedByMonth.seriesArray
+    series: this.props.codewarsProfile.completedByMonth
+      ? this.props.codewarsProfile.completedByMonth.seriesArray
+      : []
   };
 
   render() {

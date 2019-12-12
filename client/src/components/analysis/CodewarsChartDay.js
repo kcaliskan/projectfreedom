@@ -14,7 +14,9 @@ class CodewarsChartDay extends React.Component {
       },
       xaxis: {
         categories: this.props.codewarsProfile.completedByDay.dataForChart
-          .completedDayName
+          ? this.props.codewarsProfile.completedByDay.dataForChart
+              .completedDayName
+          : []
       },
       plotOptions: {
         bar: {
@@ -38,7 +40,9 @@ class CodewarsChartDay extends React.Component {
       {
         name: "Completed Challange",
         data: this.props.codewarsProfile.completedByDay.dataForChart
-          .completedDayValue
+          ? this.props.codewarsProfile.completedByDay.dataForChart
+              .completedDayValue
+          : []
       }
     ]
   };

@@ -10,7 +10,9 @@ class CodewarsChartYear extends React.Component {
         type: "column"
       },
       xaxis: {
-        categories: this.props.codewarsProfile.completedByYear.years
+        categories: this.props.codewarsProfile.completedByYear
+          ? this.props.codewarsProfile.completedByYear.years
+          : []
       },
       plotOptions: {
         bar: {
@@ -39,7 +41,9 @@ class CodewarsChartYear extends React.Component {
     series: [
       {
         name: "Completed Challange",
-        data: this.props.codewarsProfile.completedByYear.completedYearTotal
+        data: this.props.codewarsProfile.completedByYear
+          ? this.props.codewarsProfile.completedByYear.completedYearTotal
+          : []
       }
     ]
   };
