@@ -17,6 +17,9 @@ import Footer from "./components/layout/Footer";
 import CodewarsResult from "./components/analysis/CodewarsResult";
 import Ch from "./components/analysis/Ch";
 
+//Legal Components
+import Privacy from "./components/legal/Privacy";
+
 //Utility functions
 import setAuthToken from "./components/auth/utils/setAuthToken";
 import Success from "./components/auth/utils/success";
@@ -72,8 +75,8 @@ class App extends React.Component {
             />
 
             <Route exact path="/ch" component={Ch} />
+            <Route exact path="/privacy" component={Privacy} />
           </Switch>
-          {/* <Footer /> */}
         </Router>
       </Provider>
     );
