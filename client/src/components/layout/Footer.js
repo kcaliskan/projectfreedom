@@ -2,10 +2,10 @@ import React, { Fragment } from "react";
 
 const Footer = ({ children }) => {
   const footerStyle = {
-    // position: "absolute",
-    // left: "0",
-    // bottom: "0",
-    // right: "0",
+    position: "absolute",
+    left: "0",
+    bottom: "0",
+    right: "0",
 
     backgroundColor: "#eeeff3",
     borderTop: "1px solid #E7E7E7",
@@ -14,7 +14,7 @@ const Footer = ({ children }) => {
 
     // position: "fixed",
 
-    height: "60px",
+    height: "8vh",
     width: "100%"
 
     // boxShadow:

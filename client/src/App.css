@@ -26,6 +26,7 @@ a {
 #root {
   position: relative;
   min-height: 100vh;
+  height: 100vh;
 }
 
 .error {
@@ -1179,7 +1180,7 @@ a {
   }
 }
 
-@media only screen and (max-width: 545px) and (min-width: 420px) {
+@media only screen and (max-width: 545px) and (min-width: 425px) {
   .navbar-container {
     max-width: 420px;
     min-height: 55px;
@@ -1221,6 +1222,33 @@ a {
     justify-content: center;
     align-items: center;
     margin-top: 0px;
+  }
+
+  .register-form-container {
+    max-width: 400px;
+    width: 400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+  }
+
+  .register-component-top-text {
+    display: block;
+    width: 400px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: #323a46;
+    font-weight: 700;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  .navbar-create-account-button {
+    display: none;
   }
 }
 
@@ -1279,10 +1307,17 @@ a {
     width: 320px;
     justify-content: center;
     text-align: center;
+    order: 2;
   }
 
   .landing-page-bottom-content {
-    display: none;
+    display: inline-block;
+    justify-items: center;
+    width: 320px;
+    height: 192px;
+    order: 1;
+    background: url("./assets/algolevel-landing.png") no-repeat center
+      center/cover;
   }
 
   .navbar-create-account-button {
