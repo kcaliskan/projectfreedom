@@ -16,7 +16,9 @@ class CodewarsChartCategory extends React.Component {
       },
       xaxis: {
         categories: this.props.codewarsProfile.completedByCategory
-          .completedChallangesByCatName
+          ? this.props.codewarsProfile.completedByCategory
+              .completedChallangesByCatName
+          : []
       },
       title: {
         text: "Completed Challanges By Category",
@@ -27,7 +29,9 @@ class CodewarsChartCategory extends React.Component {
       {
         name: "Completed Challange",
         data: this.props.codewarsProfile.completedByCategory
-          .completedChallangesByNumber
+          ? this.props.codewarsProfile.completedByCategory
+              .completedChallangesByNumber
+          : []
       }
     ]
   };
