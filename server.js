@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get("/", (req, res) => res.send("API Running"));
+// app.get("/", (req, res) => res.send("API Running"));
 
 //Auth routes handler
 app.use("/api/auth", require("./routes/api/auth"));
