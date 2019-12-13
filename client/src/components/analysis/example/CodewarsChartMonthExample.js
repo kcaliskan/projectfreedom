@@ -41,18 +41,18 @@ class CodewarsChartMonthExample extends React.Component {
       },
       xaxis: {
         categories: [
-          "October",
-          "November",
-          "December",
-          "January",
-          "February",
           "March",
           "April",
           "May",
           "June",
           "July",
           "August",
-          "September"
+          "September",
+          "October",
+          "November",
+          "December",
+          "January",
+          "February"
         ]
       },
       yaxis: {
@@ -70,28 +70,20 @@ class CodewarsChartMonthExample extends React.Component {
     },
     series: [
       {
-        name: "2014",
-        data: [14, 36, 33]
-      },
-      {
         name: "2015",
-        data: [18, 12, 37, 80, 48, 64, 18, 6, 7, 19, 55, 87]
+        data: [117, 77, 115, 42, 36, 84, 46, 32, 13, 4]
       },
       {
         name: "2016",
-        data: [8, 7, 18, 68, 45, 27, 63, 34, 7, 5, 5, 23]
+        data: [63, 39, 14, 6, 74, 75]
       },
       {
         name: "2017",
-        data: [12, 13, 2, 15, 5, 7, 2, 33, 353, 276, 27, 12]
-      },
-      {
-        name: "2018",
-        data: [20, 19, 11, 16, 205, 66, 15, 7, 4, 1, 4, 14]
+        data: [11]
       },
       {
         name: "2019",
-        data: [12, 19, 11, 12, 4, 11, 8, 5, 4, 9]
+        data: [32, 60, 2]
       }
     ]
   };
