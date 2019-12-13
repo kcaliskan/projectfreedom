@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { manualRegister } from "../../actions/auth";
 import { Redirect } from "react-router-dom";
 import Navbar from "../layout/Navbar";
-import Footer from "../layout/Footer";
 
 const Register = ({ manualRegister, isAuthenticated, errors }) => {
   const [formData, setFormData] = useState({

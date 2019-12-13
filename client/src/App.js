@@ -1,5 +1,5 @@
 //Core Packages
-import React, { Fragment, useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 //Auth Components
@@ -11,11 +11,11 @@ import LoginFail from "./components/auth/LoginFail";
 
 //Layout Components
 import Landing from "./components/layout/Landing";
-import Footer from "./components/layout/Footer";
 
 // Analysis Components
 import CodewarsResult from "./components/analysis/CodewarsResult";
 import Ch from "./components/analysis/Ch";
+import CodewarsResultExample from "./components/analysis/example/CodewarsResultExample";
 
 //Legal Components
 import Privacy from "./components/legal/Privacy";
@@ -76,6 +76,7 @@ class App extends React.Component {
 
             <Route exact path="/ch" component={Ch} />
             <Route exact path="/privacy" component={Privacy} />
+            <Route exact path="/example" component={CodewarsResultExample} />
           </Switch>
         </Router>
       </Provider>

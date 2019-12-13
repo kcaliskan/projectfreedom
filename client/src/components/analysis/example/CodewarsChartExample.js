@@ -1,29 +1,27 @@
 import React, { Fragment } from "react";
-import { getCurrentProfile } from "../../actions/user";
-import { connect } from "react-redux";
-import CodewarsChartDay from "./CodewarsChartDay";
-import CodewarsChartMonth from "./CodewarsChartMonth";
-import CodewarsChartYear from "./CodewarsChartYear";
-import CodewarsChartCategory from "./CodewarsChartCategory";
-import Navbar from "../layout/Navbar";
+import CodewarsChartDayExample from "./CodewarsChartDayExample";
+import CodewarsChartMonthExample from "./CodewarsChartMonthExample";
+import CodewarsChartYearExample from "./CodewarsChartYearExample";
+import CodewarsChartCategoryExample from "./CodewarsChartCategoryExample";
+import Navbar from "../../layout/Navbar";
 
-class CodewarsChart extends React.Component {
+class CodewarsChartExample extends React.Component {
   state = { chartType: this.props.chartType };
 
   displayHandler = chartType => {
     if (chartType === "ct-year") {
-      return <CodewarsChartYear />;
+      return <CodewarsChartYearExample />;
     }
 
     if (chartType === "ct-day") {
-      return <CodewarsChartDay />;
+      return <CodewarsChartDayExample />;
     }
 
     if (chartType === "ct-all") {
-      return <CodewarsChartMonth />;
+      return <CodewarsChartMonthExample />;
     }
     if (chartType === "ct-category") {
-      return <CodewarsChartCategory />;
+      return <CodewarsChartCategoryExample />;
     }
   };
 
@@ -83,10 +81,9 @@ class CodewarsChart extends React.Component {
           </div>
         </div>
         {this.displayHandler(this.state.chartType)}
-        {/* <Footer /> */}
       </Fragment>
     );
   }
 }
 
-export default connect(null, { getCurrentProfile })(CodewarsChart);
+export default CodewarsChartExample;

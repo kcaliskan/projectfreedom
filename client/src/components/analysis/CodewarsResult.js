@@ -1,8 +1,7 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import { getCurrentProfile } from "../../actions/user";
 import CodewarsChart from "./CodewarsChart";
-import PropTypes from "prop-types";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 import Navbar from "../layout/Navbar";

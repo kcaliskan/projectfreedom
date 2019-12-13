@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 import setAuthToken from "./setAuthToken";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";

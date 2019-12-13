@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { manualLogin } from "../../actions/auth";
 import { Redirect, Link } from "react-router-dom";
-import Footer from "../layout/Footer";
 import Navbar from "../layout/Navbar";
 
 const Login = ({ auth, manualLogin, isAuthenticated, errors }) => {

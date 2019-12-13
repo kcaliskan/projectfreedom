@@ -4,7 +4,6 @@ import { Redirect, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Navbar from "./Navbar";
 import CreateProfile from "./CreateProfile";
-import Footer from "./Footer";
 
 const Landing = ({ auth }) => {
   const displayHandler = userName => {
@@ -51,10 +50,10 @@ const Landing = ({ auth }) => {
 
               <Link
                 className="landing-page-create-account-button"
-                to="/register"
+                to="/example"
               >
-                <p>SEE YOUR PERFORMANCE</p>
-                <p>It's free</p>
+                <p>SHOW ME AN EXAMPLE RESULT</p>
+                <p></p>
               </Link>
             </div>
             <div className="landing-page-bottom-content"></div>

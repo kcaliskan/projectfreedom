@@ -4,6 +4,7 @@ import Navbar from "../layout/Navbar";
 const Privacy = () => {
   return (
     <Fragment>
+      <Navbar />
       <h1>Privacy Policy</h1>
 
       <p>Effective date: December 12, 2019</p>

@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment } from "react";
 import { getCurrentProfile } from "../../actions/user";
 import Chart from "react-apexcharts";
 import { connect } from "react-redux";
