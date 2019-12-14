@@ -37,6 +37,7 @@ class CodewarsChartCategory extends React.Component {
   };
 
   render() {
+    console.log(this.props.codewarsProfile);
     return (
       <Chart
         options={this.state.options}
@@ -48,8 +49,8 @@ class CodewarsChartCategory extends React.Component {
   }
 }
 
-const mapStateToProps = props => ({
-  codewarsProfile: props.profile.codewars
-});
+// const mapStateToProps = props => ({
+//   codewarsProfile: props.profile.codewars
+// });
 
-export default connect(mapStateToProps)(CodewarsChartCategory);
+export default connect()(CodewarsChartCategory);

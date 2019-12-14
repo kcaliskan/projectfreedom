@@ -27,7 +27,6 @@ export default function(state = initialState, action) {
       };
 
     case GET_CODEWARS_PROFILE:
-      localStorage.setItem("codewarsProfile", "yes");
       return {
         loading: false,
         codewars: payload,

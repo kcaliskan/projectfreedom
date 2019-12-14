@@ -12,18 +12,22 @@ class CodewarsChart extends React.Component {
 
   displayHandler = chartType => {
     if (chartType === "ct-year") {
-      return <CodewarsChartYear />;
+      return <CodewarsChartYear codewarsProfile={this.props.codewarsProfile} />;
     }
 
     if (chartType === "ct-day") {
-      return <CodewarsChartDay />;
+      return <CodewarsChartDay codewarsProfile={this.props.codewarsProfile} />;
     }
 
     if (chartType === "ct-all") {
-      return <CodewarsChartMonth />;
+      return (
+        <CodewarsChartMonth codewarsProfile={this.props.codewarsProfile} />
+      );
     }
     if (chartType === "ct-category") {
-      return <CodewarsChartCategory />;
+      return (
+        <CodewarsChartCategory codewarsProfile={this.props.codewarsProfile} />
+      );
     }
   };
 

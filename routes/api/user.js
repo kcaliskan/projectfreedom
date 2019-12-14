@@ -150,6 +150,12 @@ router.put(
         config
       );
 
+      await User.findOneAndUpdate(
+        { _id: req.user.userId },
+        { codewarsUserName },
+        { new: true }
+      );
+
       let profile = await CodewarsProfile.findOne({ user: req.user.userId });
 
       //If there is a profile

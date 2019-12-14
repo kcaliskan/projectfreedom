@@ -17,7 +17,7 @@ class CodewarsChartYear extends React.Component {
       plotOptions: {
         bar: {
           columnWidth:
-            this.props.codewarsProfile.completedByYear.years > 2
+            this.props.codewarsProfile.completedByYear.years.length > 2
               ? "100%"
               : "15%"
         }
@@ -60,8 +60,4 @@ class CodewarsChartYear extends React.Component {
   }
 }
 
-const mapStateToProps = props => ({
-  codewarsProfile: props.profile.codewars
-});
-
-export default connect(mapStateToProps)(CodewarsChartYear);
+export default connect()(CodewarsChartYear);

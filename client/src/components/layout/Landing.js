@@ -22,24 +22,17 @@ const Landing = ({ auth }) => {
 
   return (
     <Fragment>
-      {auth.isAuthenticated ? (
+      <Navbar />
+      {auth.isAuthenticated && auth.user ? (
         <Fragment>
-          <Navbar />
-          {localStorage.getItem("codewarsProfile") ? (
-            <Fragment>
-              <Navbar />
-              {auth.user && auth.user.userName
-                ? displayHandler(auth.user.userName)
-                : loading}
-            </Fragment>
+          {auth.user.codewarsUserName ? (
+            <Fragment>{displayHandler(auth.user.userName)}</Fragment>
           ) : (
             <CreateProfile />
           )}
         </Fragment>
       ) : (
         <Fragment>
-          <Navbar />
-
           <div className="landing-page-container">
             <div className="landing-page-top-content">
               <div className="landing-page-text-content-wrapper">

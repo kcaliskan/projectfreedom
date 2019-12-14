@@ -46,7 +46,13 @@ class CodewarsChartMonth extends React.Component {
       xaxis: {
         categories: this.props.codewarsProfile.completedByMonth
           ? this.props.codewarsProfile.completedByMonth.months
-          : []
+          : [],
+        title: {
+          text:
+            this.props.codewarsProfile.completedByMonth.seriesArray.length > 1
+              ? ""
+              : this.props.codewarsProfile.completedByMonth.seriesArray[0].name
+        }
       },
       yaxis: {
         tickAmount: 10,
@@ -80,8 +86,4 @@ class CodewarsChartMonth extends React.Component {
   }
 }
 
-const mapStateToProps = props => ({
-  codewarsProfile: props.profile.codewars
-});
-
-export default connect(mapStateToProps)(CodewarsChartMonth);
+export default connect()(CodewarsChartMonth);

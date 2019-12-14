@@ -59,8 +59,4 @@ class CodewarsChartDay extends React.Component {
   }
 }
 
-const mapStateToProps = props => ({
-  codewarsProfile: props.profile.codewars
-});
-
-export default connect(mapStateToProps)(CodewarsChartDay);
+export default connect()(CodewarsChartDay);

@@ -56,7 +56,7 @@ class CodewarsResult extends React.Component {
   render() {
     return (
       <Fragment>
-        {localStorage.getItem("codewarsProfile")
+        {this.props.auth.user && this.props.auth.user.codewarsUserName
           ? this.handleDisplay(this.state.loadingLocalState, this.props.profile)
           : this.noProfile()}
       </Fragment>
