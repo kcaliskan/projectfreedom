@@ -31,12 +31,29 @@ import reduxStore from "./reduxStore";
 import { loadUser } from "./actions/auth";
 import { getCurrentProfile } from "./actions/user";
 
+// Analytics
+import ReactGA from "react-ga";
+
+// Router
+import { createBrowserHistory } from "history";
+
 //Styling
 import "./App.css";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
+
+const history = createBrowserHistory();
+
+ReactGA.initialize("UA-154611338-1");
+ReactGA.pageview(window.location.pathname + window.location.search);
+
+// Initialize google analytics page view tracking
+history.listen(location => {
+  ReactGA.set({ page: location.pathname }); // Update the user's current page
+  ReactGA.pageview(location.pathname); // Record a pageview for the given page
+});
 
 class App extends React.Component {
   componentDidMount() {
