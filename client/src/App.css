@@ -307,6 +307,11 @@ a {
   font-size: 18px;
   color: #fff;
   background-color: #3bbd8e;
+  -webkit-background-color: #74d6b9;
+  -moz-background-color: #74d6b9;
+  -khtml-background-color: #74d6b9;
+  -o-background-color: #74d6b9;
+  -ms-background-color: #74d6b9;
   border-radius: 100px;
   padding: 10px 10px;
   width: 100%;
@@ -316,6 +321,11 @@ a {
 
 .login-component-login-button:hover {
   background-color: #74d6b9;
+  -webkit-background-color: #74d6b9;
+  -moz-background-color: #74d6b9;
+  -khtml-background-color: #74d6b9;
+  -o-background-color: #74d6b9;
+  -ms-background-color: #74d6b9;
 }
 
 .login-component-error-div {
