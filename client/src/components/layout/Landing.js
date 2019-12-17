@@ -14,11 +14,8 @@ const Landing = ({ auth }) => {
     <div className="create-profile-loading-container">
       <div className="create-profile-loading-img" />
       <div className="create-profile-loading-text">Loading...</div>
-      {/* <Footer /> */}
     </div>
   );
-
-  // <Redirect to={`/${auth.user.userName}/codewarsresult`} />
 
   return (
     <Fragment>
@@ -51,7 +48,6 @@ const Landing = ({ auth }) => {
             </div>
             <div className="landing-page-bottom-content"></div>
           </div>
-          {/* <Footer /> */}
         </Fragment>
       )}
     </Fragment>

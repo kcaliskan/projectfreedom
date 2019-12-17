@@ -119,7 +119,6 @@ const CreateProfile = ({ auth, getCodewarsProfile, history, profile }) => {
           </div>
         </Fragment>
       )}
-      {/* <Footer /> */}
     </Fragment>
   );
 };

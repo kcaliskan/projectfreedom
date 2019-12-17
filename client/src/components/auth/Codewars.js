@@ -76,16 +76,6 @@ const CodewarsSettings = ({ auth, getCodewarsProfile, history, profile }) => {
       ) : (
         <Fragment>
           <Navbar />
-          {/* <div>
-            <Link
-              to={location =>
-                auth.user === null ? "#" : `/${auth.user.userName}/settings`
-              }
-            >
-              Profile Settings
-            </Link>
-            Codewars
-          </div> */}
 
           <div className="choose-category-container">
             <Link

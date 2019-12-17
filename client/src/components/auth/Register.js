@@ -146,7 +146,6 @@ const Register = ({ manualRegister, isAuthenticated, errors }) => {
           </form>
         </div>
       </div>
-      {/* <Footer /> */}
     </Fragment>
   );
 };
